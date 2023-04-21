@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Internal_assets.Scripts.XR.Hand
+namespace XR.Hand
 {
     public class HandAnimatorController : MonoBehaviour
     {
