@@ -134,7 +134,9 @@ PlayerSettings:
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
   bundleVersion: Debug
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 5761692754941247380, guid: eee0a6cf1ec9b1b4891d89cb3533e414, type: 2}
+  - {fileID: -7235040931872651586, guid: 227d0914f47630b43be182c11c4cce17, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -146,7 +148,7 @@ PlayerSettings:
   enableFrameTimingStats: 0
   enableOpenGLProfilerGPURecorders: 1
   useHDRDisplay: 0
-  D3DHDRBitDepth: 0
+  hdrBitDepth: 0
   m_ColorGamuts: 00000000
   targetPixelDensity: 30
   resolutionScalingMode: 0
