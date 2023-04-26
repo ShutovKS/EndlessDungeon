@@ -34,9 +34,14 @@ namespace Dummy
 
         private void OnCollisionEnter(Collision other)
         {
-            if (_isAction || !other.gameObject.TryGetComponent<ItemDamage>(out var itemDamage)) return;
-            _animator.SetTrigger(Damage);
-            Health -= itemDamage.Damage;
+            if (!_isAction && other.gameObject.TryGetComponent<ItemDamage>(out var itemDamage))
+            {
+                if(itemDamage.isDamage)
+                { 
+                        _animator.SetTrigger(Damage);
+                        Health -= itemDamage.Damage;
+                }
+            }
         }
 
         //using animation
