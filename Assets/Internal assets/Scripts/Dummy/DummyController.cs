@@ -12,7 +12,7 @@ namespace Dummy
 
         private Animator _animator;
 
-        private int _health = 1000;
+        private int _health = 100;
         private bool _isAction = false;
 
         private int Health
@@ -34,12 +34,12 @@ namespace Dummy
 
         private void OnCollisionEnter(Collision other)
         {
-            if (!_isAction && other.gameObject.TryGetComponent<ItemDamage>(out var itemDamage))
+            if (!_isAction && other.gameObject.TryGetComponent<IItemDamage>(out var itemDamage))
             {
-                if(itemDamage.isDamage)
-                { 
-                        _animator.SetTrigger(Damage);
-                        Health -= itemDamage.Damage;
+                if (itemDamage.IsDamage)
+                {
+                    _animator.SetTrigger(Damage);
+                    Health -= (int)itemDamage.Damage;
                 }
             }
         }

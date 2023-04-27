@@ -1,9 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Player
+namespace Socket.SocketInPlayer
 {
-    public class SocketsRotation : MonoBehaviour
+    public class SocketRotation : MonoBehaviour
     {
         private Transform _triggerTransform;
 
