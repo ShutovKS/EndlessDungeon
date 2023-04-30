@@ -29,7 +29,7 @@ namespace Enemy.State_Machines
         private static readonly List<Transition> EmptyTransitions = new(0);
 
         /// <summary>
-        /// Обновление каждый кадр
+        /// Обновление каждый кадр (осуществление перехода если возможно)
         /// </summary>
         public void Tick()
         {
@@ -66,8 +66,7 @@ namespace Enemy.State_Machines
         /// <param name="predicate">Условие перехода</param>
         public void AddTransition(IState to, IState from, Func<bool> predicate)
         {
-            if (_transitions.TryGetValue(from.GetType(), out var transitions) ==
-                false) // Попытаться востановить список переходов
+            if (_transitions.TryGetValue(from.GetType(), out var transitions) == false)
             {
                 transitions = new List<Transition>();
                 _transitions[from.GetType()] = transitions;

@@ -1,54 +1,53 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 namespace Enemy.State_Machines.State
 {
-    public class Patrol : IState
+    public class GoToPlayer : IState
     {
         #region Variables
+
+        public float TimeStuck;
 
         private readonly Animator _animator;
         private readonly NavMeshAgent _navMeshAgent;
         private readonly Transform _thisTransform;
-        private readonly Transform _targetTransform;
+        private readonly Transform _playerTransform;
         private Vector3 _lastPosition = Vector3.zero;
-        public float TimeStuck;
-
         private static readonly int WALK = Animator.StringToHash("Walk");
 
         #endregion
 
         #region Constructors
 
-        public Patrol(Animator animator, NavMeshAgent navMeshAgent, Transform thisTransform, Transform targetTransform)
+        public GoToPlayer(Animator animator, NavMeshAgent navMeshAgent, Transform thisTransform,
+            Transform playerTransform)
         {
             _animator = animator;
             _navMeshAgent = navMeshAgent;
             _thisTransform = thisTransform;
-            _targetTransform = targetTransform;
+            _playerTransform = playerTransform;
         }
 
         #endregion
 
-        #region Methods Unity
+        #region Methods
 
         public void OnEnter()
         {
             _navMeshAgent.enabled = true;
-            _navMeshAgent.speed = 4;
-            _navMeshAgent.stoppingDistance = 0f;
-            _navMeshAgent.SetDestination(_targetTransform.position);
+            _navMeshAgent.speed = 6;
+            _navMeshAgent.stoppingDistance = 2f;
 
             _animator.SetBool(WALK, true);
-
-            TimeStuck = 0;
         }
 
         public void Tick()
         {
             if (Vector3.Distance(_thisTransform.position, _lastPosition) <= 0f)
                 TimeStuck += Time.deltaTime;
+
+            _navMeshAgent.SetDestination(_playerTransform.position);
             _lastPosition = _thisTransform.position;
         }
 

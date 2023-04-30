@@ -14,10 +14,12 @@ namespace Enemy.State_Machines.State
 
         #region Constructors
 
-        public SearchPositionForPatrol(Transform thisTransform, ref Transform targetTransform)
+        public SearchPositionForPatrol(Transform thisTransform, out Transform targetTransform)
         {
             _thisTransform = thisTransform;
-            _targetTransform = targetTransform;
+
+            _targetTransform = new GameObject().transform;
+            targetTransform = _targetTransform;
         }
 
         #endregion
