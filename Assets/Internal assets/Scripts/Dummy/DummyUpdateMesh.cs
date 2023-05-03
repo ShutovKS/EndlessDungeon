@@ -14,7 +14,7 @@ namespace Dummy
 
         private Collider[] _childrenColliders;
 
-        private void Start()
+        private void Awake()
         {
             _meshCollider = GetComponent<MeshCollider>();
             _meshFilter = GetComponentInChildren<MeshFilter>();
@@ -22,12 +22,14 @@ namespace Dummy
 
             _mesh = new Mesh();
 
-            StartCoroutine(UpdateNewMesh());
-
             _childrenColliders = GetAllCollidersInChildren(transform);
         }
 
-        //using animation
+        private void Start()
+        {
+            StartCoroutine(UpdateNewMesh());
+        }
+
         public void Action()
         {
             _meshCollider.enabled = false;
@@ -59,16 +61,16 @@ namespace Dummy
             _meshCollider.sharedMesh.RecalculateBounds();
         }
 
-        public Collider[] GetAllCollidersInChildren(Transform parentTransform)
+        private Collider[] GetAllCollidersInChildren(Transform parentTransform)
         {
-            List<Collider> colliders = new List<Collider>();
+            var colliders = new List<Collider>();
 
-            int childCount = parentTransform.childCount;
-            for (int i = 0; i < childCount; i++)
+            var childCount = parentTransform.childCount;
+            for (var i = 0; i < childCount; i++)
             {
-                Transform childTransform = parentTransform.GetChild(i);
+                var childTransform = parentTransform.GetChild(i);
 
-                Collider[] childColliders = childTransform.GetComponents<Collider>();
+                var childColliders = childTransform.GetComponents<Collider>();
                 if (childColliders != null && childColliders.Length > 0)
                 {
                     colliders.AddRange(childColliders);
@@ -76,7 +78,7 @@ namespace Dummy
 
                 if (childTransform.childCount > 0)
                 {
-                    Collider[] childCollidersInChildren = GetAllCollidersInChildren(childTransform);
+                    var childCollidersInChildren = GetAllCollidersInChildren(childTransform);
 
                     if (childCollidersInChildren != null && childCollidersInChildren.Length > 0)
                     {

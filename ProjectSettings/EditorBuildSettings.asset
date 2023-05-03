@@ -5,10 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Internal assets/Scenes/HomeLocation.unity
+  - enabled: 0
+    path: Assets/Internal assets/Scenes/MainLocation.unity
     guid: a68939bc79fda4d489f3a475e9224394
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: bd82933945fcfb140bbb1b2538684377,
+      type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: eee0a6cf1ec9b1b4891d89cb3533e414,
       type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 227d0914f47630b43be182c11c4cce17,
