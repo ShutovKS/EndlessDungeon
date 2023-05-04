@@ -48,6 +48,17 @@ namespace Infrastructure.GlobalStateMachine.StateMachine
 
             newState.Enter(arg0);
         }
+        
+        public void SwitchState<TState, T0, T1>(T0 arg0, T1 arg1) where TState : StateTwoParam<TContext, T0, T1>
+        {
+            CurrentState?.Exit();
+
+            TState newState = GetState<TState>();
+            
+            CurrentState = newState;
+            
+            newState.Enter(arg0, arg1);
+        }
 
         private async void TickAsync()
         {

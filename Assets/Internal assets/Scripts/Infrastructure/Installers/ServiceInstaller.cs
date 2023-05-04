@@ -2,8 +2,10 @@ using Data.Settings;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.UIFactory;
 using Services.AssetsAddressableService;
+using Services.PersistentProgress;
+using Services.SaveLoad;
+using Services.Watchers.SaveLoadWatcher;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Infrastructure.Installers
@@ -18,6 +20,9 @@ namespace Infrastructure.Installers
             BindUIFactory();
             BindAbstractFactory();
             BindAssetsAddressable();
+            BindPersistentProgressService();
+            BindSaveLoadInstancesWatcher();
+            BindSaveLoadService();
         }
 
         private void BindAssetsAddressable()
@@ -38,6 +43,21 @@ namespace Infrastructure.Installers
         private void BindSettings()
         {
             Container.Bind<MainLocationSettings>().FromInstance(_mainLocationSettings).AsSingle();
+        }
+
+        private void BindPersistentProgressService()
+        {
+            Container.BindInterfacesTo<PersistentProgressService>().AsSingle();
+        }
+
+        private void BindSaveLoadInstancesWatcher()
+        {
+            Container.BindInterfacesTo<SaveLoadInstancesWatcher>().AsSingle();
+        }
+
+        private void BindSaveLoadService()
+        {
+            Container.BindInterfacesTo<SaveLoadService>().AsSingle();
         }
     }
 }

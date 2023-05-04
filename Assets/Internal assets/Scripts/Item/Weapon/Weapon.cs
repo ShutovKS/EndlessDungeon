@@ -14,16 +14,10 @@ namespace Item.Weapon
         {
             var grabInteractable = GetComponent<XRGrabInteractable>();
 
-            grabInteractable.selectEntered.AddListener(ActivatorWeapon);
-            grabInteractable.selectEntered.AddListener(SetWeaponType);
-            grabInteractable.selectExited.AddListener(DeactivateWeapon);
+            grabInteractable.selectEntered.AddListener((SelectEnterEventArgs arg0) => ItemIsDamage(true));
+            grabInteractable.selectExited.AddListener((SelectExitEventArgs arg0) => ItemIsDamage(false));
+            
         }
-
-        private void SetWeaponType(SelectEnterEventArgs arg0) => SetWeaponTypeInDefault();
-        private void ActivatorWeapon(SelectEnterEventArgs arg0) => ItemIsDamage(true);
-        private void DeactivateWeapon(SelectExitEventArgs arg0) => ItemIsDamage(false);
-
-        public void SetWeaponTypeInDefault() => WeaponDefault.WeaponType = weaponType;
         public void ItemIsDamage(bool value) => IsDamage = value;
     }
 }

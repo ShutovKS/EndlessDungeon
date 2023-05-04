@@ -1,9 +1,7 @@
 using System.Threading.Tasks;
 using Data.Addressable;
-using Data.Addressable;
 using Services.AssetsAddressableService;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace Infrastructure.Factory.UIFactory

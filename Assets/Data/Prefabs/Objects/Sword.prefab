@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 355312524381552382, guid: b84d7ca3927758646a65731cc107aa76,
         type: 3}
       propertyPath: m_Name
-      value: Sword_01 Variant
+      value: Sword
       objectReference: {fileID: 0}
     - target: {fileID: 1127450730860520516, guid: b84d7ca3927758646a65731cc107aa76,
         type: 3}
@@ -21,17 +21,17 @@ PrefabInstance:
     - target: {fileID: 1127450730860520516, guid: b84d7ca3927758646a65731cc107aa76,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.325
       objectReference: {fileID: 0}
     - target: {fileID: 1127450730860520516, guid: b84d7ca3927758646a65731cc107aa76,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 1127450730860520516, guid: b84d7ca3927758646a65731cc107aa76,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.075
       objectReference: {fileID: 0}
     - target: {fileID: 1127450730860520516, guid: b84d7ca3927758646a65731cc107aa76,
         type: 3}
@@ -66,6 +66,11 @@ PrefabInstance:
     - target: {fileID: 1127450730860520516, guid: b84d7ca3927758646a65731cc107aa76,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863370588218899347, guid: b84d7ca3927758646a65731cc107aa76,
+        type: 3}
+      propertyPath: weaponType
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

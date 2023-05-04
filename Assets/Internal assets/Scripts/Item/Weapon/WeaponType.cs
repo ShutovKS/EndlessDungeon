@@ -3,8 +3,7 @@
     public enum WeaponType
     {
         Sword,
-        Ax,
         Hammer,
-        None
+        Ax,
     }
 }

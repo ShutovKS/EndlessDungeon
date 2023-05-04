@@ -15,5 +15,7 @@
         public const string WEAPON_AX = "WeaponAx";
         public const string WEAPON_HAMER = "WeaponHammer";
         public const string WEAPON_SWORD = "WeaponSword";
+        public const string SOCKET_FOR_SWORD = "SocketForWeapon";
+        
     }
 }

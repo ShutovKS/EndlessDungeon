@@ -5,9 +5,12 @@ namespace XR.Hand
 {
     public class HandAnimatorController : MonoBehaviour
     {
-        private Animator _animator;
         [SerializeField] private InputActionProperty _grabAction;
         [SerializeField] private InputActionProperty _activateAction;
+        private Animator _animator;
+
+        private static readonly int GRIP = Animator.StringToHash("Grip");
+        private static readonly int TRIGGER = Animator.StringToHash("Trigger");
 
         private void Awake()
         {
@@ -16,8 +19,8 @@ namespace XR.Hand
 
         private void Update()
         {
-            _animator.SetFloat("Grip", _grabAction.action.ReadValue<float>());
-            _animator.SetFloat("Trigger", _activateAction.action.ReadValue<float>());
+            _animator.SetFloat(GRIP, _grabAction.action.ReadValue<float>());
+            _animator.SetFloat(TRIGGER, _activateAction.action.ReadValue<float>());
         }
     }
 }

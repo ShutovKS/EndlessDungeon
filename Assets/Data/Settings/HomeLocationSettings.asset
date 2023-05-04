@@ -17,4 +17,4 @@ MonoBehaviour:
   - {x: 8, y: 1, z: 0.75}
   - {x: 8, y: 1, z: 0}
   - {x: 8, y: 1, z: -0.75}
-  _weaponDefaultSpawnPosition: {x: 0.325, y: 0.7, z: 0.072}
+  socketForWeaponSpawnPosition: {x: 0.325, y: 0.7, z: 0.075}

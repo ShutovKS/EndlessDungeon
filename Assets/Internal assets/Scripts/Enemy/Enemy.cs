@@ -43,7 +43,7 @@ namespace Enemy
             _stateMachine.SetState(searchPositionForPatrol);
 
             void At(IState to, IState from, Func<bool> condition) => _stateMachine.AddTransition(to, from, condition);
-            void AtAny(IState to, Func<bool> condition) => _stateMachine.AddAnyTransition(to, condition);
+            // void AtAny(IState to, Func<bool> condition) => _stateMachine.AddAnyTransition(to, condition);
 
             Func<bool> StuckForOverATwoSecondInPatrol() => () => patrol.TimeStuck >= 2f;
             Func<bool> PlayerInRangeVisible() => () => playerTransform != null && playerDetector.PlayerInRange;

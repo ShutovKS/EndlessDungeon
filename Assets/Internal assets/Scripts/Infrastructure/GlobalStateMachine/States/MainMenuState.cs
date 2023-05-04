@@ -44,7 +44,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private void ChangeStateToGameplay()
         {
-            Context.StateMachine.SwitchState<MainLocationLoadingState, MainMenuScreen>(_mainMenuScreen);
+            Context.StateMachine.SwitchState<MainLocationLoadingState>();
         }
     }
 }
