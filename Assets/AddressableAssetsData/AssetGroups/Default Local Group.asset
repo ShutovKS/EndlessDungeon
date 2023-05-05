@@ -72,6 +72,26 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f5a213ee85e01b4d93ce4b78c072f9f
+    m_Address: Floor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9cb59db98b89e9b469379d3da7df526d
+    m_Address: Wall
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0b8654995e6f534aafb6c1cf3c5396b
+    m_Address: Portal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1234c24e47c8aa74fb4530c3b3f83f3b
+    m_Address: DungeonRoom
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 97564663a5f2fb24d892443f6847fa25, type: 2}
   m_SchemaSet:

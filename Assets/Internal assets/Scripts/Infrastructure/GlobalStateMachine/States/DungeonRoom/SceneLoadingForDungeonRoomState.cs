@@ -5,9 +5,9 @@ using UnityEngine.AddressableAssets;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class SceneLoadingState : State<GameInstance>
+    public class SceneLoadingForDungeonRoomState : State<GameInstance>
     {
-        public SceneLoadingState(GameInstance context, IUIFactory uiFactory) : base(context)
+        public SceneLoadingForDungeonRoomState(GameInstance context, IUIFactory uiFactory) : base(context)
         {
             _uiFactory = uiFactory;
         }
@@ -21,7 +21,7 @@ namespace Infrastructure.GlobalStateMachine.States
             var asyncOperationHandle = Addressables.LoadSceneAsync(AssetsAddressablesConstants.MAIN_MENU_SCENE_NAME);
             await asyncOperationHandle.Task;
 
-            Context.StateMachine.SwitchState<MainMenuState>();
+            Context.StateMachine.SwitchState<DungeonRoomLoadingState>();
         }
     }
 }

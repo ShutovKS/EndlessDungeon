@@ -11,7 +11,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
         public void Initialize()
         {
-            Context.StateMachine.SwitchState<SceneLoadingState>();
+            Context.StateMachine.SwitchState<SceneLoadingForMainLocationState>();
         }
     }
 }

@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class ProgressLoadingState : StateOneParam<GameInstance, GameObject>
+    public class ProgressLoadingForMainState : StateOneParam<GameInstance, GameObject>
     {
-        public ProgressLoadingState(GameInstance context, ISaveLoadService saveLoadService,
+        public ProgressLoadingForMainState(GameInstance context, ISaveLoadService saveLoadService,
             ISaveLoadInstancesWatcher saveLoadInstancesWatcher,
             IPersistentProgressService persistentProgressService) : base(context)
         {
@@ -23,13 +23,13 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
         private readonly IPersistentProgressService _persistentProgressService;
 
-        public override void Enter(GameObject player)
+        public override void Enter(GameObject portal)
         {
             LoadProgressOrInitNew();
 
             InformProgressReaders();
 
-            Context.StateMachine.SwitchState<MainLocationGameplayState, GameObject>(player);
+            Context.StateMachine.SwitchState<MainLocationState, GameObject>(portal);
         }
 
         private void LoadProgressOrInitNew()

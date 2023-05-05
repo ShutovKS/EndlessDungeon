@@ -18,3 +18,5 @@ MonoBehaviour:
   - {x: 8, y: 1, z: 0}
   - {x: 8, y: 1, z: -0.75}
   socketForWeaponSpawnPosition: {x: 0.325, y: 0.7, z: 0.075}
+  portalSpawnPosition: {x: 0, y: -0.25, z: 8}
+  portalSpawnRotation: {x: 0, y: 180, z: 0}

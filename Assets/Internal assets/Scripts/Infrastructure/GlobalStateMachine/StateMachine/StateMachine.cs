@@ -12,6 +12,8 @@ namespace Infrastructure.GlobalStateMachine.StateMachine
 
         public BaseState<TContext> CurrentState { get; private set; }
 
+        public BaseState<TContext> GetState(Type type) => _states[type];
+
         protected TContext Context;
 
         public StateMachine(TContext context, params BaseState<TContext>[] states)

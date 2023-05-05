@@ -22,20 +22,24 @@ namespace Infrastructure.GlobalStateMachine
         {
             StateMachine = new StateMachine<GameInstance>(this,
                 new BootstrapState(this),
-                new SceneLoadingState(this, uiFactory),
                 new MainMenuState(this, uiFactory),
+                
+                new SceneLoadingForMainLocationState(this, uiFactory),
                 new MainLocationLoadingState(this, uiFactory),
-                new ProgressLoadingState(this, saveLoadService,
-                    saveLoadInstancesWatcher, 
-                    persistentProgressService),
-                new MainLocationSetUpState(this, abstractFactory, 
-                    assetsAddressableService,
-                    mainLocationSettings,
-                    persistentProgressService,
+                new MainLocationSetUpState(this, abstractFactory,
+                    assetsAddressableService, mainLocationSettings,
                     saveLoadInstancesWatcher),
-                new MainLocationGameplayState(this, uiFactory,
-                    persistentProgressService, 
-                    saveLoadService)
+                new ProgressLoadingForMainState(this, saveLoadService,
+                    saveLoadInstancesWatcher, persistentProgressService),
+                new MainLocationState(this, uiFactory,
+                    saveLoadService, abstractFactory),
+                
+                new SceneLoadingForDungeonRoomState(this, uiFactory),
+                new DungeonRoomLoadingState(this, uiFactory),
+                new DungeonRoomGenerationState(this),
+                new DungeonRoomSetUpState(this, abstractFactory, assetsAddressableService,
+                    mainLocationSettings, saveLoadInstancesWatcher),
+                new DungeonRoomState(this, uiFactory)
             );
             StateMachine.SwitchState<BootstrapState>();
         }

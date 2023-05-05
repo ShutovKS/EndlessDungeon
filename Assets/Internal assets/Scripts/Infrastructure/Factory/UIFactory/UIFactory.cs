@@ -25,7 +25,8 @@ namespace Infrastructure.Factory.UIFactory
         public async Task<GameObject> CreateLoadingScreen()
         {
             var loadingScreenPrefab =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.LOADING_PROCESS_SCREEN);
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants
+                    .LOADING_PROCESS_SCREEN);
 
             LoadingScreen = _container.InstantiatePrefab(loadingScreenPrefab);
 
@@ -34,7 +35,8 @@ namespace Infrastructure.Factory.UIFactory
 
         public void DestroyLoadingScreen()
         {
-            Object.Destroy(LoadingScreen);
+            if (LoadingScreen != null)
+                Object.Destroy(LoadingScreen);
         }
 
         public async Task<GameObject> CreateMainMenuScreen()
@@ -49,7 +51,8 @@ namespace Infrastructure.Factory.UIFactory
 
         public void DestroyMainMenuScreen()
         {
-            Object.Destroy(MainMenuScreen);
+            if (MainMenuScreen != null)
+                Object.Destroy(MainMenuScreen);
         }
 
         public async Task<GameObject> CreateMainLocationScreen()
@@ -64,8 +67,8 @@ namespace Infrastructure.Factory.UIFactory
 
         public void DestroyMainLocationScreen()
         {
-            Object.Destroy(GameplayScreen);
+            if (GameplayScreen != null)
+                Object.Destroy(GameplayScreen);
         }
     }
 }
-
