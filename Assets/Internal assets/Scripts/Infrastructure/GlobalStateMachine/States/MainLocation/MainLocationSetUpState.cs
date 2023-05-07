@@ -44,8 +44,7 @@ namespace Infrastructure.GlobalStateMachine.States
             var mapInstance = _abstractFactory.CreateInstance(mainLocationMap, Vector3.zero);
             var playerInstance = _abstractFactory.CreateInstance(player, _mainLocationSettings.PlayerSpawnPosition);
 
-            var portalInstance =
-                _abstractFactory.CreateInstance(portal, _mainLocationSettings.PortalSpawnPosition);
+            var portalInstance = _abstractFactory.CreateInstance(portal, _mainLocationSettings.PortalSpawnPosition);
             portalInstance.transform.rotation = new Quaternion(_mainLocationSettings.PortalSpawnRotation.x,
                 _mainLocationSettings.PortalSpawnRotation.y, _mainLocationSettings.PortalSpawnRotation.z, 0);
             var swordInstance = _abstractFactory.CreateInstance(sword,
@@ -57,9 +56,9 @@ namespace Infrastructure.GlobalStateMachine.States
             var socketInstance =
                 _abstractFactory.CreateInstance(socket, _mainLocationSettings.SocketForWeaponSpawnPosition);
             socketInstance.transform.parent = playerInstance.transform.GetChild(0).GetChild(0);
-            var weaponManagerInstance = _abstractFactory.CreateInstance(socket, Vector3.zero);
+            var weaponManagerInstance = _abstractFactory.CreateInstance(socketInstance, Vector3.zero);
             weaponManagerInstance.AddComponent<WeaponManager>()
-                .SetUp(socket, swordInstance, axInstance, hammerInstance);
+                .SetUp(socketInstance, swordInstance, axInstance, hammerInstance);
 
             _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance);
 

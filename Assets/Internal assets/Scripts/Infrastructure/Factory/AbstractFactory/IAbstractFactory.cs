@@ -1,6 +1,4 @@
-﻿using Infrastructure.Factory.Model;
-using UnityEngine;
-using Zenject;
+﻿using UnityEngine;
 using IFactory = Infrastructure.Factory.Model.IFactory;
 
 namespace Infrastructure.Factory.AbstractFactory

@@ -47,7 +47,6 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private void InformProgressReaders()
         {
-            Debug.Log($"Debug information"); 
             foreach (var progressLoadable in _saveLoadInstancesWatcher.ProgressLoadable)
             {
                 progressLoadable.LoadProgress(_persistentProgressService.PlayerProgress);

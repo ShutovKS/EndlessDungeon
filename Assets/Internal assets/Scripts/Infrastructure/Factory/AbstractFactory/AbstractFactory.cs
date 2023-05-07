@@ -15,12 +15,8 @@ namespace Infrastructure.Factory.AbstractFactory
 
         private DiContainer _container;
     
-        private List<GameObject> _instances = new List<GameObject>();
-
-        public List<GameObject> Instances
-        {
-            get => _instances;
-        }
+        private List<GameObject> _instances = new();
+        public List<GameObject> Instances => _instances;
 
         public GameObject CreateInstance(GameObject prefab, Vector3 spawnPoint)
         {
@@ -42,7 +38,7 @@ namespace Infrastructure.Factory.AbstractFactory
             {
                 throw new NullReferenceException($"Instance {instance} can't be destroyed, cause there is no {instance} on Abstract Factory Instances");
             }
-        
+
             Object.Destroy(instance);
             _instances.Remove(instance);
         }

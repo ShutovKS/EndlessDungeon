@@ -1,9 +1,11 @@
 using Data.Settings;
 using Infrastructure.Factory.AbstractFactory;
+using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.UIFactory;
 using Services.AssetsAddressableService;
 using Services.PersistentProgress;
 using Services.SaveLoad;
+using Services.StaticData;
 using Services.Watchers.SaveLoadWatcher;
 using UnityEngine;
 using Zenject;
@@ -16,13 +18,15 @@ namespace Infrastructure.Installers
 
         public override void InstallBindings()
         {
+            BindAssetsAddressable();
+            BindAbstractFactory();
             BindSettings();
             BindUIFactory();
-            BindAbstractFactory();
-            BindAssetsAddressable();
-            BindPersistentProgressService();
+            BindStaticDataService();
             BindSaveLoadInstancesWatcher();
+            BindPersistentProgressService();
             BindSaveLoadService();
+            BindEnemyFactory();
         }
 
         private void BindAssetsAddressable()
@@ -38,6 +42,11 @@ namespace Infrastructure.Installers
         private void BindAbstractFactory()
         {
             Container.BindInterfacesTo<AbstractFactory>().AsSingle();
+        }
+        
+        private void BindEnemyFactory()
+        {
+            Container.BindInterfacesTo<EnemyFactory>().AsSingle();
         }
 
         private void BindSettings()
@@ -58,6 +67,11 @@ namespace Infrastructure.Installers
         private void BindSaveLoadService()
         {
             Container.BindInterfacesTo<SaveLoadService>().AsSingle();
+        }
+
+        private void BindStaticDataService()
+        {
+            Container.BindInterfacesTo<StaticDataService>().AsSingle();
         }
     }
 }

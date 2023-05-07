@@ -32,9 +32,7 @@ namespace Services.SaveLoad
         public PlayerProgress LoadProgress()
         {
             if (!PlayerPrefs.HasKey(SaveLoadKey))
-            {
                 return null;
-            }
 
             var prefs = JsonUtility.FromJson<PlayerProgress>(PlayerPrefs.GetString(SaveLoadKey));
             return prefs;

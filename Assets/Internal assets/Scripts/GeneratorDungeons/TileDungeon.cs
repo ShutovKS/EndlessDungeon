@@ -1,31 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GeneratorDungeons
 {
     public class TileDungeon
     {
-        public enum Tile
-        {
-            FLOOR,
-            INTERIOR_WALL,
-            EXTERIOR_WALL,
-            ENTRY,
-            EXIT
-        }
-
-        private Tile[,] _tiles = null!;
-        private int[] Start { get; set; } = null!;
-        private int[] Exit { get; set; } = null!;
-
+        public MapTile[,] TilesMap { get; private set; } = null!;
+        public readonly List<(int, int)> EnemyPosition = new();
+        private Room Start { get; set; }
+        private (int, int) _startPosition;
         private int _seed;
-        private readonly int _width;
-        private readonly int _height;
         private readonly int _minRoomSize;
         private readonly int _maxRoomSize;
         private readonly int _minRoomCount;
         private readonly int _maxRoomCount;
+        private int Width { get; }
+        private int Height { get; }
 
         public TileDungeon(
             int seed,
@@ -37,120 +30,109 @@ namespace GeneratorDungeons
             int maxRoomSize)
         {
             _seed = seed;
-            _width = width;
-            _height = height;
+            Width = width;
+            Height = height;
             _minRoomSize = minRoomSize;
             _maxRoomSize = maxRoomSize;
             _minRoomCount = minRoomCount;
             _maxRoomCount = maxRoomCount;
         }
 
-        public Task<Tile[,]> GetDungeon()
+        public async Task Generation()
         {
             FillInWalls();
+
             var rooms = AddRooms();
 
             AddCorridors(rooms);
-            AddEntryExit(rooms);
+            AddEntry(rooms);
             DetermineWallTypes();
-
-            return Task.FromResult(_tiles);
+            GenerationRandomEnemy(rooms);
         }
+
+        #region Generation Map
 
         private void FillInWalls()
         {
-            _tiles = new Tile[_width, _height];
-
-            for (var x = 0; x != _width; ++x)
-            {
-                for (var y = 0; y != _height; ++y)
-                {
-                    _tiles[x, y] = Tile.EXTERIOR_WALL;
-                }
-            }
+            TilesMap = new MapTile[Width, Height];
+            for (var x = 0; x != Width; ++x)
+            for (var y = 0; y != Height; ++y)
+                TilesMap[x, y] = MapTile.EMPTY;
         }
 
-        private List<int[]> AddRooms()
+        private List<Room> AddRooms()
         {
-            var roomCenters = new List<int[]>();
-
+            var roomCenters = new List<Room>();
             var roomCount = RandomRange(_minRoomCount, _maxRoomCount);
             for (var i = 0; i != roomCount; ++i)
             {
-                var x = RandomRange(_maxRoomSize, _width - _maxRoomSize);
-                var y = RandomRange(_maxRoomSize, _height - _maxRoomSize);
-                var w = RandomRange(_minRoomSize, _maxRoomSize);
-                var h = RandomRange(_minRoomSize, _maxRoomSize);
-                CarveOpen(x - w / 2, y - h / 2, w, h);
-                roomCenters.Add(new[] { x, y });
+                var room = new Room
+                {
+                    x = RandomRange(_maxRoomSize, Width - _maxRoomSize),
+                    y = RandomRange(_maxRoomSize, Height - _maxRoomSize),
+                    width = RandomRange(_minRoomSize, _maxRoomSize),
+                    height = RandomRange(_minRoomSize, _maxRoomSize)
+                };
+
+                CarveOpen(
+                    room.x - room.width / 2,
+                    room.y - room.height / 2,
+                    room.width,
+                    room.height);
+
+                roomCenters.Add(room);
             }
 
             return roomCenters;
         }
 
-        private void AddCorridors(IReadOnlyList<int[]> centers)
+        private void AddCorridors(IReadOnlyList<Room> rooms)
         {
-            for (var i = 0; i != centers.Count - 1; ++i)
+            for (var i = 0; i != rooms.Count - 1; ++i)
             {
-                CarveOpen(Math.Min(centers[i][0], centers[i + 1][0]), centers[i][1],
-                    1 + Math.Abs(centers[i + 1][0] - centers[i][0]), 1);
-                CarveOpen(centers[i + 1][0], Math.Min(centers[i][1], centers[i + 1][1]), 1,
-                    1 + Math.Abs(centers[i + 1][1] - centers[i][1]));
+                CarveOpen(
+                    Math.Min(rooms[i].x, rooms[i + 1].x),
+                    rooms[i].y,
+                    1 + Math.Abs(rooms[i + 1].x - rooms[i].x),
+                    1);
+
+                CarveOpen(
+                    rooms[i + 1].x,
+                    Math.Min(rooms[i].y, rooms[i + 1].y),
+                    1,
+                    1 + Math.Abs(rooms[i + 1].y - rooms[i].y));
             }
         }
 
-        private void AddEntryExit(IReadOnlyList<int[]> centers)
+        private void AddEntry(List<Room> rooms)
         {
             var distHi = 0;
             var startIdx = -1;
-            var endIdx = -1;
-
-            for (var i = 0; i != centers.Count; ++i)
+            for (var i = 0; i != rooms.Count; ++i)
+            for (var j = 0; j != rooms.Count; ++j)
             {
-                for (var j = 0; j != centers.Count; ++j)
-                {
-                    var dist = Math.Abs(centers[i][0] - centers[j][0]) + Math.Abs(centers[i][1] - centers[j][1]);
-
-                    if (dist > distHi)
-                    {
-                        distHi = dist;
-                        startIdx = i;
-                        endIdx = j;
-                    }
-                }
+                var dist = Math.Abs(rooms[i].x - rooms[j].x) + Math.Abs(rooms[i].y - rooms[j].y);
+                if (dist <= distHi) continue;
+                distHi = dist;
+                startIdx = i;
             }
 
-            Start = centers[startIdx];
-            Exit = centers[endIdx];
 
-            _tiles[Start[0], Start[1]] = Tile.ENTRY;
-            _tiles[Exit[0], Exit[1]] = Tile.EXIT;
+            Start = rooms[startIdx];
+            TilesMap[Start.x, Start.y] = MapTile.ENTRY;
+            _startPosition = (Start.x, Start.y);
+            rooms.Remove(Start);
         }
 
         private void DetermineWallTypes()
         {
-            for (var x = 0; x != _width; ++x)
-            {
-                for (var y = 0; y != _height; ++y)
-                {
-                    if (_tiles[x, y] != Tile.FLOOR)
-                    {
-                        continue;
-                    }
-
+            for (var x = 0; x != Width; ++x)
+            for (var y = 0; y != Height; ++y)
+                if (TilesMap[x, y] == MapTile.FLOOR)
                     for (var dx = -1; dx <= 1; ++dx)
-                    {
-                        for (var dy = -1; dy <= 1; ++dy)
-                        {
-                            // If there's an exterior wall, mark it as interior, instead.
-                            if (_tiles[x + dx, y + dy] == Tile.EXTERIOR_WALL)
-                            {
-                                _tiles[x + dx, y + dy] = Tile.INTERIOR_WALL;
-                            }
-                        }
-                    }
-                }
-            }
+                    for (var dy = -1; dy <= 1; ++dy)
+                        if (TilesMap[x + dx, y + dy] == MapTile.EMPTY)
+                            TilesMap[x + dx, y + dy] = MapTile.WALL;
         }
 
         private void CarveOpen(int x, int y, int width, int height)
@@ -161,13 +143,43 @@ namespace GeneratorDungeons
             }
 
             for (var dx = x; dx != x + width; ++dx)
+            for (var dy = y; dy != y + height; ++dy)
+                TilesMap[dx, dy] = MapTile.FLOOR;
+        }
+
+        #endregion
+
+        #region Generation Enemys
+
+        private void GenerationRandomEnemy(IReadOnlyList<Room> rooms)
+        {
+            foreach (var room in rooms)
             {
-                for (var dy = y; dy != y + height; ++dy)
+                Debug.Log("Room");
+                var enemysCountInThisRoom = room.height * room.width / 20;
+                enemysCountInThisRoom = enemysCountInThisRoom > 0 ? enemysCountInThisRoom : 1;
+                for (var i = 0; i < enemysCountInThisRoom; i++)
                 {
-                    _tiles[dx, dy] = Tile.FLOOR;
+                    while (true)
+                    {
+                        var position = (Random.Range(room.x, room.width), Random.Range(room.y, room.height));
+                        if (EnemyPosition.Contains(position) ||
+                            _startPosition.Item1 - 7 > room.x &&
+                            _startPosition.Item1 + 7 < room.x &&
+                            _startPosition.Item2 - 7 > room.y &&
+                            _startPosition.Item2 + 7 < room.y)
+                            continue;
+
+                        EnemyPosition.Add(position);
+                        break;
+                    }
                 }
             }
         }
+
+        #endregion
+
+        #region Tools
 
         private static int IntHash(ref int x)
         {
@@ -187,5 +199,7 @@ namespace GeneratorDungeons
             var range = IntHash(ref _seed) % ((max + 1) - min);
             return min + range;
         }
+
+        #endregion
     }
 }

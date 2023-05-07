@@ -13,6 +13,10 @@
         public const string MAIN_LOCATION_MAP = "MainLocationMap";
 
         public const string PLAYER = "Player";
+
+        public const string GOLEM = "Golem";
+        public const string GOLEM_DATA = "GolemData";
+        
         
         public const string WEAPON_AX = "WeaponAx";
         public const string WEAPON_HAMER = "WeaponHammer";

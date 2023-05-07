@@ -46,7 +46,6 @@ namespace Item.Weapon
         public void UpdateProgress(PlayerProgress playerProgress)
         {
             playerProgress.selectedWeapon.weaponType = _selectedWeaponType;
-            Debug.Log("Weapon selected: " + playerProgress.selectedWeapon.weaponType);
             MoveWeaponInSocket(_selectedWeaponType);
         }
 
@@ -55,7 +54,6 @@ namespace Item.Weapon
             var weaponType = playerProgress.selectedWeapon.weaponType;
             _selectedWeaponType = weaponType;
             MoveWeaponInSocket(_selectedWeaponType);
-            Debug.Log("LoadProgress " + _selectedWeaponType);
         }
 
         private void ChangeSelectedWeapon(WeaponType newSelectedWeaponType)

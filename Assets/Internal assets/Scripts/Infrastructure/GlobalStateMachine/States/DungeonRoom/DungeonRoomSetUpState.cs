@@ -1,72 +1,80 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Data.Addressable;
 using Data.Settings;
 using GeneratorDungeons;
 using Infrastructure.Factory.AbstractFactory;
+using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Services.AssetsAddressableService;
 using Services.Watchers.SaveLoadWatcher;
+using Units.Enemy;
+using Units.Player;
 using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class DungeonRoomSetUpState : StateOneParam<GameInstance, TileDungeon.Tile[,]>
+    public class DungeonRoomSetUpState : StateOneParam<GameInstance, TileDungeon>
     {
         public DungeonRoomSetUpState(GameInstance context, IAbstractFactory abstractFactory,
             IAssetsAddressableService assetsAddressableService, MainLocationSettings mainLocationSettings,
-            ISaveLoadInstancesWatcher saveLoadInstancesWatcher)
+            ISaveLoadInstancesWatcher saveLoadInstancesWatcher, IEnemyFactory enemyFactory)
             : base(context)
         {
             _abstractFactory = abstractFactory;
             _assetsAddressableService = assetsAddressableService;
             _mainLocationSettings = mainLocationSettings;
             _saveLoadInstancesWatcher = saveLoadInstancesWatcher;
+            _enemyFactory = enemyFactory;
         }
 
         private readonly IAbstractFactory _abstractFactory;
         private readonly IAssetsAddressableService _assetsAddressableService;
         private readonly MainLocationSettings _mainLocationSettings;
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
+        private readonly IEnemyFactory _enemyFactory;
 
-        public override async void Enter(TileDungeon.Tile[,] tileDungeon)
+        const float UNIT = 4.85f / 2;
+
+        public override async void Enter(TileDungeon tileDungeon)
         {
-            const float unit = 4.85f / 2;
-
             var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
             var floor = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.FLOOR);
             var wall = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WALL);
             var socket =
                 await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
 
-            GameObject playerInstance;
-            GameObject socketInstance;
+            var playerInstance = _abstractFactory.CreateInstance(player, Vector3.zero);
+            var enemyDetectorInstance = _abstractFactory.CreateInstance(new GameObject(), Vector3.zero);
+            enemyDetectorInstance.transform.parent = playerInstance.transform;
+            enemyDetectorInstance.AddComponent<EnemyDetector>();
+            enemyDetectorInstance.AddComponent<SphereCollider>().radius = 7.5f;
+            enemyDetectorInstance.GetComponent<SphereCollider>().isTrigger = true;
+            var socketInstance = _abstractFactory.CreateInstance(
+                socket,
+                _mainLocationSettings.SocketForWeaponSpawnPosition);
 
-            for (var y = 0; y < tileDungeon.GetLength(0); y++)
-            for (var x = 0; x < tileDungeon.GetLength(1); x++)
+            socketInstance.transform.parent = playerInstance.transform.GetChild(0).GetChild(0);
+
+            for (var y = 0; y < tileDungeon.TilesMap.GetLength(0); y++)
+            for (var x = 0; x < tileDungeon.TilesMap.GetLength(1); x++)
             {
-                switch (tileDungeon[y, x])
+                switch (tileDungeon.TilesMap[y, x])
                 {
-                    case TileDungeon.Tile.FLOOR:
-                        _abstractFactory.CreateInstance(floor, new Vector3(x, 0, y) * unit);
+                    case MapTile.FLOOR:
+                        _abstractFactory.CreateInstance(floor, new Vector3(x, 0, y) * UNIT);
                         break;
-                    case TileDungeon.Tile.INTERIOR_WALL:
-                        _abstractFactory.CreateInstance(wall, new Vector3(x, 0, y) * unit);
+                    case MapTile.WALL:
+                        _abstractFactory.CreateInstance(wall, new Vector3(x, 0, y) * UNIT);
                         break;
-                    case TileDungeon.Tile.EXTERIOR_WALL:
-                        break;
-                    case TileDungeon.Tile.ENTRY:
-                        _abstractFactory.CreateInstance(floor, new Vector3(x, 0, y) * unit);
-                        playerInstance = _abstractFactory.CreateInstance(player, new Vector3(x, 0, y) * unit);
-                        socketInstance = _abstractFactory.CreateInstance(socket,
-                            new Vector3(x, 0, y) * unit + _mainLocationSettings.SocketForWeaponSpawnPosition);
-                        socketInstance.transform.parent = playerInstance.transform.GetChild(0).GetChild(0);
-                        break;
-                    case TileDungeon.Tile.EXIT:
+                    case MapTile.ENTRY:
+                        _abstractFactory.CreateInstance(floor, new Vector3(x, 0, y) * UNIT);
+                        playerInstance.transform.position = new Vector3(x, 0, y) * UNIT;
                         break;
                 }
             }
-            
-            Context.StateMachine.SwitchState<DungeonRoomState>();
+
+            Context.StateMachine.SwitchState<DungeonRoomSetUpNavMeshState, TileDungeon>(tileDungeon);
         }
     }
 }
