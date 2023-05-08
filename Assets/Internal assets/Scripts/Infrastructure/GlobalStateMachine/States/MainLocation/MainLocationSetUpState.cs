@@ -32,31 +32,42 @@ namespace Infrastructure.GlobalStateMachine.States
         {
             var mainLocationMap =
                 await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_LOCATION_MAP);
+
             var portal = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PORTAL);
             var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
             var sword = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_SWORD);
             var ax = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_AX);
             var hammer = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMER);
-            var socket =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
 
 
             var mapInstance = _abstractFactory.CreateInstance(mainLocationMap, Vector3.zero);
             var playerInstance = _abstractFactory.CreateInstance(player, _mainLocationSettings.PlayerSpawnPosition);
-
             var portalInstance = _abstractFactory.CreateInstance(portal, _mainLocationSettings.PortalSpawnPosition);
-            portalInstance.transform.rotation = new Quaternion(_mainLocationSettings.PortalSpawnRotation.x,
-                _mainLocationSettings.PortalSpawnRotation.y, _mainLocationSettings.PortalSpawnRotation.z, 0);
-            var swordInstance = _abstractFactory.CreateInstance(sword,
+            portalInstance.transform.rotation = new Quaternion(
+                _mainLocationSettings.PortalSpawnRotation.x,
+                _mainLocationSettings.PortalSpawnRotation.y,
+                _mainLocationSettings.PortalSpawnRotation.z,
+                0);
+
+            var swordInstance = _abstractFactory.CreateInstance(
+                sword,
                 _mainLocationSettings.WeaponSpawnPosition[(int)sword.GetComponent<Weapon>().WeaponType]);
-            var axInstance = _abstractFactory.CreateInstance(ax,
+
+            var axInstance = _abstractFactory.CreateInstance(
+                ax,
                 _mainLocationSettings.WeaponSpawnPosition[(int)ax.GetComponent<Weapon>().WeaponType]);
-            var hammerInstance = _abstractFactory.CreateInstance(hammer,
+
+            var hammerInstance = _abstractFactory.CreateInstance(
+                hammer,
                 _mainLocationSettings.WeaponSpawnPosition[(int)hammer.GetComponent<Weapon>().WeaponType]);
+
             var socketInstance =
-                _abstractFactory.CreateInstance(socket, _mainLocationSettings.SocketForWeaponSpawnPosition);
+                _abstractFactory.CreateInstance(
+                    await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD),
+                    _mainLocationSettings.SocketForWeaponSpawnPosition);
+
             socketInstance.transform.parent = playerInstance.transform.GetChild(0).GetChild(0);
-            var weaponManagerInstance = _abstractFactory.CreateInstance(socketInstance, Vector3.zero);
+            var weaponManagerInstance = _abstractFactory.CreateInstance(new GameObject("weaponManager"), Vector3.zero);
             weaponManagerInstance.AddComponent<WeaponManager>()
                 .SetUp(socketInstance, swordInstance, axInstance, hammerInstance);
 

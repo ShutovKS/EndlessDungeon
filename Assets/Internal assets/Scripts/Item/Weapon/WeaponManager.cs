@@ -10,10 +10,10 @@ namespace Item.Weapon
 {
     public class WeaponManager : MonoBehaviour, IProgressSavable, IProgressLoadable
     {
-        private WeaponType _selectedWeaponType;
-        private Transform _socketTransform;
+        [SerializeField] private WeaponType _selectedWeaponType;
+        [SerializeField] private Transform _socketTransform;
 
-        private readonly Dictionary<WeaponType, Transform> _weaponsTransform = new()
+        [SerializeField] private readonly Dictionary<WeaponType, Transform> _weaponsTransform = new()
         {
             { WeaponType.Sword, null },
             { WeaponType.Ax, null },
@@ -25,14 +25,13 @@ namespace Item.Weapon
             _socketTransform = socketTransform.transform;
             foreach (var weapon in weapons)
             {
-                if (weapon.TryGetComponent<Weapon>(out var weaponComponent))
+                if (!weapon.TryGetComponent<Weapon>(out var weaponComponent)) continue;
+
+                _weaponsTransform[weaponComponent.WeaponType] = weapon.transform;
+                if (weapon.TryGetComponent<XRGrabInteractable>(out var grabComponent))
                 {
-                    _weaponsTransform[weaponComponent.WeaponType] = weapon.transform;
-                    if (weapon.TryGetComponent<XRGrabInteractable>(out var grabComponent))
-                    {
-                        grabComponent.selectEntered.AddListener((SelectEnterEventArgs arg0) =>
-                            ChangeSelectedWeapon(weaponComponent.WeaponType));
-                    }
+                    grabComponent.selectEntered.AddListener(
+                        (SelectEnterEventArgs arg0) => ChangeSelectedWeapon(weaponComponent.WeaponType));
                 }
             }
         }
@@ -53,6 +52,7 @@ namespace Item.Weapon
             var weaponType = playerProgress.selectedWeapon.weaponType;
             _selectedWeaponType = weaponType;
             MoveWeaponInSocket(_selectedWeaponType);
+            Debug.Log($"Loading {_selectedWeaponType}");
         }
 
         private void ChangeSelectedWeapon(WeaponType newSelectedWeaponType)
@@ -62,7 +62,9 @@ namespace Item.Weapon
 
         private void MoveWeaponInSocket(WeaponType selectedWeaponType)
         {
+            _weaponsTransform[selectedWeaponType].GetComponent<XRGrabInteractable>().enabled = false;
             _weaponsTransform[selectedWeaponType].position = _socketTransform.position;
+            _weaponsTransform[selectedWeaponType].GetComponent<XRGrabInteractable>().enabled = true;
         }
     }
 }
