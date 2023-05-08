@@ -1,4 +1,6 @@
-﻿namespace Item
+﻿using UnityEngine;
+
+namespace Item
 {
     public interface IItemDamage
     {

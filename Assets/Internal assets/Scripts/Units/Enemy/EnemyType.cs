@@ -1,6 +1,6 @@
 ﻿namespace Units.Enemy
 {
-    public enum EnemyTypeId
+    public enum EnemyType
     {
         Golem
     }

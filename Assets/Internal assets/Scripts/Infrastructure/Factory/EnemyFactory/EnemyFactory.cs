@@ -30,9 +30,9 @@ namespace Infrastructure.Factory.EnemyFactory
 
         private List<GameObject> _instances = new();
 
-        public async Task<GameObject> CreateInstance(EnemyTypeId enemyTypeId, Vector3 position)
+        public async Task<GameObject> CreateInstance(EnemyType enemyType, Vector3 position)
         {
-            var enemyStaticData = _staticDataService.GetEnemyData(enemyTypeId);
+            var enemyStaticData = _staticDataService.GetEnemyData(enemyType);
 
             var prefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.GOLEM);
 

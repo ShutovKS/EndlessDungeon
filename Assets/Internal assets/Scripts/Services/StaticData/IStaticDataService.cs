@@ -5,6 +5,6 @@ namespace Services.StaticData
 {
     public interface IStaticDataService
     {
-        public EnemyStaticData GetEnemyData(EnemyTypeId enemyTypeId);
+        public EnemyStaticData GetEnemyData(EnemyType enemyType);
     }
 }

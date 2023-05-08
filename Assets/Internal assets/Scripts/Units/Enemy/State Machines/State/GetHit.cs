@@ -3,24 +3,23 @@ using UnityEngine;
 
 namespace Units.Enemy.State_Machines.State
 {
-    public class Attack : IState
+    public class GetHit : IState
     {
         #region Variables
 
-        public bool EndAttack;
+        public bool EndGetHit;
 
         private readonly Animator _animator;
         private readonly Enemy _enemy;
-        private readonly static int ATTACK1 = Animator.StringToHash("Attack1");
-        private Action<string> _animationTriggerName;
+        private readonly static int DAMAGE = Animator.StringToHash("Damage");
 
-        private Func<float> _damage;
+        private Action<string> _animationTriggerName;
 
         #endregion
 
         #region Constructors
 
-        public Attack(Enemy enemy, Animator animator)
+        public GetHit(Enemy enemy, Animator animator)
         {
             _enemy = enemy;
             _animator = animator;
@@ -32,9 +31,9 @@ namespace Units.Enemy.State_Machines.State
 
         public void OnEnter()
         {
-            _animator.SetBool(ATTACK1, true);
+            EndGetHit = false;
+            _animator.SetBool(DAMAGE, true);
             _enemy.AnimationTriggerName = HandlerAnimationTrigger;
-            EndAttack = false;
         }
 
         public void Tick()
@@ -43,7 +42,7 @@ namespace Units.Enemy.State_Machines.State
 
         public void OnExit()
         {
-            _animator.SetBool(ATTACK1, false);
+            _animator.SetBool(DAMAGE, false);
             _enemy.AnimationTriggerName -= HandlerAnimationTrigger;
         }
 
@@ -53,18 +52,9 @@ namespace Units.Enemy.State_Machines.State
 
         private void HandlerAnimationTrigger(string animationTriggerName)
         {
-            switch (animationTriggerName)
-            {
-                case "attack":
-                    Debug.Log("attack");
-                    break;
-                case "attackEnd":
-                    Debug.Log("attackEnd");
-                    break;
-                case "animationEnd":
-                    EndAttack = true;
-                    break;
-            }
+            Debug.Log("animationEnd Damage");
+            if (animationTriggerName == "animationEnd")
+                EndGetHit = true;
         }
 
         #endregion

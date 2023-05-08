@@ -6,7 +6,7 @@ namespace Data.Static
     [CreateAssetMenu(fileName = "EnemyData", menuName = "StaticData/Enemy")]
     public class EnemyStaticData : ScriptableObject
     {
-        [field: SerializeField] public EnemyTypeId EnemyTypeId { get; private set; }
+        [field: SerializeField] public EnemyType EnemyType { get; private set; }
         [field: SerializeField] public string Name { get; private set; }
 
         [field: Range(1, 100)]

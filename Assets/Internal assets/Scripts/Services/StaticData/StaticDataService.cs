@@ -18,20 +18,20 @@ namespace Services.StaticData
 
         private readonly IAssetsAddressableService _assetsAddressableService;
 
-        private readonly Dictionary<EnemyTypeId, EnemyStaticData> _enemies = new()
+        private readonly Dictionary<EnemyType, EnemyStaticData> _enemies = new()
         {
-            { EnemyTypeId.Golem, null }
+            { EnemyType.Golem, null }
         };
 
         public async void LoadStaticData()
         {
-            _enemies[EnemyTypeId.Golem] = await _assetsAddressableService
+            _enemies[EnemyType.Golem] = await _assetsAddressableService
                 .GetAsset<EnemyStaticData>(AssetsAddressablesConstants.GOLEM_DATA);
         }
 
-        public EnemyStaticData GetEnemyData(EnemyTypeId enemyTypeId)
+        public EnemyStaticData GetEnemyData(EnemyType enemyType)
         {
-            return _enemies.TryGetValue(enemyTypeId, out var staticData) ? staticData : null;
+            return _enemies.TryGetValue(enemyType, out var staticData) ? staticData : null;
         }
     }
 }

@@ -7,7 +7,11 @@ namespace Item.Weapon
     {
         public WeaponType WeaponType => weaponType;
         [SerializeField] private WeaponType weaponType;
+        
+        [field: SerializeField]
         public bool IsDamage { get; set; }
+        
+        [field: SerializeField]
         public float Damage { get; set; } = 10;
 
         private void Start()

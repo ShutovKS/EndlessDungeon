@@ -16,7 +16,7 @@ MonoBehaviour:
   <Name>k__BackingField: Golem
   <MaxHealthPoints>k__BackingField: 100
   <Damage>k__BackingField: 15
-  <EffectiveDistance>k__BackingField: 1.5
+  <EffectiveDistance>k__BackingField: 2
   <Cleavage>k__BackingField: 1.2
   <AttackCooldown>k__BackingField: 6
   <MovementSpeed>k__BackingField: 2
