@@ -10,7 +10,6 @@ namespace Item.Weapon
 {
     public class WeaponManager : MonoBehaviour, IProgressSavable, IProgressLoadable
     {
-        public event UnityAction IsChangeSelectedWeapon;
         private WeaponType _selectedWeaponType;
         private Transform _socketTransform;
 

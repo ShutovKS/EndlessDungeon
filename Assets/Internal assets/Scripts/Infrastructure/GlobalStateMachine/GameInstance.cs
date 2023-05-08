@@ -27,38 +27,39 @@ namespace Infrastructure.GlobalStateMachine
             StateMachine = new StateMachine<GameInstance>(
                 this,
                 new BootstrapState(this),
+                new SceneLoadingMainMenuState(this, uiFactory),
                 new MainMenuState(this, uiFactory),
-                new SceneLoadingForMainLocationState(this, uiFactory),
+                
                 new MainLocationLoadingState(this, uiFactory),
-                new SceneLoadingForDungeonRoomState(this, uiFactory),
-                new DungeonRoomLoadingState(this, uiFactory),
-                new DungeonRoomGenerationState(this),
-                new DungeonRoomState(this, uiFactory),
-                new DungeonRoomSetUpNavMeshState(this, abstractFactory),
-                new DungeonRoomSetUpEnemyState(this, enemyFactory),
+                new ProgressLoadingForMainState(
+                    this,
+                    saveLoadService,
+                    saveLoadInstancesWatcher,
+                    persistentProgressService),
                 new MainLocationSetUpState(
                     this,
                     abstractFactory,
                     assetsAddressableService,
                     mainLocationSettings,
                     saveLoadInstancesWatcher),
-                new ProgressLoadingForMainState(
-                    this,
-                    saveLoadService,
-                    saveLoadInstancesWatcher,
-                    persistentProgressService),
                 new MainLocationState(
                     this,
                     uiFactory,
                     saveLoadService,
                     abstractFactory),
+                
+                new DungeonRoomLoadingState(this, uiFactory),
+                new DungeonRoomGenerationState(this),
                 new DungeonRoomSetUpState(
                     this,
                     abstractFactory,
                     assetsAddressableService,
                     mainLocationSettings,
                     saveLoadInstancesWatcher,
-                    enemyFactory)
+                    enemyFactory),
+                new DungeonRoomSetUpNavMeshState(this, abstractFactory),
+                new DungeonRoomSetUpEnemyState(this, enemyFactory),
+                new DungeonRoomState(this, uiFactory, abstractFactory, enemyFactory)
             );
 
             StateMachine.SwitchState<BootstrapState>();

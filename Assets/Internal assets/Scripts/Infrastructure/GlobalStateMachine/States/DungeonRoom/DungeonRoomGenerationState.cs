@@ -10,7 +10,7 @@ namespace Infrastructure.GlobalStateMachine.States
         {
         }
 
-        public override async void Enter()
+        public override void Enter()
         {
             var seed = Random.Range(0, 10000);
             var width = 45;
@@ -29,7 +29,7 @@ namespace Infrastructure.GlobalStateMachine.States
                 minRoomSize,
                 maxRoomSize);
 
-            await tileDungeon.Generation();
+            tileDungeon.Generation();
 
             Context.StateMachine.SwitchState<DungeonRoomSetUpState, TileDungeon>(tileDungeon);
         }

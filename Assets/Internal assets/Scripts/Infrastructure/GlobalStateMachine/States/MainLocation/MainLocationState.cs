@@ -51,7 +51,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private void StartDungeonConquest()
         {
-            Context.StateMachine.SwitchState<SceneLoadingForDungeonRoomState>();
+            Context.StateMachine.SwitchState<DungeonRoomLoadingState>();
         }
     }
 }

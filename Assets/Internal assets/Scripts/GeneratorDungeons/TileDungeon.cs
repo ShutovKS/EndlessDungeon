@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace GeneratorDungeons
@@ -38,7 +36,7 @@ namespace GeneratorDungeons
             _maxRoomCount = maxRoomCount;
         }
 
-        public async Task Generation()
+        public void Generation()
         {
             FillInWalls();
 
@@ -149,16 +147,15 @@ namespace GeneratorDungeons
 
         #endregion
 
-        #region Generation Enemys
+        #region Generation Enemies
 
-        private void GenerationRandomEnemy(IReadOnlyList<Room> rooms)
+        private void GenerationRandomEnemy(IEnumerable<Room> rooms)
         {
             foreach (var room in rooms)
             {
-                Debug.Log("Room");
-                var enemysCountInThisRoom = room.height * room.width / 20;
-                enemysCountInThisRoom = enemysCountInThisRoom > 0 ? enemysCountInThisRoom : 1;
-                for (var i = 0; i < enemysCountInThisRoom; i++)
+                var enemiesCountInThisRoom = room.height * room.width / 20;
+                enemiesCountInThisRoom = enemiesCountInThisRoom > 0 ? enemiesCountInThisRoom : 1;
+                for (var i = 0; i < enemiesCountInThisRoom; i++)
                 {
                     while (true)
                     {

@@ -16,9 +16,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private readonly IAbstractFactory _abstractFactory;
 
-        const float UNIT = 4.85f / 2;
-
-        public override async void Enter(TileDungeon tileDungeon)
+        public override void Enter(TileDungeon tileDungeon)
         {
             var navMeshSurface = _abstractFactory.CreateInstance(new GameObject(), Vector3.zero)
                 .AddComponent<NavMeshSurface>();

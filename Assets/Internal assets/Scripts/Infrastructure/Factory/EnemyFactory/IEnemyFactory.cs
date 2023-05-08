@@ -8,5 +8,7 @@ namespace Infrastructure.Factory.EnemyFactory
     public interface IEnemyFactory: IEnemyFactoryInfo, IFactory
     {
         Task<GameObject> CreateInstance(EnemyType enemyType, Vector3 position);
+
+        void DeadEnemy(Enemy enemy);
     }
 }

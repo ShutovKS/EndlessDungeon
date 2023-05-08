@@ -1,4 +1,5 @@
 ﻿using System;
+using Infrastructure.Factory.EnemyFactory;
 using Item;
 using Units.Enemy.State_Machines;
 using Units.Enemy.State_Machines.State;
@@ -15,7 +16,7 @@ namespace Units.Enemy
         private float _healthPoints;
 
         public void SetUp(float healthPoints, float effectiveDistance, float cleavage, float attackCooldown,
-            float speedMove, float speedRotate)
+            float speedMove, float speedRotate, IEnemyFactory enemyFactory)
         {
             _healthPoints = healthPoints;
             var healthPointsLateUpdate = _healthPoints;
@@ -37,7 +38,7 @@ namespace Units.Enemy
             var patrol = new Patrol(animator, navMeshAgent, thisTransform, targetTransform, speedMove / 2);
             var attack = new Attack(this, animator);
             var getHit = new GetHit(this, animator);
-            var dead = new Dead(animator);
+            var dead = new Dead(this, animator, enemyFactory);
 
             var moveToPlayer = new MoveToPlayer(
                 animator,
@@ -59,6 +60,7 @@ namespace Units.Enemy
             At(searchPositionForPatrol, patrol, ReachedPatrolPoint());
             AtAny(getHit, IsGetHit());
             AtAny(dead, IsDead());
+            AtAny(dead, Failed());
 
             _stateMachine.SetState(searchPositionForPatrol);
 
@@ -72,15 +74,7 @@ namespace Units.Enemy
             Func<bool> AttackOver() => () => attack.EndAttack;
             Func<bool> GetHitOver() => () => getHit.EndGetHit;
             Func<bool> IsDead() => () => _healthPoints <= 0;
-
-            Func<bool> IsGetHit() => () =>
-            {
-                if (_healthPoints == healthPointsLateUpdate || _healthPoints <= 0)
-                    return false;
-
-                healthPointsLateUpdate = _healthPoints;
-                return true;
-            };
+            Func<bool> Failed() => () => thisTransform.position.y < -50;
 
             Func<bool> PlayerInReachOfAttack() => () =>
                 Vector3.Distance(thisTransform.position, playerTransform.position) <= effectiveDistance * 0.9;
@@ -93,6 +87,15 @@ namespace Units.Enemy
 
             Func<bool> ReachedPatrolPoint() => () =>
                 Vector3.Distance(thisTransform.position, targetTransform.position) < 1f;
+
+            Func<bool> IsGetHit() => () =>
+            {
+                if (_healthPoints == healthPointsLateUpdate || _healthPoints <= 0)
+                    return false;
+
+                healthPointsLateUpdate = _healthPoints;
+                return true;
+            };
         }
 
         private void Update() => _stateMachine?.Tick();

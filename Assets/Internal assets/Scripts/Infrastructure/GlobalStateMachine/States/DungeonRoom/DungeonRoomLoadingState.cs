@@ -14,12 +14,13 @@ namespace Infrastructure.GlobalStateMachine.States
         }
 
         private readonly IUIFactory _uiFactory;
-        
+
         public override async void Enter()
         {
+            await _uiFactory.CreateLoadingScreen();
+
             var asyncOperationHandle =
-                Addressables.LoadSceneAsync((AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME));
-            await asyncOperationHandle.Task;
+                await Addressables.LoadSceneAsync((AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME)).Task;
 
             Context.StateMachine.SwitchState<DungeonRoomGenerationState>();
         }

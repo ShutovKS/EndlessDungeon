@@ -1,4 +1,5 @@
 ﻿using System;
+using Infrastructure.Factory.EnemyFactory;
 using UnityEngine;
 
 namespace Units.Enemy.State_Machines.State
@@ -7,16 +8,20 @@ namespace Units.Enemy.State_Machines.State
     {
         #region Variables
 
+        private readonly Enemy _enemy;
         private readonly Animator _animator;
+        private readonly IEnemyFactory _enemyFactory;
         private readonly static int DEAD = Animator.StringToHash("Dead");
 
         #endregion
 
         #region Constructors
 
-        public Dead(Animator animator)
+        public Dead(Enemy enemy, Animator animator, IEnemyFactory enemyFactory)
         {
+            _enemy = enemy;
             _animator = animator;
+            _enemyFactory = enemyFactory;
         }
 
         #endregion
@@ -26,6 +31,8 @@ namespace Units.Enemy.State_Machines.State
         public void OnEnter()
         {
             _animator.SetBool(DEAD, true);
+            _enemyFactory.DeadEnemy(_enemy);
+            Debug.Log("Dead");
         }
 
         public void Tick()

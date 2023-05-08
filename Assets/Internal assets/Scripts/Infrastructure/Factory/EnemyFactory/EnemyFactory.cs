@@ -7,6 +7,7 @@ using Services.AssetsAddressableService;
 using Services.StaticData;
 using Units.Enemy;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
 using Object = UnityEngine.Object;
 
@@ -14,7 +15,8 @@ namespace Infrastructure.Factory.EnemyFactory
 {
     public class EnemyFactory : IEnemyFactory
     {
-        public EnemyFactory(DiContainer container, IAssetsAddressableService assetsAddressableService,
+        public EnemyFactory(DiContainer container,
+            IAssetsAddressableService assetsAddressableService,
             IStaticDataService staticDataService)
         {
             _container = container;
@@ -22,13 +24,13 @@ namespace Infrastructure.Factory.EnemyFactory
             _staticDataService = staticDataService;
         }
 
-        private DiContainer _container;
-        private IAssetsAddressableService _assetsAddressableService;
-        private IStaticDataService _staticDataService;
+        private readonly DiContainer _container;
+        private readonly IAssetsAddressableService _assetsAddressableService;
+        private readonly IStaticDataService _staticDataService;
 
-        public List<GameObject> Instances => _instances;
-
-        private List<GameObject> _instances = new();
+        public event UnityAction AllDeadEnemies;
+        public List<GameObject> Instances { get; } = new();
+        public List<Enemy> Enemies { get; } = new();
 
         public async Task<GameObject> CreateInstance(EnemyType enemyType, Vector3 position)
         {
@@ -40,9 +42,17 @@ namespace Infrastructure.Factory.EnemyFactory
 
             SetUp(instance, enemyStaticData);
 
-            _instances.Add(instance);
-            
+            Enemies.Add(instance.GetComponent<Enemy>());
+            Instances.Add(instance);
+
             return instance;
+        }
+
+        public void DeadEnemy(Enemy enemy)
+        {
+            Enemies.Remove(enemy);
+            if (Enemies.Count == 0)
+                AllDeadEnemies?.Invoke();
         }
 
         public void DestroyInstance(GameObject instance)
@@ -51,33 +61,36 @@ namespace Infrastructure.Factory.EnemyFactory
             {
                 throw new NullReferenceException("There is no instance to destroy");
             }
-            
-            if (!_instances.Contains(instance))
+
+            if (!Instances.Contains(instance))
             {
-                throw new NullReferenceException($"Instance {instance} can't be destroyed, cause there is no {instance} on Abstract Factory Instances");
+                throw new NullReferenceException(
+                    $"Instance {instance} can't be destroyed, cause there is no {instance} on Abstract Factory Instances");
             }
-            
+
+            Enemies.Remove(instance.GetComponent<Enemy>());
             Object.Destroy(instance);
-            _instances.Remove(instance);
+            Instances.Remove(instance);
         }
 
         public void DestroyAllInstances()
         {
-            for (int i = 0; i < _instances.Count; i++)
+            foreach (var value in Instances)
             {
-                Object.Destroy(_instances[i]);
+                Object.Destroy(value);
             }
-        
-            _instances.Clear();
+
+            Enemies.Clear();
+            Instances.Clear();
         }
 
         public void DestroyAllInstances<T>(List<T> list) where T : Object
         {
-            for (int i = 0; i < list.Count; i++)
+            foreach (var value in list)
             {
-                Object.Destroy(list[i]);
+                Object.Destroy(value);
             }
-        
+
             list.Clear();
         }
 
@@ -91,7 +104,8 @@ namespace Infrastructure.Factory.EnemyFactory
                     enemyStaticData.Cleavage,
                     enemyStaticData.AttackCooldown,
                     enemyStaticData.MovementSpeed,
-                    enemyStaticData.RotationSpeed);
+                    enemyStaticData.RotationSpeed,
+                    this);
             }
             else
             {
@@ -101,7 +115,8 @@ namespace Infrastructure.Factory.EnemyFactory
                     enemyStaticData.Cleavage,
                     enemyStaticData.AttackCooldown,
                     enemyStaticData.MovementSpeed,
-                    enemyStaticData.RotationSpeed);
+                    enemyStaticData.RotationSpeed,
+                    this);
             }
         }
     }
