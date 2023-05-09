@@ -11,7 +11,7 @@ namespace Units.Player
         private float _healthPoint;
         private bool _isDead;
 
-        public void SetUp(float healthPoint, UnityAction playerDead)
+        public void SetUp(UnityAction playerDead)
         {
             _playerDead = playerDead;
 

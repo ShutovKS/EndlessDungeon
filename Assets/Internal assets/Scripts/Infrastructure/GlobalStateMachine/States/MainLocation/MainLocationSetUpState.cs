@@ -75,7 +75,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
             socketInstance.transform.parent = playerInstance.transform.GetChild(0).GetChild(0);
             var weaponManagerInstance = _abstractFactory.CreateInstance(new GameObject("weaponManager"), Vector3.zero);
-            weaponManagerInstance.AddComponent<WeaponManager>()
+            weaponManagerInstance.AddComponent<WeaponManagerMainLocation>()
                 .SetUp(socketInstance, swordInstance, axInstance, hammerInstance);
 
             _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance);

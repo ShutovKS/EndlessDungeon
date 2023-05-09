@@ -52,9 +52,11 @@ namespace Units.Enemy.State_Machines.State
 
         private void HandlerAnimationTrigger(string animationTriggerName)
         {
-            Debug.Log("animationEnd Damage");
             if (animationTriggerName == "animationEnd")
+            {
                 EndGetHit = true;
+                Debug.Log("animationEnd GetHit");
+            }
         }
 
         #endregion

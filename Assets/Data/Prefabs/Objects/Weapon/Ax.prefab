@@ -8,11 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1626170089023489749, guid: 6cd1ac9652a50da4485a86492f47c63d,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2602322016577547683, guid: 6cd1ac9652a50da4485a86492f47c63d,
         type: 3}
       propertyPath: weaponType

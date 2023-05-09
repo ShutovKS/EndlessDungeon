@@ -3,25 +3,28 @@ using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Services.SaveLoad;
+using Services.Watchers.SaveLoadWatcher;
 using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
     public class DungeonRoomState : State<GameInstance>
     {
-        private readonly IEnemyFactory _enemyFactory;
-        private readonly IUIFactory _uiFactory;
-        private readonly ISaveLoadService _saveLoadService;
-        private readonly IAbstractFactory _abstractFactory;
-        private GameObject _locationScreen;
-
         public DungeonRoomState(GameInstance context, IUIFactory uiFactory, IAbstractFactory abstractFactory,
-            IEnemyFactory enemyFactory) : base(context)
+            IEnemyFactory enemyFactory, ISaveLoadInstancesWatcher saveLoadInstancesWatcher) : base(context)
         {
             _uiFactory = uiFactory;
             _abstractFactory = abstractFactory;
             _enemyFactory = enemyFactory;
+            _saveLoadInstancesWatcher = saveLoadInstancesWatcher;
         }
+
+        private readonly IEnemyFactory _enemyFactory;
+        private readonly IUIFactory _uiFactory;
+        private readonly ISaveLoadService _saveLoadService;
+        private readonly IAbstractFactory _abstractFactory;
+        private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
+        private GameObject _locationScreen;
 
         public override void Enter()
         {
@@ -34,6 +37,7 @@ namespace Infrastructure.GlobalStateMachine.States
         {
             _enemyFactory.DestroyAllInstances();
             _abstractFactory.DestroyAllInstances();
+            _saveLoadInstancesWatcher.ClearProgress();
         }
 
         private void Finish()

@@ -13,7 +13,7 @@ namespace Units.Enemy
         private StateMachine _stateMachine;
         public Action<string> AnimationTriggerName;
         public bool playerInRange;
-        private float _healthPoints;
+        [SerializeField] private float _healthPoints;
 
         public void SetUp(float healthPoints, float effectiveDistance, float cleavage, float attackCooldown,
             float damage, float speedMove, float speedRotate, IEnemyFactory enemyFactory)
@@ -32,6 +32,7 @@ namespace Units.Enemy
                 : gameObject.AddComponent<NavMeshAgent>();
 
             var damageColliders = GetComponentsInChildren<EnemyDamage>();
+            Debug.Log(damageColliders.Length);
 
             _stateMachine = new StateMachine();
 

@@ -39,7 +39,7 @@ namespace Units.Enemy.State_Machines.State
 
             var rotation = _transform.rotation;
             var positionDifference = _playerTransform.position - _transform.position;
-            var positionToLook = new Vector3(positionDifference.x, rotation.y, positionDifference.z);
+            var positionToLook = new Vector3(positionDifference.x, 0, positionDifference.z);
 
             rotation = Quaternion.Lerp(
                 rotation,

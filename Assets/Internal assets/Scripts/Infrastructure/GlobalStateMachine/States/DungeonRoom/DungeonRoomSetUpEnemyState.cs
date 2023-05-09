@@ -23,7 +23,7 @@ namespace Infrastructure.GlobalStateMachine.States
         {
             await SetUpEnemy(tileDungeon);
 
-            Context.StateMachine.SwitchState<DungeonRoomState>();
+            Context.StateMachine.SwitchState<ProgressLoadingForDungeonRoom>();
         }
 
         private async Task SetUpEnemy(TileDungeon tileDungeon)

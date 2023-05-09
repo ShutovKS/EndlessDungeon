@@ -30,17 +30,17 @@ namespace Infrastructure.GlobalStateMachine
                 new SceneLoadingMainMenuState(this, uiFactory),
                 new MainMenuState(this, uiFactory),
                 new MainLocationLoadingState(this, uiFactory),
-                new ProgressLoadingForMainState(
-                    this,
-                    saveLoadService,
-                    saveLoadInstancesWatcher,
-                    persistentProgressService),
                 new MainLocationSetUpState(
                     this,
                     abstractFactory,
                     assetsAddressableService,
                     mainLocationSettings,
                     saveLoadInstancesWatcher),
+                new ProgressLoadingForMainState(
+                    this,
+                    saveLoadService,
+                    saveLoadInstancesWatcher,
+                    persistentProgressService),
                 new MainLocationState(
                     this,
                     uiFactory,
@@ -54,11 +54,16 @@ namespace Infrastructure.GlobalStateMachine
                     abstractFactory,
                     assetsAddressableService,
                     mainLocationSettings,
-                    saveLoadInstancesWatcher,
-                    enemyFactory),
+                    saveLoadInstancesWatcher),
                 new DungeonRoomSetUpNavMeshState(this, abstractFactory),
                 new DungeonRoomSetUpEnemyState(this, enemyFactory),
-                new DungeonRoomState(this, uiFactory, abstractFactory, enemyFactory)
+                new ProgressLoadingForDungeonRoom(
+                    this,
+                    saveLoadService,
+                    saveLoadInstancesWatcher,
+                    persistentProgressService),
+                new DungeonRoomState(this, uiFactory, 
+                    abstractFactory, enemyFactory, saveLoadInstancesWatcher)
             );
 
             StateMachine.SwitchState<BootstrapState>();
