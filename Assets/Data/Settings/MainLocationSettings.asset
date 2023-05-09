@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95b09753b1d3398408a36564c906b124, type: 3}
-  m_Name: HomeLocationSettings
+  m_Name: MainLocationSettings
   m_EditorClassIdentifier: 
   _playerSpawnPosition: {x: 0, y: 0, z: 0}
   _weaponSpawnPosition:

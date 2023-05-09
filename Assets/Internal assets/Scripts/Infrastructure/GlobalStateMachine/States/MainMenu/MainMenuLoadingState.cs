@@ -3,11 +3,11 @@ using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using UnityEngine.AddressableAssets;
 
-namespace Infrastructure.GlobalStateMachine.States
+namespace Infrastructure.GlobalStateMachine.States.MainMenu
 {
-    public class SceneLoadingMainMenuState : State<GameInstance>
+    public class MainMenuLoadingState : State<GameInstance>
     {
-        public SceneLoadingMainMenuState(GameInstance context, IUIFactory uiFactory) : base(context)
+        public MainMenuLoadingState(GameInstance context, IUIFactory uiFactory) : base(context)
         {
             _uiFactory = uiFactory;
         }
@@ -21,7 +21,7 @@ namespace Infrastructure.GlobalStateMachine.States
             var asyncOperationHandle = Addressables.LoadSceneAsync(AssetsAddressablesConstants.MAIN_MENU_SCENE_NAME);
             await asyncOperationHandle.Task;
 
-            Context.StateMachine.SwitchState<MainMenuState>();
+            Context.StateMachine.SwitchState<MainMenuSetUpState>();
         }
     }
 }

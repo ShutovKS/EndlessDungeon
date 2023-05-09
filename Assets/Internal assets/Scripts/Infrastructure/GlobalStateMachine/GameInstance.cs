@@ -4,6 +4,7 @@ using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States;
+using Infrastructure.GlobalStateMachine.States.MainMenu;
 using Services.AssetsAddressableService;
 using Services.PersistentProgress;
 using Services.SaveLoad;
@@ -19,6 +20,7 @@ namespace Infrastructure.GlobalStateMachine
             IAssetsAddressableService assetsAddressableService,
             IAbstractFactory abstractFactory,
             MainLocationSettings mainLocationSettings,
+            MainMenuSettings mainMenuSettings,
             ISaveLoadInstancesWatcher saveLoadInstancesWatcher,
             IPersistentProgressService persistentProgressService,
             ISaveLoadService saveLoadService,
@@ -27,8 +29,9 @@ namespace Infrastructure.GlobalStateMachine
             StateMachine = new StateMachine<GameInstance>(
                 this,
                 new BootstrapState(this),
-                new SceneLoadingMainMenuState(this, uiFactory),
-                new MainMenuState(this, uiFactory),
+                new MainMenuLoadingState(this, uiFactory),
+                new MainMenuSetUpState(this, abstractFactory, uiFactory, assetsAddressableService, mainMenuSettings),
+                new MainMenuState(this, uiFactory, abstractFactory),
                 new MainLocationLoadingState(this, uiFactory),
                 new MainLocationSetUpState(
                     this,
@@ -62,8 +65,12 @@ namespace Infrastructure.GlobalStateMachine
                     saveLoadService,
                     saveLoadInstancesWatcher,
                     persistentProgressService),
-                new DungeonRoomState(this, uiFactory, 
-                    abstractFactory, enemyFactory, saveLoadInstancesWatcher)
+                new DungeonRoomState(
+                    this,
+                    uiFactory,
+                    abstractFactory,
+                    enemyFactory,
+                    saveLoadInstancesWatcher)
             );
 
             StateMachine.SwitchState<BootstrapState>();

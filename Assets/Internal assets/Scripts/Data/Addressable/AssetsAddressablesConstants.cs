@@ -11,6 +11,7 @@
         public const string MAIN_LOCATION_SCREEN = "MainLocationScreen";
         
         public const string MAIN_LOCATION_MAP = "MainLocationMap";
+        public const string MAIN_MENU_MAP = "MainMenuMap";
 
         public const string PLAYER = "Player";
 

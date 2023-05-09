@@ -15,6 +15,7 @@ namespace Infrastructure.Installers
     public class ServiceInstaller : MonoInstaller
     {
         [SerializeField] private MainLocationSettings _mainLocationSettings;
+        [SerializeField] private MainMenuSettings _mainMenuSettings;
 
         public override void InstallBindings()
         {
@@ -52,6 +53,7 @@ namespace Infrastructure.Installers
         private void BindSettings()
         {
             Container.Bind<MainLocationSettings>().FromInstance(_mainLocationSettings).AsSingle();
+            Container.Bind<MainMenuSettings>().FromInstance(_mainMenuSettings).AsSingle();
         }
 
         private void BindPersistentProgressService()

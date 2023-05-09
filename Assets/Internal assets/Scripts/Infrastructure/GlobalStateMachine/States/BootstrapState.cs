@@ -1,4 +1,5 @@
 ﻿using Infrastructure.GlobalStateMachine.StateMachine;
+using Infrastructure.GlobalStateMachine.States.MainMenu;
 using Zenject;
 
 namespace Infrastructure.GlobalStateMachine.States
@@ -11,7 +12,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
         public void Initialize()
         {
-            Context.StateMachine.SwitchState<SceneLoadingMainMenuState>();
+            Context.StateMachine.SwitchState<MainMenuLoadingState>();
         }
     }
 }
