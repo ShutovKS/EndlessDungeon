@@ -6,11 +6,8 @@ namespace Services.Watchers.SaveLoadWatcher
 {
     public class SaveLoadInstancesWatcher : ISaveLoadInstancesWatcher
     {
-        private List<IProgressSavable> _progressSavable = new();
-        private List<IProgressLoadable> _progressLoadable = new();
-
-        public List<IProgressSavable> ProgressSavable => _progressSavable;
-        public List<IProgressLoadable> ProgressLoadable => _progressLoadable;
+        public List<IProgressSavable> ProgressSavable { get; } = new();
+        public List<IProgressLoadable> ProgressLoadable { get; } = new();
 
         public void RegisterProgress(params GameObject[] instances)
         {
@@ -23,14 +20,41 @@ namespace Services.Watchers.SaveLoadWatcher
             }
         }
 
+        public void DeleteProgress(params GameObject[] instances)
+        {
+            foreach (var instance in instances)
+            {
+                foreach (var progressLoader in instance.GetComponentsInChildren<IProgressLoadable>())
+                {
+                    Deletion(progressLoader);
+                }
+            }
+        }
+
+        public void ClearProgress()
+        {
+            ProgressSavable.Clear();
+            ProgressLoadable.Clear();
+        }
+
         private void Register(IProgressLoadable progressLoadable)
         {
             if (progressLoadable is IProgressSavable progressSavable)
             {
-                _progressSavable.Add(progressSavable);
+                ProgressSavable.Add(progressSavable);
             }
 
-            _progressLoadable.Add(progressLoadable);
+            ProgressLoadable.Add(progressLoadable);
+        }
+
+        private void Deletion(IProgressLoadable progressLoadable)
+        {
+            if (progressLoadable is IProgressSavable progressSavable)
+            {
+                ProgressSavable.Remove(progressSavable);
+            }
+
+            ProgressLoadable.Remove(progressLoadable);
         }
     }
 }

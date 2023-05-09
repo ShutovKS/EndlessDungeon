@@ -103,6 +103,7 @@ namespace Infrastructure.Factory.EnemyFactory
                     enemyStaticData.EffectiveDistance,
                     enemyStaticData.Cleavage,
                     enemyStaticData.AttackCooldown,
+                    enemyStaticData.Damage,
                     enemyStaticData.MovementSpeed,
                     enemyStaticData.RotationSpeed,
                     this);
@@ -114,6 +115,7 @@ namespace Infrastructure.Factory.EnemyFactory
                     enemyStaticData.EffectiveDistance,
                     enemyStaticData.Cleavage,
                     enemyStaticData.AttackCooldown,
+                    enemyStaticData.Damage,
                     enemyStaticData.MovementSpeed,
                     enemyStaticData.RotationSpeed,
                     this);

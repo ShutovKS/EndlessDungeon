@@ -7,6 +7,7 @@ using Item.Weapon;
 using Services.AssetsAddressableService;
 using Services.Watchers.SaveLoadWatcher;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
@@ -49,6 +50,12 @@ namespace Infrastructure.GlobalStateMachine.States
                 _mainLocationSettings.PortalSpawnRotation.z,
                 0);
 
+            if (portalInstance.transform.GetChild(0).TryGetComponent<XRGrabInteractable>(out var xrGrabInteractable))
+            {
+                xrGrabInteractable.selectEntered.AddListener(
+                    (SelectEnterEventArgs arg0) => Context.StateMachine.SwitchState<DungeonRoomLoadingState>());
+            }
+
             var swordInstance = _abstractFactory.CreateInstance(
                 sword,
                 _mainLocationSettings.WeaponSpawnPosition[(int)sword.GetComponent<Weapon>().WeaponType]);
@@ -73,7 +80,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
             _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance);
 
-            Context.StateMachine.SwitchState<ProgressLoadingForMainState, GameObject>(portalInstance);
+            Context.StateMachine.SwitchState<ProgressLoadingForMainState>();
         }
     }
 }

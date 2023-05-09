@@ -2,30 +2,31 @@
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Services.SaveLoad;
+using Services.Watchers.SaveLoadWatcher;
 using UI.MainLocation;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.XR.Interaction.Toolkit.Utilities;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class MainLocationState : StateOneParam<GameInstance, GameObject>
+    public class MainLocationState : State<GameInstance>
     {
         public MainLocationState(GameInstance context, IUIFactory uiFactory, ISaveLoadService saveLoadService,
-            IAbstractFactory abstractFactory) :
+            ISaveLoadInstancesWatcher saveLoadInstancesWatcher, IAbstractFactory abstractFactory) :
             base(context)
         {
             _uiFactory = uiFactory;
             _saveLoadService = saveLoadService;
+            _saveLoadInstancesWatcher = saveLoadInstancesWatcher;
             _abstractFactory = abstractFactory;
         }
 
         private readonly IUIFactory _uiFactory;
         private readonly ISaveLoadService _saveLoadService;
+        private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
         private readonly IAbstractFactory _abstractFactory;
         private GameObject _locationScreen;
 
-        public override async void Enter(GameObject portal)
+        public override async void Enter()
         {
             _locationScreen = await _uiFactory.CreateMainLocationScreen();
 
@@ -34,24 +35,16 @@ namespace Infrastructure.GlobalStateMachine.States
                 mainLocationScreen.SetUp(_saveLoadService);
             }
 
-            if (portal.transform.GetChild(0).TryGetComponent<XRGrabInteractable>(out var xrGrabInteractable))
-            {
-                xrGrabInteractable.selectEntered.AddListener((SelectEnterEventArgs arg0) => StartDungeonConquest());
-            }
-
             _uiFactory.DestroyMainMenuScreen();
             _uiFactory.DestroyLoadingScreen();
         }
 
         public override void Exit()
         {
+            _saveLoadService.SaveProgress();
             _abstractFactory.DestroyAllInstances();
             _uiFactory.DestroyMainLocationScreen();
-        }
-
-        private void StartDungeonConquest()
-        {
-            Context.StateMachine.SwitchState<DungeonRoomLoadingState>();
+            _saveLoadInstancesWatcher.ClearProgress();
         }
     }
 }

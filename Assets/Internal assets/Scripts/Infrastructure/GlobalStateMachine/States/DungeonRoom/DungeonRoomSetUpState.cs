@@ -45,6 +45,10 @@ namespace Infrastructure.GlobalStateMachine.States
                 await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
 
             var playerInstance = _abstractFactory.CreateInstance(player, Vector3.zero);
+            playerInstance.AddComponent<Player>().SetUp(
+                100,
+                Context.StateMachine.SwitchState<MainLocationLoadingState>);
+
             var enemyDetectorInstance = _abstractFactory.CreateInstance(new GameObject(), Vector3.zero);
             enemyDetectorInstance.transform.parent = playerInstance.transform;
             enemyDetectorInstance.AddComponent<EnemyDetector>();

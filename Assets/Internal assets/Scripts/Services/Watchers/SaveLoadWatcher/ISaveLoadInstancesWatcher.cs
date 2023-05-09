@@ -9,5 +9,7 @@ namespace Services.Watchers.SaveLoadWatcher
         public List<IProgressSavable> ProgressSavable { get; }
         public List<IProgressLoadable> ProgressLoadable { get; }
         public void RegisterProgress(params GameObject[] instances);
+        public void DeleteProgress(params GameObject[] instances);
+        public void ClearProgress();
     }
 }

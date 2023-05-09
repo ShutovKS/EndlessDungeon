@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.StateMachine
 {
@@ -10,9 +11,17 @@ namespace Infrastructure.GlobalStateMachine.StateMachine
 
         private readonly float _tickRate = 0;
 
-        public BaseState<TContext> CurrentState { get; private set; }
+        private BaseState<TContext> _currentState { get; set; }
 
-        public BaseState<TContext> GetState(Type type) => _states[type];
+        private BaseState<TContext> CurrentState
+        {
+            get => _currentState;
+            set
+            {
+                _currentState = value;
+                Debug.Log($"Set state {value.GetType().Name}");
+            }
+        }
 
         protected TContext Context;
 
@@ -33,7 +42,7 @@ namespace Infrastructure.GlobalStateMachine.StateMachine
         {
             CurrentState?.Exit();
 
-            TState newState = GetState<TState>();
+            var newState = GetState<TState>();
 
             CurrentState = newState;
 
@@ -44,21 +53,21 @@ namespace Infrastructure.GlobalStateMachine.StateMachine
         {
             CurrentState?.Exit();
 
-            TState newState = GetState<TState>();
+            var newState = GetState<TState>();
 
             CurrentState = newState;
 
             newState.Enter(arg0);
         }
-        
+
         public void SwitchState<TState, T0, T1>(T0 arg0, T1 arg1) where TState : StateTwoParam<TContext, T0, T1>
         {
             CurrentState?.Exit();
 
-            TState newState = GetState<TState>();
-            
+            var newState = GetState<TState>();
+
             CurrentState = newState;
-            
+
             newState.Enter(arg0, arg1);
         }
 

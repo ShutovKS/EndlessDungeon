@@ -13,7 +13,7 @@ namespace Item.Weapon
         [SerializeField] private WeaponType _selectedWeaponType;
         [SerializeField] private Transform _socketTransform;
 
-        [SerializeField] private readonly Dictionary<WeaponType, Transform> _weaponsTransform = new()
+        private readonly Dictionary<WeaponType, Transform> _weaponsTransform = new()
         {
             { WeaponType.Sword, null },
             { WeaponType.Ax, null },

@@ -16,7 +16,7 @@ namespace Units.Enemy
         private float _healthPoints;
 
         public void SetUp(float healthPoints, float effectiveDistance, float cleavage, float attackCooldown,
-            float speedMove, float speedRotate, IEnemyFactory enemyFactory)
+            float damage, float speedMove, float speedRotate, IEnemyFactory enemyFactory)
         {
             _healthPoints = healthPoints;
             var healthPointsLateUpdate = _healthPoints;
@@ -31,12 +31,14 @@ namespace Units.Enemy
                 ? agent
                 : gameObject.AddComponent<NavMeshAgent>();
 
+            var damageColliders = GetComponentsInChildren<EnemyDamage>();
+
             _stateMachine = new StateMachine();
 
             var combatReadiness = new CombatReadiness(animator, thisTransform, playerTransform, speedRotate);
             var searchPositionForPatrol = new SearchPositionForPatrol(thisTransform, out var targetTransform);
             var patrol = new Patrol(animator, navMeshAgent, thisTransform, targetTransform, speedMove / 2);
-            var attack = new Attack(this, animator);
+            var attack = new Attack(this, animator, damage, damageColliders);
             var getHit = new GetHit(this, animator);
             var dead = new Dead(this, animator, enemyFactory);
 

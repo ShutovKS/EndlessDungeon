@@ -29,7 +29,6 @@ namespace Infrastructure.GlobalStateMachine
                 new BootstrapState(this),
                 new SceneLoadingMainMenuState(this, uiFactory),
                 new MainMenuState(this, uiFactory),
-                
                 new MainLocationLoadingState(this, uiFactory),
                 new ProgressLoadingForMainState(
                     this,
@@ -46,8 +45,8 @@ namespace Infrastructure.GlobalStateMachine
                     this,
                     uiFactory,
                     saveLoadService,
+                    saveLoadInstancesWatcher,
                     abstractFactory),
-                
                 new DungeonRoomLoadingState(this, uiFactory),
                 new DungeonRoomGenerationState(this),
                 new DungeonRoomSetUpState(

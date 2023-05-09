@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class ProgressLoadingForMainState : StateOneParam<GameInstance, GameObject>
+    public class ProgressLoadingForMainState : State<GameInstance>
     {
         public ProgressLoadingForMainState(GameInstance context, ISaveLoadService saveLoadService,
             ISaveLoadInstancesWatcher saveLoadInstancesWatcher,
@@ -23,13 +23,13 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
         private readonly IPersistentProgressService _persistentProgressService;
 
-        public override void Enter(GameObject portal)
+        public override void Enter()
         {
             LoadProgressOrInitNew();
 
             InformProgressReaders();
 
-            Context.StateMachine.SwitchState<MainLocationState, GameObject>(portal);
+            Context.StateMachine.SwitchState<MainLocationState>();
         }
 
         private void LoadProgressOrInitNew()
