@@ -6,6 +6,6 @@
         {
         }
 
-        public virtual void Enter(T0 arg0) {}
+        public virtual void Enter(T0 mapDungeon) {}
     }
 }

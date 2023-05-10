@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class DungeonRoomSetUpState : StateOneParam<GameInstance, TileDungeon>
+    public class DungeonRoomSetUpState : StateOneParam<GameInstance, MapDungeon>
     {
         public DungeonRoomSetUpState(GameInstance context, IAbstractFactory abstractFactory,
             IAssetsAddressableService assetsAddressableService, MainLocationSettings mainLocationSettings,
@@ -34,7 +34,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private const float UNIT = 4.85f / 2;
 
-        public override async void Enter(TileDungeon tileDungeon)
+        public override async void Enter(MapDungeon mapDungeon)
         {
             var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
             var floor = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.FLOOR);
@@ -70,25 +70,25 @@ namespace Infrastructure.GlobalStateMachine.States
             _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance);
 
 
-            for (var y = 0; y < tileDungeon.TilesMap.GetLength(0); y++)
-            for (var x = 0; x < tileDungeon.TilesMap.GetLength(1); x++)
+            for (var y = 0; y < mapDungeon.TilesMap.GetLength(0); y++)
+            for (var x = 0; x < mapDungeon.TilesMap.GetLength(1); x++)
             {
-                switch (tileDungeon.TilesMap[y, x])
+                switch (mapDungeon.TilesMap[y, x])
                 {
-                    case MapTile.FLOOR:
+                    case Tiles.FLOOR:
                         _abstractFactory.CreateInstance(floor, new Vector3(x, 0, y) * UNIT);
                         break;
-                    case MapTile.WALL:
+                    case Tiles.WALL:
                         _abstractFactory.CreateInstance(wall, new Vector3(x, 0, y) * UNIT);
                         break;
-                    case MapTile.ENTRY:
+                    case Tiles.PLAYER:
                         _abstractFactory.CreateInstance(floor, new Vector3(x, 0, y) * UNIT);
                         playerInstance.transform.position = new Vector3(x, 0, y) * UNIT;
                         break;
                 }
             }
 
-            Context.StateMachine.SwitchState<DungeonRoomSetUpNavMeshState, TileDungeon>(tileDungeon);
+            Context.StateMachine.SwitchState<DungeonRoomSetUpNavMeshState, MapDungeon>(mapDungeon);
         }
     }
 }

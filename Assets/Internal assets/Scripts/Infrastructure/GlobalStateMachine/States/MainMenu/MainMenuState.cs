@@ -19,11 +19,11 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
         private readonly IAbstractFactory _abstractFactory;
         private MainMenuScreen _mainMenuScreen;
 
-        public override async void Enter(GameObject mainMenuScreenInstance)
+        public override void Enter(GameObject mapDungeon)
         {
             _uiFactory.DestroyLoadingScreen();
 
-            if (mainMenuScreenInstance.TryGetComponent<MainMenuScreen>(out var mainMenuScreen))
+            if (mapDungeon.TryGetComponent<MainMenuScreen>(out var mainMenuScreen))
             {
                 _mainMenuScreen = mainMenuScreen;
 

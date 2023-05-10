@@ -1,10 +1,10 @@
 ﻿namespace GeneratorDungeons
 {
-    public enum MapTile
+    public enum Tiles
     {
         FLOOR,
         WALL,
-        ENTRY,
+        PLAYER,
         EMPTY
     }
 }

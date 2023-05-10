@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class DungeonRoomSetUpEnemyState : StateOneParam<GameInstance, TileDungeon>
+    public class DungeonRoomSetUpEnemyState : StateOneParam<GameInstance, MapDungeon>
     {
         public DungeonRoomSetUpEnemyState(GameInstance context, IEnemyFactory enemyFactory)
             : base(context)
@@ -19,17 +19,17 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private const float UNIT = 4.85f / 2;
 
-        public override async void Enter(TileDungeon tileDungeon)
+        public override async void Enter(MapDungeon mapDungeon)
         {
-            await SetUpEnemy(tileDungeon);
+            await SetUpEnemy(mapDungeon);
 
             Context.StateMachine.SwitchState<ProgressLoadingForDungeonRoom>();
         }
 
-        private async Task SetUpEnemy(TileDungeon tileDungeon)
+        private async Task SetUpEnemy(MapDungeon mapDungeon)
         {
-            if (tileDungeon.EnemyPosition != null)
-                foreach (var position in tileDungeon.EnemyPosition)
+            if (mapDungeon.EnemiesPosition != null)
+                foreach (var position in mapDungeon.EnemiesPosition)
                 {
                     var enemy = await _enemyFactory.CreateInstance(
                         EnemyType.Golem,

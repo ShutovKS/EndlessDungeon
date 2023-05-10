@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class DungeonRoomSetUpNavMeshState : StateOneParam<GameInstance, TileDungeon>
+    public class DungeonRoomSetUpNavMeshState : StateOneParam<GameInstance, MapDungeon>
     {
         public DungeonRoomSetUpNavMeshState(GameInstance context, IAbstractFactory abstractFactory) : base(context)
         {
@@ -16,14 +16,14 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private readonly IAbstractFactory _abstractFactory;
 
-        public override void Enter(TileDungeon tileDungeon)
+        public override void Enter(MapDungeon mapDungeon)
         {
             var navMeshSurface = _abstractFactory.CreateInstance(new GameObject(), Vector3.zero)
                 .AddComponent<NavMeshSurface>();
 
             navMeshSurface.BuildNavMesh();
             
-            Context.StateMachine.SwitchState<DungeonRoomSetUpEnemyState, TileDungeon>(tileDungeon);
+            Context.StateMachine.SwitchState<DungeonRoomSetUpEnemyState, MapDungeon>(mapDungeon);
         }
     }
 }

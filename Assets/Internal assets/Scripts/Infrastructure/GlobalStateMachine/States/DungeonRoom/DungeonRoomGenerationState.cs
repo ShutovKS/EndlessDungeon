@@ -12,26 +12,16 @@ namespace Infrastructure.GlobalStateMachine.States
 
         public override void Enter()
         {
-            var seed = Random.Range(0, 10000);
-            var width = 45;
-            var height = 45;
-            var minRoomCount = 6;
-            var maxRoomCount = 11;
-            var minRoomSize = 4;
-            var maxRoomSize = 8;
+            var mapDungeon = TileDungeon.GenerationDungeon(
+                Random.Range(0, 10000),
+                4,
+                8,
+                6,
+                11,
+                45,
+                45);
 
-            var tileDungeon = new TileDungeon(
-                seed,
-                width,
-                height,
-                minRoomCount,
-                maxRoomCount,
-                minRoomSize,
-                maxRoomSize);
-
-            tileDungeon.Generation();
-
-            Context.StateMachine.SwitchState<DungeonRoomSetUpState, TileDungeon>(tileDungeon);
+            Context.StateMachine.SwitchState<DungeonRoomSetUpState, MapDungeon>(mapDungeon);
         }
     }
 }
