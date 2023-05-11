@@ -70,6 +70,7 @@ namespace Infrastructure.GlobalStateMachine
                 new DungeonRoomState(
                     this,
                     uiFactory,
+                    saveLoadService,
                     abstractFactory,
                     enemyFactory,
                     saveLoadInstancesWatcher)

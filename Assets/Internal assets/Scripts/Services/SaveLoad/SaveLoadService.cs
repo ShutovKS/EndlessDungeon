@@ -1,4 +1,4 @@
-﻿using Data.Dynamic.PlayerData;
+﻿using Data.Dynamic;
 using Services.PersistentProgress;
 using Services.Watchers.SaveLoadWatcher;
 using UnityEngine;
@@ -17,24 +17,24 @@ namespace Services.SaveLoad
         private readonly IPersistentProgressService _persistentProgressService;
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
 
-        private const string SaveLoadKey = "SaveLoadKey";
+        private const string SAVE_LOAD_KEY = "SaveLoadKey";
 
         public void SaveProgress()
         {
             foreach (var progressSavable in _saveLoadInstancesWatcher.ProgressSavable)
             {
-                progressSavable.UpdateProgress(_persistentProgressService.PlayerProgress);
+                progressSavable.UpdateProgress(_persistentProgressService.Progress);
             }
 
-            PlayerPrefs.SetString(SaveLoadKey, JsonUtility.ToJson(_persistentProgressService.PlayerProgress));
+            PlayerPrefs.SetString(SAVE_LOAD_KEY, JsonUtility.ToJson(_persistentProgressService.Progress));
         }
 
-        public PlayerProgress LoadProgress()
+        public Progress LoadProgress()
         {
-            if (!PlayerPrefs.HasKey(SaveLoadKey))
+            if (!PlayerPrefs.HasKey(SAVE_LOAD_KEY))
                 return null;
 
-            var prefs = JsonUtility.FromJson<PlayerProgress>(PlayerPrefs.GetString(SaveLoadKey));
+            var prefs = JsonUtility.FromJson<Progress>(PlayerPrefs.GetString(SAVE_LOAD_KEY));
             return prefs;
         }
     }

@@ -1,14 +1,14 @@
-﻿using Data.Dynamic.PlayerData;
+﻿using Data.Dynamic;
 
 namespace Services.PersistentProgress
 {
     public class PersistentProgressService : IPersistentProgressService
     {
-        public PlayerProgress PlayerProgress { get; private set; }
+        public Progress Progress { get; private set; }
 
-        public void SetProgress(PlayerProgress playerProgress)
+        public void SetProgress(Progress progress)
         {
-            PlayerProgress = playerProgress;
+            Progress = progress;
         }
     }
 }

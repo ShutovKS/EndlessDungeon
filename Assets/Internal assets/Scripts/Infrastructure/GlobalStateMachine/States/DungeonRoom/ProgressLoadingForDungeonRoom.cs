@@ -1,4 +1,6 @@
-﻿using Data.Dynamic.PlayerData;
+﻿using Data.Dynamic;
+using Data.Dynamic.Loot;
+using Data.Dynamic.Player;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Item.Weapon;
 using Services.PersistentProgress;
@@ -28,7 +30,7 @@ namespace Infrastructure.GlobalStateMachine.States
             LoadProgressOrInitNew();
 
             InformProgressReaders();
-
+            
             Context.StateMachine.SwitchState<DungeonRoomState>();
         }
 
@@ -37,11 +39,12 @@ namespace Infrastructure.GlobalStateMachine.States
             _persistentProgressService.SetProgress(_saveLoadService.LoadProgress() ?? InitNewProgress());
         }
 
-        private PlayerProgress InitNewProgress()
+        private Progress InitNewProgress()
         {
-            return new PlayerProgress
+            return new Progress
             {
-                selectedWeapon = new SelectedWeapon { weaponType = WeaponType.Sword }
+                selectedWeapon = new SelectedWeapon { weaponType = WeaponType.Sword },
+                lootData = new LootData()
             };
         }
 
@@ -49,7 +52,7 @@ namespace Infrastructure.GlobalStateMachine.States
         {
             foreach (var progressLoadable in _saveLoadInstancesWatcher.ProgressLoadable)
             {
-                progressLoadable.LoadProgress(_persistentProgressService.PlayerProgress);
+                progressLoadable.LoadProgress(_persistentProgressService.Progress);
             }
         }
     }

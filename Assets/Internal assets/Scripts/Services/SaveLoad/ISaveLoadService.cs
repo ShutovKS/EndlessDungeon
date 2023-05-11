@@ -1,11 +1,11 @@
 ﻿using Data.Dynamic;
-using Data.Dynamic.PlayerData;
+using Data.Dynamic.Loot;
 
 namespace Services.SaveLoad
 {
     public interface ISaveLoadService
     {
         void SaveProgress();
-        PlayerProgress LoadProgress();
+        Progress LoadProgress();
     }
 }

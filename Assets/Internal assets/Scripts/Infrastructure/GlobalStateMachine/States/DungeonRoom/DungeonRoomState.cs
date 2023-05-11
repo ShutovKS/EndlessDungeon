@@ -2,6 +2,7 @@
 using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
+using Loot;
 using Services.SaveLoad;
 using Services.Watchers.SaveLoadWatcher;
 using UnityEngine;
@@ -10,10 +11,12 @@ namespace Infrastructure.GlobalStateMachine.States
 {
     public class DungeonRoomState : State<GameInstance>
     {
-        public DungeonRoomState(GameInstance context, IUIFactory uiFactory, IAbstractFactory abstractFactory,
-            IEnemyFactory enemyFactory, ISaveLoadInstancesWatcher saveLoadInstancesWatcher) : base(context)
+        public DungeonRoomState(GameInstance context, IUIFactory uiFactory, ISaveLoadService saveLoadService,
+            IAbstractFactory abstractFactory, IEnemyFactory enemyFactory,
+            ISaveLoadInstancesWatcher saveLoadInstancesWatcher) : base(context)
         {
             _uiFactory = uiFactory;
+            _saveLoadService = saveLoadService;
             _abstractFactory = abstractFactory;
             _enemyFactory = enemyFactory;
             _saveLoadInstancesWatcher = saveLoadInstancesWatcher;
@@ -24,7 +27,6 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly ISaveLoadService _saveLoadService;
         private readonly IAbstractFactory _abstractFactory;
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
-        private GameObject _locationScreen;
 
         public override void Enter()
         {
@@ -43,6 +45,7 @@ namespace Infrastructure.GlobalStateMachine.States
         private void Finish()
         {
             Context.StateMachine.SwitchState<DungeonRoomLoadingState>();
+            _saveLoadService.SaveProgress();
             Debug.Log("Finish");
         }
     }

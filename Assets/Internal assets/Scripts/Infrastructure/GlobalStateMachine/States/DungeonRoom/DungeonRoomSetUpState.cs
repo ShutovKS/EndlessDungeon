@@ -6,6 +6,7 @@ using GeneratorDungeons;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Item.Weapon;
+using Loot;
 using Services.AssetsAddressableService;
 using Services.Watchers.SaveLoadWatcher;
 using Units.Enemy;
@@ -41,7 +42,9 @@ namespace Infrastructure.GlobalStateMachine.States
             var wall = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WALL);
             var sword = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_SWORD);
             var ax = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_AX);
-            var hammer = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMMER);
+            var hammer =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMMER);
+
             var socket =
                 await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
 
@@ -67,7 +70,10 @@ namespace Infrastructure.GlobalStateMachine.States
             weaponManagerInstance.AddComponent<WeaponManagerDungeonRoom>()
                 .SetUp(socketInstance, swordInstance, axInstance, hammerInstance);
 
-            _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance);
+            var lootManagerInstance = _abstractFactory.CreateInstance(new GameObject("lootManager"), Vector3.zero);
+            lootManagerInstance.AddComponent<LootManager>();
+
+            _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance, lootManagerInstance);
 
 
             for (var y = 0; y < mapDungeon.TilesMap.GetLength(0); y++)

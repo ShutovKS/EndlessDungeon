@@ -30,6 +30,8 @@ namespace Infrastructure.GlobalStateMachine.States
 
             _uiFactory.DestroyMainMenuScreen();
             _uiFactory.DestroyLoadingScreen();
+            
+            
         }
 
         public override void Exit()

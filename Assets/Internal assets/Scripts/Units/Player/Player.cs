@@ -1,4 +1,4 @@
-﻿using Data.Dynamic.PlayerData;
+﻿using Data.Dynamic;
 using Services.PersistentProgress;
 using UnityEngine;
 using UnityEngine.Events;
@@ -39,7 +39,7 @@ namespace Units.Player
             Debug.Log(_healthPoint);
         }
 
-        public void LoadProgress(PlayerProgress playerProgress)
+        public void LoadProgress(Progress progress)
         {
             //TODO: load healthPoints
             // _healthPoint = playerProgress.

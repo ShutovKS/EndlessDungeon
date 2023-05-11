@@ -32,7 +32,6 @@ namespace Units.Enemy
                 : gameObject.AddComponent<NavMeshAgent>();
 
             var damageColliders = GetComponentsInChildren<EnemyDamage>();
-            Debug.Log(damageColliders.Length);
 
             _stateMachine = new StateMachine();
 

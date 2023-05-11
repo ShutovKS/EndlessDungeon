@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Data.Dynamic.PlayerData;
+using Data.Dynamic;
 using Services.PersistentProgress;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -34,9 +34,9 @@ namespace Item.Weapon
             }
         }
 
-        public void UpdateProgress(PlayerProgress playerProgress)
+        public void UpdateProgress(Progress progress)
         {
-            playerProgress.selectedWeapon.weaponType = SelectedWeaponType;
+            progress.selectedWeapon.weaponType = SelectedWeaponType;
         }
 
         public void MoveWeaponInSocket(WeaponType selectedWeaponType)
@@ -46,9 +46,9 @@ namespace Item.Weapon
             WeaponsTransform[selectedWeaponType].GetComponent<XRGrabInteractable>().enabled = true;
         }
 
-        public void LoadProgress(PlayerProgress playerProgress)
+        public void LoadProgress(Progress progress)
         {
-            SelectedWeaponType = playerProgress.selectedWeapon.weaponType;
+            SelectedWeaponType = progress.selectedWeapon.weaponType;
             MoveWeaponInSocket(SelectedWeaponType);
         }
 

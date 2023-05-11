@@ -5,6 +5,7 @@ using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Item.Weapon;
+using Loot;
 using Services.AssetsAddressableService;
 using Services.SaveLoad;
 using Services.Watchers.SaveLoadWatcher;
@@ -49,6 +50,9 @@ namespace Infrastructure.GlobalStateMachine.States
             var hammer =
                 await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMMER);
 
+            var socket =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
+
 
             var mapInstance = _abstractFactory.CreateInstance(mainLocationMap, Vector3.zero);
             var playerInstance = _abstractFactory.CreateInstance(player, _mainLocationSettings.PlayerSpawnPosition);
@@ -75,15 +79,18 @@ namespace Infrastructure.GlobalStateMachine.States
                 hammer,
                 _mainLocationSettings.WeaponSpawnPosition[(int)hammer.GetComponent<Weapon>().WeaponType]);
 
-            var socketInstance =
-                _abstractFactory.CreateInstance(
-                    await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD),
-                    _mainLocationSettings.SocketForWeaponSpawnPosition);
+            var socketInstance = _abstractFactory.CreateInstance(
+                socket,
+                _mainLocationSettings.SocketForWeaponSpawnPosition);
 
             socketInstance.transform.parent = playerInstance.transform.GetChild(0).GetChild(0);
+
             var weaponManagerInstance = _abstractFactory.CreateInstance(new GameObject("weaponManager"), Vector3.zero);
             weaponManagerInstance.AddComponent<WeaponManagerMainLocation>()
                 .SetUp(socketInstance, swordInstance, axInstance, hammerInstance);
+
+            var lootManagerInstance = _abstractFactory.CreateInstance(new GameObject("lootManager"), Vector3.zero);
+            lootManagerInstance.AddComponent<LootManager>();
 
             var menuInMainLocationScreenInstance = await _uiFactory.CreateMenuInMainLocationScreen();
             menuInMainLocationScreenInstance.transform.parent =
@@ -101,7 +108,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
             menuInMainLocationScreenInstance.GetComponent<MenuInMainLocationScreen>().SetUp(_saveLoadService);
 
-            _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance);
+            _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance, lootManagerInstance);
 
             Context.StateMachine.SwitchState<ProgressLoadingForMainState>();
         }

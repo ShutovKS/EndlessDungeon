@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Data.Dynamic.PlayerData;
+using Data.Dynamic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -40,9 +40,9 @@ namespace Item.Weapon
             WeaponsTransform[selectedWeaponType].GetComponent<XRGrabInteractable>().enabled = true;
         }
 
-        public void LoadProgress(PlayerProgress playerProgress)
+        public void LoadProgress(Progress progress)
         {
-            SelectedWeaponType = playerProgress.selectedWeapon.weaponType;
+            SelectedWeaponType = progress.selectedWeapon.weaponType;
 
             foreach (var variable in WeaponsTransform)
             {
