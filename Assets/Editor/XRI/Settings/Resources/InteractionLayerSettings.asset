@@ -16,7 +16,7 @@ MonoBehaviour:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Hand UI Raycast
   - Water
   - UI
   - 

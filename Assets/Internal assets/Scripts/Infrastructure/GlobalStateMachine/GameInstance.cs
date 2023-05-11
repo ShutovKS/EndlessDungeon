@@ -36,8 +36,10 @@ namespace Infrastructure.GlobalStateMachine
                 new MainLocationSetUpState(
                     this,
                     abstractFactory,
+                    uiFactory,
                     assetsAddressableService,
                     mainLocationSettings,
+                    saveLoadService,
                     saveLoadInstancesWatcher),
                 new ProgressLoadingForMainState(
                     this,

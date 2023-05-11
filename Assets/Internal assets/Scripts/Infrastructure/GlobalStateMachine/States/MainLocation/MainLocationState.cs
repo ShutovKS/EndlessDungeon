@@ -4,7 +4,6 @@ using Infrastructure.GlobalStateMachine.StateMachine;
 using Services.SaveLoad;
 using Services.Watchers.SaveLoadWatcher;
 using UI.MainLocation;
-using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
@@ -24,16 +23,10 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly ISaveLoadService _saveLoadService;
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
         private readonly IAbstractFactory _abstractFactory;
-        private GameObject _locationScreen;
 
         public override async void Enter()
         {
-            _locationScreen = await _uiFactory.CreateMainLocationScreen();
-
-            if (_locationScreen.TryGetComponent<MainLocationScreen>(out var mainLocationScreen))
-            {
-                mainLocationScreen.SetUp(_saveLoadService);
-            }
+            await _uiFactory.CreateMainLocationScreen();
 
             _uiFactory.DestroyMainMenuScreen();
             _uiFactory.DestroyLoadingScreen();

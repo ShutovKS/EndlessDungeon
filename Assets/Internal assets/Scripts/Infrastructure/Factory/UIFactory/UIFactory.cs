@@ -20,13 +20,18 @@ namespace Infrastructure.Factory.UIFactory
 
         public GameObject LoadingScreen { get; private set; }
         public GameObject MainMenuScreen { get; private set; }
-        public GameObject GameplayScreen { get; private set; }
+        public GameObject MainLocationScreen { get; private set; }
+        public GameObject MenuInMainLocationScreen { get; private set; }
+
+
+        #region LoadingScreen
 
         public async Task<GameObject> CreateLoadingScreen()
         {
             var loadingScreenPrefab =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants
-                    .LOADING_PROCESS_SCREEN);
+                await _assetsAddressableService.GetAsset<GameObject>(
+                    AssetsAddressablesConstants
+                        .LOADING_PROCESS_SCREEN);
 
             LoadingScreen = _container.InstantiatePrefab(loadingScreenPrefab);
 
@@ -38,6 +43,10 @@ namespace Infrastructure.Factory.UIFactory
             if (LoadingScreen != null)
                 Object.Destroy(LoadingScreen);
         }
+
+        #endregion
+
+        #region MainMenuScreen
 
         public async Task<GameObject> CreateMainMenuScreen()
         {
@@ -55,20 +64,47 @@ namespace Infrastructure.Factory.UIFactory
                 Object.Destroy(MainMenuScreen);
         }
 
+        #endregion
+
+        #region MainLocationScreen
+
         public async Task<GameObject> CreateMainLocationScreen()
         {
             var gameplayScreenPrefab =
                 await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_LOCATION_SCREEN);
 
-            GameplayScreen = _container.InstantiatePrefab(gameplayScreenPrefab);
+            MainLocationScreen = _container.InstantiatePrefab(gameplayScreenPrefab);
 
-            return GameplayScreen;
+            return MainLocationScreen;
         }
 
         public void DestroyMainLocationScreen()
         {
-            if (GameplayScreen != null)
-                Object.Destroy(GameplayScreen);
+            if (MainLocationScreen != null)
+                Object.Destroy(MainLocationScreen);
         }
+
+        #endregion
+
+        #region MenuInMainLocationScreen
+
+        public async Task<GameObject> CreateMenuInMainLocationScreen()
+        {
+            var gameplayScreenPrefab =
+                await _assetsAddressableService.GetAsset<GameObject>(
+                    AssetsAddressablesConstants.MENU_IN_MAIN_LOCATION_SCREEN);
+
+            MenuInMainLocationScreen = _container.InstantiatePrefab(gameplayScreenPrefab);
+
+            return MenuInMainLocationScreen;
+        }
+
+        public void DestroyMenuInMainLocationScreen()
+        {
+            if (MenuInMainLocationScreen != null)
+                Object.Destroy(MenuInMainLocationScreen);
+        }
+
+        #endregion
     }
 }

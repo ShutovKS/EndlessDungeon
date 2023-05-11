@@ -12,6 +12,8 @@ namespace Infrastructure.Factory.UIFactory
         public void DestroyMainMenuScreen();
         public Task<GameObject> CreateMainLocationScreen();
         public void DestroyMainLocationScreen();
+        public Task<GameObject> CreateMenuInMainLocationScreen();
+        public void DestroyMenuInMainLocationScreen();
     }
 }
 

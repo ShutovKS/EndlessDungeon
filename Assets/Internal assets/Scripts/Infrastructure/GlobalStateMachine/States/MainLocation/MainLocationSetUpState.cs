@@ -2,31 +2,39 @@
 using Data.Addressable;
 using Data.Settings;
 using Infrastructure.Factory.AbstractFactory;
+using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Item.Weapon;
 using Services.AssetsAddressableService;
+using Services.SaveLoad;
 using Services.Watchers.SaveLoadWatcher;
+using UI.MainLocation;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using XR;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
     public class MainLocationSetUpState : State<GameInstance>
     {
-        public MainLocationSetUpState(GameInstance context, IAbstractFactory abstractFactory,
+        public MainLocationSetUpState(GameInstance context, IAbstractFactory abstractFactory, IUIFactory uiFactory,
             IAssetsAddressableService assetsAddressableService, MainLocationSettings mainLocationSettings,
-            ISaveLoadInstancesWatcher saveLoadInstancesWatcher)
+            ISaveLoadService saveLoadService, ISaveLoadInstancesWatcher saveLoadInstancesWatcher)
             : base(context)
         {
             _abstractFactory = abstractFactory;
+            _uiFactory = uiFactory;
             _assetsAddressableService = assetsAddressableService;
             _mainLocationSettings = mainLocationSettings;
+            _saveLoadService = saveLoadService;
             _saveLoadInstancesWatcher = saveLoadInstancesWatcher;
         }
 
         private readonly IAbstractFactory _abstractFactory;
+        private readonly IUIFactory _uiFactory;
         private readonly IAssetsAddressableService _assetsAddressableService;
         private readonly MainLocationSettings _mainLocationSettings;
+        private readonly ISaveLoadService _saveLoadService;
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
 
         public override async void Enter()
@@ -38,7 +46,8 @@ namespace Infrastructure.GlobalStateMachine.States
             var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
             var sword = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_SWORD);
             var ax = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_AX);
-            var hammer = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMER);
+            var hammer =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMMER);
 
 
             var mapInstance = _abstractFactory.CreateInstance(mainLocationMap, Vector3.zero);
@@ -51,10 +60,8 @@ namespace Infrastructure.GlobalStateMachine.States
                 0);
 
             if (portalInstance.transform.GetChild(0).TryGetComponent<XRGrabInteractable>(out var xrGrabInteractable))
-            {
                 xrGrabInteractable.selectEntered.AddListener(
-                    (SelectEnterEventArgs arg0) => Context.StateMachine.SwitchState<DungeonRoomLoadingState>());
-            }
+                    _ => Context.StateMachine.SwitchState<DungeonRoomLoadingState>());
 
             var swordInstance = _abstractFactory.CreateInstance(
                 sword,
@@ -77,6 +84,22 @@ namespace Infrastructure.GlobalStateMachine.States
             var weaponManagerInstance = _abstractFactory.CreateInstance(new GameObject("weaponManager"), Vector3.zero);
             weaponManagerInstance.AddComponent<WeaponManagerMainLocation>()
                 .SetUp(socketInstance, swordInstance, axInstance, hammerInstance);
+
+            var menuInMainLocationScreenInstance = await _uiFactory.CreateMenuInMainLocationScreen();
+            menuInMainLocationScreenInstance.transform.parent =
+                playerInstance.GetComponentInChildren<XRGazeInteractor>().transform.parent;
+
+            playerInstance.GetComponentInChildren<GazeInteractorTrigger>()
+                .AddHoverEntered(_ => menuInMainLocationScreenInstance.SetActive(true));
+
+            playerInstance.GetComponentInChildren<GazeInteractorTrigger>()
+                .AddHoverExited(_ => menuInMainLocationScreenInstance.SetActive(false));
+
+            menuInMainLocationScreenInstance.SetActive(false);
+
+            menuInMainLocationScreenInstance.transform.localPosition = Vector3.zero;
+
+            menuInMainLocationScreenInstance.GetComponent<MenuInMainLocationScreen>().SetUp(_saveLoadService);
 
             _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance);
 
