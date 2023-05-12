@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace Loot
 {
-    public class LootManager : MonoBehaviour ,IProgressLoadable, IProgressSavable
+    public class LootManager : MonoBehaviour, IProgressLoadable, IProgressSavable
     {
         private int _soulsOfTheDungeon;
         private Action<int> _isAmountChanged;
 
         public void RegisterOnTheAmountChange(Action<int> isAmountChanged)
         {
-            _isAmountChanged = isAmountChanged;
+            _isAmountChanged += isAmountChanged;
         }
 
         public bool TryAmountChangeOnThe(int value)

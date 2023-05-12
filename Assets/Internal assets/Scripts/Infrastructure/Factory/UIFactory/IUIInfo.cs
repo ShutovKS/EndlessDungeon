@@ -7,7 +7,6 @@ namespace Infrastructure.Factory.UIFactory
         public GameObject LoadingScreen { get; }
         public GameObject MainMenuScreen { get; }
         public GameObject MainLocationScreen { get; }
-        public GameObject MenuInMainLocationScreen { get; }
     }
 }
 

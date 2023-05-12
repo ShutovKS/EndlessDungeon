@@ -21,10 +21,8 @@ namespace Infrastructure.GlobalStateMachine.States
             await _uiFactory.CreateLoadingScreen();
 
             var asyncOperationHandle =
-                Addressables.LoadSceneAsync((AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME));
-
-            await asyncOperationHandle.Task;
-
+                await Addressables.LoadSceneAsync(AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME).Task;
+            
             Context.StateMachine.SwitchState<MainLocationSetUpState>();
         }
     }

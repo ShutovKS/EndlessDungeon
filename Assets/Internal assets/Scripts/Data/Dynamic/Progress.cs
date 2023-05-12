@@ -1,7 +1,6 @@
 ﻿using System;
 using Data.Dynamic.Loot;
 using Data.Dynamic.Player;
-using UnityEngine.Serialization;
 
 namespace Data.Dynamic
 {
@@ -12,9 +11,11 @@ namespace Data.Dynamic
         {
             selectedWeapon = new SelectedWeapon();
             lootData = new LootData();
+            skillsLevel = new SkillsLevel();
         }
 
         public SelectedWeapon selectedWeapon;
+        public SkillsLevel skillsLevel;
         public LootData lootData;
     }
 }

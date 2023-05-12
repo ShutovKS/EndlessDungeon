@@ -34,26 +34,15 @@ namespace Infrastructure.GlobalStateMachine.States
             Context.StateMachine.SwitchState<MainLocationState>();
         }
 
-        private void LoadProgressOrInitNew()
-        {
+        private void LoadProgressOrInitNew() =>
             _persistentProgressService.SetProgress(_saveLoadService.LoadProgress() ?? InitNewProgress());
-        }
 
-        private Progress InitNewProgress()
-        {
-            return new Progress
-            {
-                selectedWeapon = new SelectedWeapon { weaponType = WeaponType.Sword },
-                lootData = new LootData()
-            };
-        }
+        private Progress InitNewProgress() => new();
 
         private void InformProgressReaders()
         {
             foreach (var progressLoadable in _saveLoadInstancesWatcher.ProgressLoadable)
-            {
                 progressLoadable.LoadProgress(_persistentProgressService.Progress);
-            }
         }
     }
 }

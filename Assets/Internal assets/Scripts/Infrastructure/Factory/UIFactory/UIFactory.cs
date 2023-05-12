@@ -85,26 +85,5 @@ namespace Infrastructure.Factory.UIFactory
         }
 
         #endregion
-
-        #region MenuInMainLocationScreen
-
-        public async Task<GameObject> CreateMenuInMainLocationScreen()
-        {
-            var gameplayScreenPrefab =
-                await _assetsAddressableService.GetAsset<GameObject>(
-                    AssetsAddressablesConstants.MENU_IN_MAIN_LOCATION_SCREEN);
-
-            MenuInMainLocationScreen = _container.InstantiatePrefab(gameplayScreenPrefab);
-
-            return MenuInMainLocationScreen;
-        }
-
-        public void DestroyMenuInMainLocationScreen()
-        {
-            if (MenuInMainLocationScreen != null)
-                Object.Destroy(MenuInMainLocationScreen);
-        }
-
-        #endregion
     }
 }

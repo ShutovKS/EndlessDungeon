@@ -40,19 +40,28 @@ namespace Infrastructure.GlobalStateMachine.States
             var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
             var floor = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.FLOOR);
             var wall = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WALL);
+            var socket =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
+
             var sword = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_SWORD);
             var ax = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_AX);
             var hammer =
                 await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMMER);
 
-            var socket =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
 
             var playerInstance = _abstractFactory.CreateInstance(player, Vector3.zero);
             playerInstance.AddComponent<Player>().SetUp(Context.StateMachine.SwitchState<MainLocationLoadingState>);
+            var socketInstance = _abstractFactory.CreateInstance(
+                socket,
+                _mainLocationSettings.SocketForWeaponSpawnPosition);
+
+            socketInstance.transform.parent = playerInstance.transform.GetChild(0).GetChild(0);
             var swordInstance = _abstractFactory.CreateInstance(sword, Vector3.zero);
             var axInstance = _abstractFactory.CreateInstance(ax, Vector3.zero);
             var hammerInstance = _abstractFactory.CreateInstance(hammer, Vector3.zero);
+            var weaponManagerInstance = _abstractFactory.CreateInstance(new GameObject("weaponManager"), Vector3.zero);
+            weaponManagerInstance.AddComponent<WeaponManagerDungeonRoom>()
+                .SetUp(socketInstance, swordInstance, axInstance, hammerInstance);
 
             var enemyDetectorInstance = _abstractFactory.CreateInstance(new GameObject(), Vector3.zero);
             enemyDetectorInstance.transform.parent = playerInstance.transform;
@@ -60,20 +69,9 @@ namespace Infrastructure.GlobalStateMachine.States
             enemyDetectorInstance.AddComponent<SphereCollider>().radius = 7.5f;
             enemyDetectorInstance.GetComponent<SphereCollider>().isTrigger = true;
 
-            var socketInstance = _abstractFactory.CreateInstance(
-                socket,
-                _mainLocationSettings.SocketForWeaponSpawnPosition);
-
-            socketInstance.transform.parent = playerInstance.transform.GetChild(0).GetChild(0);
-
-            var weaponManagerInstance = _abstractFactory.CreateInstance(new GameObject("weaponManager"), Vector3.zero);
-            weaponManagerInstance.AddComponent<WeaponManagerDungeonRoom>()
-                .SetUp(socketInstance, swordInstance, axInstance, hammerInstance);
 
             var lootManagerInstance = _abstractFactory.CreateInstance(new GameObject("lootManager"), Vector3.zero);
             lootManagerInstance.AddComponent<LootManager>();
-
-            _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance, lootManagerInstance);
 
 
             for (var y = 0; y < mapDungeon.TilesMap.GetLength(0); y++)
@@ -94,6 +92,8 @@ namespace Infrastructure.GlobalStateMachine.States
                 }
             }
 
+            _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance, lootManagerInstance);
+            
             Context.StateMachine.SwitchState<DungeonRoomSetUpNavMeshState, MapDungeon>(mapDungeon);
         }
     }

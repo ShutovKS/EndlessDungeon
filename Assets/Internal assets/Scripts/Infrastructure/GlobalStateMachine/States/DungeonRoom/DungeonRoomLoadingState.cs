@@ -20,7 +20,7 @@ namespace Infrastructure.GlobalStateMachine.States
             await _uiFactory.CreateLoadingScreen();
 
             var asyncOperationHandle =
-                await Addressables.LoadSceneAsync((AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME)).Task;
+                await Addressables.LoadSceneAsync(AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME).Task;
 
             Context.StateMachine.SwitchState<DungeonRoomGenerationState>();
         }
