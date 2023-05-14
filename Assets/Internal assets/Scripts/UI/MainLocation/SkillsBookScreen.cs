@@ -15,25 +15,25 @@ namespace UI.MainLocation
     {
         [SerializeField] private GameObject[] uiSkills;
 
-        private readonly Dictionary<SkillsLevel.SkillsType, UISkill> _uiSkillsDictionary = new()
+        private readonly Dictionary<SkillsType, UISkill> _uiSkillsDictionary = new()
         {
-            { SkillsLevel.SkillsType.STREANGHT_Count, null },
-            { SkillsLevel.SkillsType.STREANGHT_Percent, null },
-            { SkillsLevel.SkillsType.PROTECTION_Count, null },
-            { SkillsLevel.SkillsType.PROTECTION_Percent, null },
-            { SkillsLevel.SkillsType.HEALTH_Count, null },
-            { SkillsLevel.SkillsType.HEALTH_Percent, null },
+            { SkillsType.STREANGHT_Count, null },
+            { SkillsType.STREANGHT_Percent, null },
+            { SkillsType.PROTECTION_Count, null },
+            { SkillsType.PROTECTION_Percent, null },
+            { SkillsType.HEALTH_Count, null },
+            { SkillsType.HEALTH_Percent, null },
         };
 
         private SkillsBook _skillsBook;
 
-        public void SetUp(SkillsBook skillsBook, Dictionary<SkillsLevel.SkillsType, SkillStaticData> skillStaticDatas)
+        public void SetUp(SkillsBook skillsBook, Dictionary<SkillsType, SkillStaticData> skillStaticDatas)
         {
             _skillsBook = skillsBook;
 
             for (var i = 0; i < _uiSkillsDictionary.Count; i++)
             {
-                var skillsType = (SkillsLevel.SkillsType)Enum.GetValues(typeof(SkillsLevel.SkillsType)).GetValue(i);
+                var skillsType = (SkillsType)Enum.GetValues(typeof(SkillsType)).GetValue(i);
 
                 _uiSkillsDictionary[skillsType] = new UISkill
                 {
@@ -50,16 +50,14 @@ namespace UI.MainLocation
             _skillsBook.RegisterOnChangeSkill(UpdateUISkill);
         }
 
-        private void UpdateUISkill(SkillsLevel.SkillsType skillsType, int level)
+        private void UpdateUISkill(SkillsType skillsType, int level)
         {
-            Debug.Log($"Update {skillsType}");
-            
             _uiSkillsDictionary[skillsType].descriptionSkill.text =
                 $"{_uiSkillsDictionary[skillsType].skillStaticData.DescriptionSkill ?? "No description"}\n" +
                 $"{level}";
         }
         
-        private void SetUISkill(SkillsLevel.SkillsType skillsType)
+        private void SetUISkill(SkillsType skillsType)
         {
             _uiSkillsDictionary[skillsType].priceSkillButton.onClick.AddListener(() => _skillsBook.TryIncreaseSkill(skillsType));
             _uiSkillsDictionary[skillsType].imageSkill.color = Random.ColorHSV();

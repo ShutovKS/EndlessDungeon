@@ -2,6 +2,7 @@
 using Data.Dynamic.Player;
 using Data.Static;
 using Services.PersistentProgress;
+using Skill;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -49,12 +50,12 @@ namespace Units.Player
         public void LoadProgress(Progress progress)
         {
             _healthPoint =
-                (_defaultData.MaxHealthPoints + progress.skillsLevel.Skills[SkillsLevel.SkillsType.HEALTH_Count]) *
-                (1 + progress.skillsLevel.Skills[SkillsLevel.SkillsType.HEALTH_Percent] / 100f);
+                (_defaultData.MaxHealthPoints + progress.skillsLevel.Skills[SkillsType.HEALTH_Count]) *
+                (1 + progress.skillsLevel.Skills[SkillsType.HEALTH_Percent] / 100f);
 
             _protection =
-                (_defaultData.ProtectionPoints + progress.skillsLevel.Skills[SkillsLevel.SkillsType.PROTECTION_Count]) *
-                (1 + progress.skillsLevel.Skills[SkillsLevel.SkillsType.PROTECTION_Percent] / 100f);
+                (_defaultData.ProtectionPoints + progress.skillsLevel.Skills[SkillsType.PROTECTION_Count]) *
+                (1 + progress.skillsLevel.Skills[SkillsType.PROTECTION_Percent] / 100f);
             
             Debug.Log(_healthPoint + " " + _protection);
         }

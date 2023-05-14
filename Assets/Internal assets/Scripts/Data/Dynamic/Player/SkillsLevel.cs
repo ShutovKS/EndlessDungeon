@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Skill;
 
 namespace Data.Dynamic.Player
 {
@@ -21,14 +23,31 @@ namespace Data.Dynamic.Player
 
         public Dictionary<SkillsType, int> Skills;
 
-        public enum SkillsType
+        public List<SkillEntry> SkillEntries;
+
+        public void SerializeSkills()
         {
-            STREANGHT_Count = 0,
-            STREANGHT_Percent = 1,
-            PROTECTION_Count = 2,
-            PROTECTION_Percent = 3,
-            HEALTH_Count = 4,
-            HEALTH_Percent = 5,
+            SkillEntries = Skills.Select(pair => new SkillEntry(pair.Key, pair.Value)).ToList();
+        }
+        
+        public void DeserializeSkills()
+        {
+            var skills = SkillEntries.ToDictionary(entry => entry.Key, entry => entry.Value);
+            foreach (var (skillsType, level) in skills)
+                Skills[skillsType] = level;
+        }
+    }
+    
+    [Serializable]
+    public class SkillEntry
+    {
+        public SkillsType Key;
+        public int Value;
+
+        public SkillEntry(SkillsType key, int value)
+        {
+            Key = key;
+            Value = value;
         }
     }
 }

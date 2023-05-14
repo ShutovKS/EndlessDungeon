@@ -1,4 +1,5 @@
 ﻿using Data.Dynamic.Player;
+using Skill;
 using UnityEngine;
 
 namespace Data.Static
@@ -9,13 +10,13 @@ namespace Data.Static
         [SerializeField] private string nameSkill;
         [SerializeField] private string descriptionSkill;
         [SerializeField] private int valueBuff;
-        [SerializeField] private SkillsLevel.SkillsType skillsType;
+        [SerializeField] private SkillsType skillsType;
         
 
         public string NameSkill => nameSkill;
         public string DescriptionSkill => descriptionSkill;
         public int ValueBuff => valueBuff;
-        public SkillsLevel.SkillsType SkillsType => skillsType;
+        public SkillsType SkillsType => skillsType;
 
         [Space] [Header("PRICE(x) = a1*((a2*x)^3) + b1*((b2*x)^2) + c*x + d")] 
         [SerializeField] private int a1;

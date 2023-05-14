@@ -16,27 +16,27 @@ namespace Skill
         [SerializeField] private SkillsBookScreen skillsBookScreen;
         [SerializeField] private SkillStaticData[] skillStaticDatas;
 
-        private readonly Dictionary<SkillsLevel.SkillsType, int> _skillsLevel = new()
+        private readonly Dictionary<SkillsType, int> _skillsLevel = new()
         {
-            [SkillsLevel.SkillsType.STREANGHT_Count] = 0,
-            [SkillsLevel.SkillsType.STREANGHT_Percent] = 0,
-            [SkillsLevel.SkillsType.PROTECTION_Count] = 0,
-            [SkillsLevel.SkillsType.PROTECTION_Percent] = 0,
-            [SkillsLevel.SkillsType.HEALTH_Count] = 0,
-            [SkillsLevel.SkillsType.HEALTH_Percent] = 0,
+            [SkillsType.STREANGHT_Count] = 0,
+            [SkillsType.STREANGHT_Percent] = 0,
+            [SkillsType.PROTECTION_Count] = 0,
+            [SkillsType.PROTECTION_Percent] = 0,
+            [SkillsType.HEALTH_Count] = 0,
+            [SkillsType.HEALTH_Percent] = 0,
         };
 
-        private readonly Dictionary<SkillsLevel.SkillsType, SkillStaticData> _skillStaticDatas = new()
+        private readonly Dictionary<SkillsType, SkillStaticData> _skillStaticDatas = new()
         {
-            [SkillsLevel.SkillsType.STREANGHT_Count] = null,
-            [SkillsLevel.SkillsType.STREANGHT_Percent] = null,
-            [SkillsLevel.SkillsType.PROTECTION_Count] = null,
-            [SkillsLevel.SkillsType.PROTECTION_Percent] = null,
-            [SkillsLevel.SkillsType.HEALTH_Count] = null,
-            [SkillsLevel.SkillsType.HEALTH_Percent] = null,
+            [SkillsType.STREANGHT_Count] = null,
+            [SkillsType.STREANGHT_Percent] = null,
+            [SkillsType.PROTECTION_Count] = null,
+            [SkillsType.PROTECTION_Percent] = null,
+            [SkillsType.HEALTH_Count] = null,
+            [SkillsType.HEALTH_Percent] = null,
         };
 
-        private Action<SkillsLevel.SkillsType, int> _onChangeSkills;
+        private Action<SkillsType, int> _onChangeSkills;
         private LootManager _lootManager;
 
         public void SetUp(LootManager lootManager)
@@ -49,7 +49,7 @@ namespace Skill
             skillsBookScreen.SetUp(this, _skillStaticDatas);
         }
 
-        public void TryIncreaseSkill(SkillsLevel.SkillsType skillsType)
+        public void TryIncreaseSkill(SkillsType skillsType)
         {
             var level = _skillsLevel[skillsType];
             var price = _skillStaticDatas[skillsType].GetPriceForLevel(level);
@@ -58,30 +58,25 @@ namespace Skill
             _onChangeSkills?.Invoke(skillsType, _skillsLevel[skillsType]);
         }
 
-        public void RegisterOnChangeSkill(Action<SkillsLevel.SkillsType, int> onChangeSkill)
+        public void RegisterOnChangeSkill(Action<SkillsType, int> onChangeSkill)
         {
             _onChangeSkills += onChangeSkill;
         }
 
         public void LoadProgress(Progress progress)
         {
-            foreach (var skillsType in (SkillsLevel.SkillsType[])Enum.GetValues(typeof(SkillsLevel.SkillsType)))
+            progress.skillsLevel.DeserializeSkills();
+            foreach (var skillsType in (SkillsType[])Enum.GetValues(typeof(SkillsType)))
             {
                 _skillsLevel[skillsType] = progress.skillsLevel.Skills[skillsType];
                 _onChangeSkills?.Invoke(skillsType, _skillsLevel[skillsType]);
-                Debug.Log(skillsType + "\t" + _skillsLevel[skillsType]);
             }
         }
 
         public void UpdateProgress(Progress progress)
         {
             progress.skillsLevel.Skills = _skillsLevel;
-
-            foreach (var skillsType in (SkillsLevel.SkillsType[])Enum.GetValues(typeof(SkillsLevel.SkillsType)))
-            {
-                progress.skillsLevel.Skills[skillsType] = _skillsLevel[skillsType];
-                Debug.Log(skillsType + "\t" + progress.skillsLevel.Skills[skillsType]);
-            }
+            progress.skillsLevel.SerializeSkills();
         }
     }
 }

@@ -3,6 +3,7 @@ using Data.Dynamic;
 using Data.Dynamic.Player;
 using Data.Static;
 using Services.PersistentProgress;
+using Skill;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -55,8 +56,8 @@ namespace Item.Weapon
             foreach (var (_, weaponTransform) in WeaponsTransform)
             {
                 weaponTransform.GetComponent<IItemDamage>().Damage =
-                    (damage + skills[SkillsLevel.SkillsType.STREANGHT_Count]) *
-                    (1 + skills[SkillsLevel.SkillsType.STREANGHT_Percent]);
+                    (damage + skills[SkillsType.STREANGHT_Count]) *
+                    (1 + skills[SkillsType.STREANGHT_Percent]);
             }
 
             SelectedWeaponType = progress.selectedWeapon.weaponType;
