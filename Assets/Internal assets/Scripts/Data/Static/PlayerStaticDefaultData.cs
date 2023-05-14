@@ -7,5 +7,6 @@ namespace Data.Static
     {
         [field: SerializeField] public float MaxHealthPoints { get; private set; }
         [field: SerializeField] public float DamagePoints { get; private set; }
+        [field: SerializeField] public float ProtectionPoints { get; private set; }
     }
 }

@@ -523,6 +523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInRange: 0
+  _healthPoints: 0
 --- !u!195 &2111636969440830723
 NavMeshAgent:
   m_ObjectHideFlags: 0

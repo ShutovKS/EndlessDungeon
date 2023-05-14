@@ -35,13 +35,12 @@ namespace Units.Enemy
 
             _stateMachine = new StateMachine();
 
-            var combatReadiness = new CombatReadiness(animator, thisTransform, playerTransform, speedRotate);
             var searchPositionForPatrol = new SearchPositionForPatrol(thisTransform, out var targetTransform);
             var patrol = new Patrol(animator, navMeshAgent, thisTransform, targetTransform, speedMove / 2);
+            var combatReadiness = new CombatReadiness(animator, thisTransform, playerTransform, speedRotate);
             var attack = new Attack(this, animator, damage, damageColliders);
             var getHit = new GetHit(this, animator);
             var dead = new Dead(this, animator, enemyFactory);
-
             var moveToPlayer = new MoveToPlayer(
                 animator,
                 navMeshAgent,
@@ -50,18 +49,18 @@ namespace Units.Enemy
                 speedMove,
                 effectiveDistance);
 
-            At(moveToPlayer, patrol, PlayerInRangeVisible());
-            At(moveToPlayer, combatReadiness, PlayerNonInReachOfAttack());
-            At(attack, combatReadiness, CanAttack());
-            At(combatReadiness, moveToPlayer, PlayerInReachOfAttack());
             At(combatReadiness, attack, AttackOver());
             At(combatReadiness, getHit, GetHitOver());
             At(patrol, searchPositionForPatrol, HasTargetForPatrol());
+            At(dead, combatReadiness, IsDead());
+            At(attack, combatReadiness, CanAttack());
+            At(moveToPlayer, combatReadiness, PlayerNonInReachOfAttack());
             At(searchPositionForPatrol, moveToPlayer, PlayerNonInRangeVisible());
+            At(combatReadiness, moveToPlayer, PlayerInReachOfAttack());
+            At(moveToPlayer, patrol, PlayerInRangeVisible());
             At(searchPositionForPatrol, patrol, StuckForOverATwoSecondInPatrol());
             At(searchPositionForPatrol, patrol, ReachedPatrolPoint());
             AtAny(getHit, IsGetHit());
-            AtAny(dead, IsDead());
             AtAny(dead, Failed());
 
             _stateMachine.SetState(searchPositionForPatrol);

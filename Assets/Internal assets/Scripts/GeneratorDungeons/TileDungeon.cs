@@ -34,8 +34,8 @@ namespace GeneratorDungeons
                 mapDungeon.Seed,
                 mapDungeon.MinRoomSize,
                 mapDungeon.MaxRoomSize,
-                mapDungeon.MinRoomSize,
-                mapDungeon.MaxRoomSize,
+                mapDungeon.MinRoomCount,
+                mapDungeon.MaxRoomCount,
                 mapDungeon.Width,
                 mapDungeon.Height);
 
@@ -114,7 +114,6 @@ namespace GeneratorDungeons
         {
             rooms = new List<Room>();
             var roomCount = RandomRange(ref seed, minRoomCount, maxRoomCount);
-            Console.WriteLine(roomCount);
             for (var i = 0; i != roomCount; ++i)
             {
                 var room = new Room
@@ -124,9 +123,7 @@ namespace GeneratorDungeons
                     width = RandomRange(ref seed, minRoomSize, maxRoomSize),
                     height = RandomRange(ref seed, minRoomSize, maxRoomSize)
                 };
-
-                Console.WriteLine(room.x + " " + room.y);
-
+                
                 CarveFloor(
                     ref tilesMap,
                     room.y - room.height / 2,

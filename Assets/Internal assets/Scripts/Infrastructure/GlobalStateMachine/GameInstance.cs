@@ -1,4 +1,5 @@
 using Data.Settings;
+using Data.Static;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.UIFactory;
@@ -21,6 +22,7 @@ namespace Infrastructure.GlobalStateMachine
             IAbstractFactory abstractFactory,
             MainLocationSettings mainLocationSettings,
             MainMenuSettings mainMenuSettings,
+            PlayerStaticDefaultData playerStaticDefaultData,
             ISaveLoadInstancesWatcher saveLoadInstancesWatcher,
             IPersistentProgressService persistentProgressService,
             ISaveLoadService saveLoadService,
@@ -40,7 +42,8 @@ namespace Infrastructure.GlobalStateMachine
                     assetsAddressableService,
                     mainLocationSettings,
                     saveLoadService,
-                    saveLoadInstancesWatcher),
+                    saveLoadInstancesWatcher,
+                    playerStaticDefaultData),
                 new ProgressLoadingForMainState(
                     this,
                     saveLoadService,
@@ -59,7 +62,8 @@ namespace Infrastructure.GlobalStateMachine
                     abstractFactory,
                     assetsAddressableService,
                     mainLocationSettings,
-                    saveLoadInstancesWatcher),
+                    saveLoadInstancesWatcher,
+                    playerStaticDefaultData),
                 new DungeonRoomSetUpNavMeshState(this, abstractFactory),
                 new DungeonRoomSetUpEnemyState(this, enemyFactory),
                 new ProgressLoadingForDungeonRoom(

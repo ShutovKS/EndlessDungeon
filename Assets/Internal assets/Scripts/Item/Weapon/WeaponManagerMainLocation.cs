@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Data.Dynamic;
+using Data.Dynamic.Player;
+using Data.Static;
 using Services.PersistentProgress;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -10,27 +12,26 @@ namespace Item.Weapon
     {
         public WeaponType SelectedWeaponType { get; set; }
         public Transform SocketTransform { get; set; }
+        private PlayerStaticDefaultData _defaultData;
 
         public Dictionary<WeaponType, Transform> WeaponsTransform { get; } = new()
         {
-            { WeaponType.Sword, null },
-            { WeaponType.Ax, null },
-            { WeaponType.Hammer, null }
+            [WeaponType.Sword] = null,
+            [WeaponType.Ax] = null,
+            [WeaponType.Hammer] = null
         };
 
-        public void SetUp(GameObject socketTransform, params GameObject[] weapons)
+        public void SetUp(GameObject socketTransform, PlayerStaticDefaultData playerStaticDefaultData,
+            params GameObject[] weapons)
         {
             SocketTransform = socketTransform.transform;
+            _defaultData = playerStaticDefaultData;
             foreach (var weapon in weapons)
             {
                 if (!weapon.TryGetComponent<Weapon>(out var weaponComponent)) continue;
-
                 WeaponsTransform[weaponComponent.WeaponType] = weapon.transform;
                 if (weapon.TryGetComponent<XRGrabInteractable>(out var grabComponent))
-                {
-                    grabComponent.selectEntered.AddListener(
-                        (SelectEnterEventArgs arg0) => ChangeSelectedWeapon(weaponComponent.WeaponType));
-                }
+                    grabComponent.selectEntered.AddListener(_ => ChangeSelectedWeapon(weaponComponent.WeaponType));
             }
         }
 
@@ -48,6 +49,16 @@ namespace Item.Weapon
 
         public void LoadProgress(Progress progress)
         {
+            var skills = progress.skillsLevel.Skills;
+            var damage = _defaultData.DamagePoints;
+
+            foreach (var (_, weaponTransform) in WeaponsTransform)
+            {
+                weaponTransform.GetComponent<IItemDamage>().Damage =
+                    (damage + skills[SkillsLevel.SkillsType.STREANGHT_Count]) *
+                    (1 + skills[SkillsLevel.SkillsType.STREANGHT_Percent]);
+            }
+
             SelectedWeaponType = progress.selectedWeapon.weaponType;
             MoveWeaponInSocket(SelectedWeaponType);
         }

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Data.Addressable;
 using Data.Settings;
+using Data.Static;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
@@ -22,7 +23,7 @@ namespace Infrastructure.GlobalStateMachine.States
     {
         public MainLocationSetUpState(GameInstance context, IAbstractFactory abstractFactory, IUIFactory uiFactory,
             IAssetsAddressableService assetsAddressableService, MainLocationSettings mainLocationSettings,
-            ISaveLoadService saveLoadService, ISaveLoadInstancesWatcher saveLoadInstancesWatcher)
+            ISaveLoadService saveLoadService, ISaveLoadInstancesWatcher saveLoadInstancesWatcher, PlayerStaticDefaultData playerStaticDefaultData)
             : base(context)
         {
             _abstractFactory = abstractFactory;
@@ -31,6 +32,7 @@ namespace Infrastructure.GlobalStateMachine.States
             _mainLocationSettings = mainLocationSettings;
             _saveLoadService = saveLoadService;
             _saveLoadInstancesWatcher = saveLoadInstancesWatcher;
+            _playerStaticDefaultData = playerStaticDefaultData;
         }
 
         private readonly IAbstractFactory _abstractFactory;
@@ -39,6 +41,7 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly MainLocationSettings _mainLocationSettings;
         private readonly ISaveLoadService _saveLoadService;
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
+        private readonly PlayerStaticDefaultData _playerStaticDefaultData;
 
         public override async void Enter()
         {
@@ -81,7 +84,7 @@ namespace Infrastructure.GlobalStateMachine.States
                 _mainLocationSettings.WeaponSpawnPosition[(int)hammer.GetComponent<Weapon>().WeaponType]);
 
             var weaponManagerInstance = _abstractFactory.CreateInstance(new GameObject("weaponManager"), Vector3.zero);
-            weaponManagerInstance.AddComponent<WeaponManagerMainLocation>().SetUp(socketInstance, swordInstance, axInstance, hammerInstance);
+            weaponManagerInstance.AddComponent<WeaponManagerMainLocation>().SetUp(socketInstance,_playerStaticDefaultData, swordInstance, axInstance, hammerInstance);
 
             var lootManagerInstance = _abstractFactory.CreateInstance(new GameObject("lootManager"), Vector3.zero);
             lootManagerInstance.AddComponent<LootManager>();

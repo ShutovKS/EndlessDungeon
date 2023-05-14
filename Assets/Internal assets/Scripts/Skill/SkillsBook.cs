@@ -20,8 +20,8 @@ namespace Skill
         {
             [SkillsLevel.SkillsType.STREANGHT_Count] = 0,
             [SkillsLevel.SkillsType.STREANGHT_Percent] = 0,
-            [SkillsLevel.SkillsType.PROCTION_Count] = 0,
-            [SkillsLevel.SkillsType.PROCTION_Percent] = 0,
+            [SkillsLevel.SkillsType.PROTECTION_Count] = 0,
+            [SkillsLevel.SkillsType.PROTECTION_Percent] = 0,
             [SkillsLevel.SkillsType.HEALTH_Count] = 0,
             [SkillsLevel.SkillsType.HEALTH_Percent] = 0,
         };
@@ -30,8 +30,8 @@ namespace Skill
         {
             [SkillsLevel.SkillsType.STREANGHT_Count] = null,
             [SkillsLevel.SkillsType.STREANGHT_Percent] = null,
-            [SkillsLevel.SkillsType.PROCTION_Count] = null,
-            [SkillsLevel.SkillsType.PROCTION_Percent] = null,
+            [SkillsLevel.SkillsType.PROTECTION_Count] = null,
+            [SkillsLevel.SkillsType.PROTECTION_Percent] = null,
             [SkillsLevel.SkillsType.HEALTH_Count] = null,
             [SkillsLevel.SkillsType.HEALTH_Percent] = null,
         };

@@ -1,4 +1,5 @@
 using Data.Settings;
+using Data.Static;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.UIFactory;
@@ -16,6 +17,7 @@ namespace Infrastructure.Installers
     {
         [SerializeField] private MainLocationSettings _mainLocationSettings;
         [SerializeField] private MainMenuSettings _mainMenuSettings;
+        [SerializeField] private PlayerStaticDefaultData _playerStaticDefaultData;
 
         public override void InstallBindings()
         {
@@ -54,6 +56,7 @@ namespace Infrastructure.Installers
         {
             Container.Bind<MainLocationSettings>().FromInstance(_mainLocationSettings).AsSingle();
             Container.Bind<MainMenuSettings>().FromInstance(_mainMenuSettings).AsSingle();
+            Container.Bind<PlayerStaticDefaultData>().FromInstance(_playerStaticDefaultData).AsSingle();
         }
 
         private void BindPersistentProgressService()
