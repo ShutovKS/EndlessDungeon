@@ -6,6 +6,6 @@
         {
         }
 
-        public virtual void Enter(T0 mapDungeon) {}
+        public virtual void Enter(T0 mainMenuScreen) {}
     }
 }

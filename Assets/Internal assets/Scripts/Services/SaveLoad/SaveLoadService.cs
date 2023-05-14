@@ -37,5 +37,11 @@ namespace Services.SaveLoad
             var prefs = JsonUtility.FromJson<Progress>(PlayerPrefs.GetString(SAVE_LOAD_KEY));
             return prefs;
         }
+
+        public void ClearProgress()
+        {
+            if (PlayerPrefs.HasKey(SAVE_LOAD_KEY))
+                PlayerPrefs.DeleteKey(SAVE_LOAD_KEY);
+        }
     }
 }

@@ -1,39 +1,31 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UI.MainMenu
 {
     public class MainMenuScreen : MonoBehaviour
     {
-        public event Action OnNewGameButtonClicked;
-        public event Action OnLoadGameButtonClicked;
-        public event Action OnExitButtonClicked;
-
         [SerializeField] private Button _newGameButtonClicked;
         [SerializeField] private Button _loadGameButtonClicked;
         [SerializeField] private Button _exitButtonClicked;
 
-        private void Start()
+        [SerializeField] private GameObject _mainPanel;
+        [SerializeField] private GameObject _newGamePanel;
+        [SerializeField] private GameObject _exitPanel;
+        
+        public void SetUp(UnityAction newGame, UnityAction loadGame)
         {
-            _newGameButtonClicked.onClick.AddListener(NewGameButtonClicked);
-            _loadGameButtonClicked.onClick.AddListener(LoadGameButtonClicked);
-            _exitButtonClicked.onClick.AddListener(ExitButtonClicked);
+            _newGameButtonClicked.onClick.AddListener(newGame);
+            _loadGameButtonClicked.onClick.AddListener(loadGame);
+            _exitButtonClicked.onClick.AddListener(Application.Quit);   
         }
 
-        private void NewGameButtonClicked()
+        public void ClearAction()
         {
-            OnNewGameButtonClicked?.Invoke();
-        }
-
-        private void LoadGameButtonClicked()
-        {
-            OnLoadGameButtonClicked?.Invoke();
-        }
-
-        private void ExitButtonClicked()
-        {
-            OnExitButtonClicked?.Invoke();
+            _newGameButtonClicked.onClick.RemoveAllListeners();
+            _loadGameButtonClicked.onClick.RemoveAllListeners();
+            _exitButtonClicked.onClick.RemoveAllListeners();
         }
     }
 }

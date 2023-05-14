@@ -29,15 +29,16 @@ namespace Data.Dynamic.Player
         {
             SkillEntries = Skills.Select(pair => new SkillEntry(pair.Key, pair.Value)).ToList();
         }
-        
+
         public void DeserializeSkills()
         {
+            if (SkillEntries == null) return;
             var skills = SkillEntries.ToDictionary(entry => entry.Key, entry => entry.Value);
             foreach (var (skillsType, level) in skills)
                 Skills[skillsType] = level;
         }
     }
-    
+
     [Serializable]
     public class SkillEntry
     {

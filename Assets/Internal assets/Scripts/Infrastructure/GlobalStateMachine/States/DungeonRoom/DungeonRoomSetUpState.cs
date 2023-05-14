@@ -35,7 +35,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private const float UNIT = 4.85f / 2;
 
-        public override async void Enter(MapDungeon mapDungeon)
+        public override async void Enter(MapDungeon mainMenuScreen)
         {
             var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
             var socket = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
@@ -65,10 +65,10 @@ namespace Infrastructure.GlobalStateMachine.States
             var lootManagerInstance = _abstractFactory.CreateInstance(new GameObject("lootManager"), Vector3.zero);
             lootManagerInstance.AddComponent<LootManager>();
 
-            for (var y = 0; y < mapDungeon.TilesMap.GetLength(0); y++)
-            for (var x = 0; x < mapDungeon.TilesMap.GetLength(1); x++)
+            for (var y = 0; y < mainMenuScreen.TilesMap.GetLength(0); y++)
+            for (var x = 0; x < mainMenuScreen.TilesMap.GetLength(1); x++)
             {
-                switch (mapDungeon.TilesMap[y, x])
+                switch (mainMenuScreen.TilesMap[y, x])
                 {
                     case Tiles.FLOOR:
                         _abstractFactory.CreateInstance(floor, new Vector3(x, 0, y) * UNIT);
@@ -85,7 +85,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
             _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance, lootManagerInstance, playerInstance);
             
-            Context.StateMachine.SwitchState<DungeonRoomSetUpNavMeshState, MapDungeon>(mapDungeon);
+            Context.StateMachine.SwitchState<DungeonRoomSetUpNavMeshState, MapDungeon>(mainMenuScreen);
         }
     }
 }

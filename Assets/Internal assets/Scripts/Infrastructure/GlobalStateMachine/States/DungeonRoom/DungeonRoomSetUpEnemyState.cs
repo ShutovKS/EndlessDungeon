@@ -19,9 +19,9 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private const float UNIT = 4.85f / 2;
 
-        public override async void Enter(MapDungeon mapDungeon)
+        public override async void Enter(MapDungeon mainMenuScreen)
         {
-            await SetUpEnemy(mapDungeon);
+            await SetUpEnemy(mainMenuScreen);
 
             Context.StateMachine.SwitchState<ProgressLoadingForDungeonRoom>();
         }

@@ -16,14 +16,14 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private readonly IAbstractFactory _abstractFactory;
 
-        public override void Enter(MapDungeon mapDungeon)
+        public override void Enter(MapDungeon mainMenuScreen)
         {
             var navMeshSurface = _abstractFactory.CreateInstance(new GameObject(), Vector3.zero)
                 .AddComponent<NavMeshSurface>();
 
             navMeshSurface.BuildNavMesh();
             
-            Context.StateMachine.SwitchState<DungeonRoomSetUpEnemyState, MapDungeon>(mapDungeon);
+            Context.StateMachine.SwitchState<DungeonRoomSetUpEnemyState, MapDungeon>(mainMenuScreen);
         }
     }
 }

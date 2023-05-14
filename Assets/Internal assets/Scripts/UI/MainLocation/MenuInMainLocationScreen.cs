@@ -1,5 +1,5 @@
-﻿using Services.SaveLoad;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UI.MainLocation
@@ -9,10 +9,10 @@ namespace UI.MainLocation
         [SerializeField] private Button saveButton;
         [SerializeField] private Button exitButton;
 
-        public void SetUp(ISaveLoadService saveLoadService)
+        public void SetUp(UnityAction saveProgress, UnityAction exitInMainMenu)
         {
-            saveButton.onClick.AddListener(saveLoadService.SaveProgress);
-            exitButton.onClick.AddListener(Application.Quit);
+            saveButton.onClick.AddListener(saveProgress);
+            exitButton.onClick.AddListener(exitInMainMenu);
         }
     }
 }

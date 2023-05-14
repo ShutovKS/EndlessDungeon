@@ -56,8 +56,6 @@ namespace Units.Player
             _protection =
                 (_defaultData.ProtectionPoints + progress.skillsLevel.Skills[SkillsType.PROTECTION_Count]) *
                 (1 + progress.skillsLevel.Skills[SkillsType.PROTECTION_Percent] / 100f);
-            
-            Debug.Log(_healthPoint + " " + _protection);
         }
     }
 }

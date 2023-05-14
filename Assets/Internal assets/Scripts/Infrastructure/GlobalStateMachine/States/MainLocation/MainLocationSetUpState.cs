@@ -6,6 +6,7 @@ using Data.Static;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
+using Infrastructure.GlobalStateMachine.States.MainMenu;
 using Item.Weapon;
 using Loot;
 using Services.AssetsAddressableService;
@@ -94,7 +95,7 @@ namespace Infrastructure.GlobalStateMachine.States
             menuInMainLocationScreenInstance.transform.localPosition = Vector3.zero;
             playerInstance.GetComponentInChildren<GazeInteractorTrigger>().AddHoverEntered(_ => menuInMainLocationScreenInstance.SetActive(true));
             playerInstance.GetComponentInChildren<GazeInteractorTrigger>().AddHoverExited(_ => menuInMainLocationScreenInstance.SetActive(false));
-            menuInMainLocationScreenInstance.GetComponent<MenuInMainLocationScreen>().SetUp(_saveLoadService);
+            menuInMainLocationScreenInstance.GetComponent<MenuInMainLocationScreen>().SetUp(_saveLoadService.SaveProgress, Context.StateMachine.SwitchState<MainMenuLoadingState>);
             menuInMainLocationScreenInstance.SetActive(false);
 
             var skillsBookScreenInstance = _abstractFactory.CreateInstance(skillsBookScreen, _mainLocationSettings.SkillsBookScreenPosition);

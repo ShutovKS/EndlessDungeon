@@ -19,34 +19,32 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
         private readonly IAbstractFactory _abstractFactory;
         private MainMenuScreen _mainMenuScreen;
 
-        public override void Enter(GameObject mapDungeon)
+        public override void Enter(GameObject mainMenuScreen)
         {
             _uiFactory.DestroyLoadingScreen();
 
-            if (mapDungeon.TryGetComponent<MainMenuScreen>(out var mainMenuScreen))
+            if (mainMenuScreen.TryGetComponent<MainMenuScreen>(out var mainMenuScreenComponent))
             {
-                _mainMenuScreen = mainMenuScreen;
-
-                _mainMenuScreen.OnNewGameButtonClicked += ChangeStateToGameplay;
-                _mainMenuScreen.OnLoadGameButtonClicked += ChangeStateToGameplay;
-                _mainMenuScreen.OnExitButtonClicked += Application.Quit;
+                _mainMenuScreen = mainMenuScreenComponent;
+                _mainMenuScreen.SetUp(GoToNewGame, GoToLoadGame);
             }
         }
 
         public override void Exit()
         {
             if (_mainMenuScreen != null)
-            {
-                _mainMenuScreen.OnNewGameButtonClicked -= ChangeStateToGameplay;
-                _mainMenuScreen.OnLoadGameButtonClicked -= ChangeStateToGameplay;
-                _mainMenuScreen.OnExitButtonClicked -= Application.Quit;
-            }
+                _mainMenuScreen.ClearAction();
 
             _uiFactory.DestroyMainMenuScreen();
             _abstractFactory.DestroyAllInstances();
         }
 
-        private void ChangeStateToGameplay()
+        private void GoToNewGame()
+        {
+            Context.StateMachine.SwitchState<RemoveGameplayData>();
+        }
+        
+        private void GoToLoadGame()
         {
             Context.StateMachine.SwitchState<MainLocationLoadingState>();
         }
