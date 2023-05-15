@@ -12,14 +12,14 @@ namespace Item.Weapon
         public bool IsDamage { get; set; }
         
         [field: SerializeField]
-        public float Damage { get; set; } = 10;
+        public float Damage { get; set; }
 
         private void Start()
         {
             var grabInteractable = GetComponent<XRGrabInteractable>();
 
-            grabInteractable.selectEntered.AddListener((SelectEnterEventArgs arg0) => ItemIsDamage(true));
-            grabInteractable.selectExited.AddListener((SelectExitEventArgs arg0) => ItemIsDamage(false));
+            grabInteractable.selectEntered.AddListener(_ => ItemIsDamage(true));
+            grabInteractable.selectExited.AddListener(_ => ItemIsDamage(false));
             
         }
         public void ItemIsDamage(bool value) => IsDamage = value;

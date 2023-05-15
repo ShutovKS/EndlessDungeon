@@ -135,7 +135,6 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   bundleVersion: Debug
   preloadedAssets:
-  - {fileID: 5761692754941247380, guid: eee0a6cf1ec9b1b4891d89cb3533e414, type: 2}
   - {fileID: -7235040931872651586, guid: 227d0914f47630b43be182c11c4cce17, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -915,5 +914,6 @@ PlayerSettings:
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
+  platformRequiresReadableAssets: 0
   virtualTexturingSupportEnabled: 0
   insecureHttpOption: 0
