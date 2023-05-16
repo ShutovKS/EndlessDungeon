@@ -12,13 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 138774a43f6343f19af46207d6798ee8, type: 3}
   m_Name: SkillStatic_ HEALTH_Percent
   m_EditorClassIdentifier: 
-  nameSkill: HEALTH_Percent
-  descriptionSkill: 
-  valueBuff: 0
-  skillsType: 5
+  <SkillType>k__BackingField: 5
+  <NameSkill>k__BackingField: "\u0411\u043B\u0430\u0433\u043E\u0441\u043B\u043E\u0432\u0435\u043D\u0438\u0435
+    \u0436\u0438\u0437\u043D\u0438"
+  <BaseValueSkill>k__BackingField: 1
+  <TypeSkill>k__BackingField: Percent
+  <DescriptionSkill>k__BackingField: " \u0414\u0430\u0440\u0443\u0435\u0442 \u043E\u0431\u043B\u0430\u0434\u0430\u0442\u0435\u043B\u044E
+    \u0431\u043B\u0430\u0433\u043E\u0441\u043B\u043E\u0432\u043B\u0435\u043D\u0438\u044F
+    \u0443\u0441\u0438\u043B\u0435\u043D\u0438\u0435 \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F,
+    \u043F\u043E\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u044F \u0435\u0433\u043E
+    \u0436\u0438\u0437\u043D\u0435\u043D\u043D\u044B\u0435 \u0441\u0438\u043B\u044B
+    \u043D\u0430 \u0435\u0449\u0451 \u0431\u043E\u043B\u044C\u0448\u0435\u043C \u0443\u0440\u043E\u0432\u043D\u0435"
   a1: 0
   a2: 0
-  b1: 0
-  b2: 2
+  b1: 2
+  b2: 1
   c: 0
   d: 5

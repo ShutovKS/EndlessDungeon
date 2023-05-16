@@ -12,13 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 138774a43f6343f19af46207d6798ee8, type: 3}
   m_Name: SkillStatic_ HEALTH_Count
   m_EditorClassIdentifier: 
-  nameSkill: HEALTH_Count
-  descriptionSkill: 
-  valueBuff: 0
-  skillsType: 4
+  <SkillType>k__BackingField: 4
+  <NameSkill>k__BackingField: "\u0421\u0435\u0440\u0434\u0446\u0435 \u043C\u0430\u043D\u043D\u044B"
+  <BaseValueSkill>k__BackingField: 2
+  <TypeSkill>k__BackingField: Count
+  <DescriptionSkill>k__BackingField: "\u0423\u043B\u0443\u0447\u0448\u0430\u0435\u0442\u0441\u044F
+    \u043C\u0430\u043D\u0438\u043F\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435
+    \u043C\u0430\u043D\u043D\u043E\u0439, \u0443\u043B\u0443\u0447\u0448\u0430\u044F
+    \u0441\u0438\u043B\u0443 \u0436\u0438\u0437\u043D\u0438"
   a1: 0
   a2: 0
-  b1: 0
+  b1: 1
   b2: 2
-  c: 0
+  c: 2
   d: 5

@@ -12,13 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 138774a43f6343f19af46207d6798ee8, type: 3}
   m_Name: SkillStatic_ PROCTION_Percent
   m_EditorClassIdentifier: 
-  nameSkill: PROCTION_Percent
-  descriptionSkill: 
-  valueBuff: 0
-  skillsType: 3
+  <SkillType>k__BackingField: 3
+  <NameSkill>k__BackingField: "\u041A\u0440\u0435\u043F\u043A\u0430\u044F \u043A\u043E\u0436\u0430"
+  <BaseValueSkill>k__BackingField: 1
+  <TypeSkill>k__BackingField: Percent
+  <DescriptionSkill>k__BackingField: "\u0423\u043B\u0443\u0447\u0448\u0430\u0435\u0442
+    \u0437\u0430\u0449\u0438\u0442\u043D\u044B\u0435 \u0441\u0432\u043E\u0439\u0441\u0442\u0432\u0430
+    \u043A\u043E\u0436\u0438, \u0434\u0435\u043B\u0430\u044F \u043E\u0431\u043B\u0430\u0434\u0430\u0442\u0435\u043B\u044F
+    \u043C\u0435\u043D\u0435\u0435 \u0443\u044F\u0437\u0432\u0438\u043C\u044B\u043C
+    \u043A \u0430\u0442\u0430\u043A\u0430\u043C"
   a1: 0
   a2: 0
-  b1: 0
-  b2: 2
+  b1: 2
+  b2: 1
   c: 0
   d: 5

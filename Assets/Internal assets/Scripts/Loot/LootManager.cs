@@ -7,7 +7,7 @@ namespace Loot
 {
     public class LootManager : MonoBehaviour, IProgressLoadable, IProgressSavable
     {
-        private int _soulsOfTheDungeon;
+        public int SoulsOfTheDungeon { get; private set; }
         private Action<int> _isAmountChanged;
 
         public void RegisterOnTheAmountChange(Action<int> isAmountChanged)
@@ -17,21 +17,21 @@ namespace Loot
 
         public bool TryAmountChangeOnThe(int value)
         {
-            if (_soulsOfTheDungeon + value < 0) return false;
-            _soulsOfTheDungeon += value;
-            _isAmountChanged?.Invoke(_soulsOfTheDungeon);
+            if (SoulsOfTheDungeon + value < 0) return false;
+            SoulsOfTheDungeon += value;
+            _isAmountChanged?.Invoke(SoulsOfTheDungeon);
             return true;
         }
 
         public void LoadProgress(Progress progress)
         {
-            _soulsOfTheDungeon = progress.lootData.soulsOfTheDungeon;
-            _isAmountChanged?.Invoke(_soulsOfTheDungeon);
+            SoulsOfTheDungeon = progress.lootData.soulsOfTheDungeon;
+            _isAmountChanged?.Invoke(SoulsOfTheDungeon);
         }
 
         public void UpdateProgress(Progress progress)
         {
-            progress.lootData.soulsOfTheDungeon = _soulsOfTheDungeon;
+            progress.lootData.soulsOfTheDungeon = SoulsOfTheDungeon;
         }
     }
 }

@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 138774a43f6343f19af46207d6798ee8, type: 3}
   m_Name: SkillStatic_ STREANGHT_Count
   m_EditorClassIdentifier: 
-  nameSkill: STREANGHT_Count
-  descriptionSkill: 
-  valueBuff: 0
+  <SkillType>k__BackingField: 0
+  <NameSkill>k__BackingField: "\u0422\u0432\u0435\u0440\u0434\u0430\u044F \u0440\u0443\u043A\u0430"
+  <BaseValueSkill>k__BackingField: 2
+  <TypeSkill>k__BackingField: Count
+  <DescriptionSkill>k__BackingField: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+    \u043C\u043E\u0449\u043D\u043E\u0441\u0442\u044C \u0443\u0434\u0430\u0440\u043E\u0432"
   a1: 0
   a2: 0
-  b1: 0
+  b1: 1
   b2: 2
-  c: 0
+  c: 2
   d: 5

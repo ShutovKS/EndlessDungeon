@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Data.Dynamic.Player;
@@ -6,6 +6,7 @@ using Data.Static;
 using Skill;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -13,70 +14,55 @@ namespace UI.MainLocation
 {
     public class SkillsBookScreen : MonoBehaviour
     {
-        [SerializeField] private GameObject[] uiSkills;
+        [SerializeField] private SkillScreen[] skillScreens;
 
-        private readonly Dictionary<SkillsType, UISkill> _uiSkillsDictionary = new()
-        {
-            { SkillsType.STREANGHT_Count, null },
-            { SkillsType.STREANGHT_Percent, null },
-            { SkillsType.PROTECTION_Count, null },
-            { SkillsType.PROTECTION_Percent, null },
-            { SkillsType.HEALTH_Count, null },
-            { SkillsType.HEALTH_Percent, null },
-        };
+        private Dictionary<SkillType, SkillScreen> _skillScreenDictionary;
+        private Dictionary<SkillType, SkillStaticData> _skillStaticDataDictionary;
 
         private SkillsBook _skillsBook;
 
-        public void SetUp(SkillsBook skillsBook, Dictionary<SkillsType, SkillStaticData> skillStaticDatas)
+        public void SetUp(SkillsBook skillsBook, Dictionary<SkillType, SkillStaticData> skillStaticDatas)
         {
             _skillsBook = skillsBook;
+            _skillStaticDataDictionary = skillStaticDatas;
+            _skillScreenDictionary = new Dictionary<SkillType, SkillScreen>();
 
-            for (var i = 0; i < _uiSkillsDictionary.Count; i++)
+            for (var i = 0; i < skillScreens.Length; i++)
             {
-                var skillsType = (SkillsType)Enum.GetValues(typeof(SkillsType)).GetValue(i);
-
-                _uiSkillsDictionary[skillsType] = new UISkill
-                {
-                    imagePanelSkill = uiSkills[i].GetComponent<Image>(),
-                    imageSkill = uiSkills[i].transform.GetChild(0).GetComponent<Image>(),
-                    nameSkill = uiSkills[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>(),
-                    descriptionSkill = uiSkills[i].transform.GetChild(2).GetComponent<TextMeshProUGUI>(),
-                    priceSkillButton = uiSkills[i].GetComponentInChildren<Button>(),
-                    skillStaticData = skillStaticDatas[skillsType]
-                };
+                var skillsType = (SkillType)Enum.GetValues(typeof(SkillType)).GetValue(i);
+                _skillScreenDictionary.Add(skillsType, skillScreens[i]);
                 SetUISkill(skillsType);
             }
-            
+
             _skillsBook.RegisterOnChangeSkill(UpdateUISkill);
         }
 
-        private void UpdateUISkill(SkillsType skillsType, int level)
+        private void UpdateUISkill(Dictionary<SkillType, int> levelDictionary, int amountMoney)
         {
-            _uiSkillsDictionary[skillsType].descriptionSkill.text =
-                $"{_uiSkillsDictionary[skillsType].skillStaticData.DescriptionSkill ?? "No description"}\n" +
-                $"{level}";
-        }
-        
-        private void SetUISkill(SkillsType skillsType)
-        {
-            _uiSkillsDictionary[skillsType].priceSkillButton.onClick.AddListener(() => _skillsBook.TryIncreaseSkill(skillsType));
-            _uiSkillsDictionary[skillsType].imageSkill.color = Random.ColorHSV();
-            _uiSkillsDictionary[skillsType].nameSkill.text = _uiSkillsDictionary[skillsType].skillStaticData.NameSkill;
-            _uiSkillsDictionary[skillsType].descriptionSkill.text =
-                $"{_uiSkillsDictionary[skillsType].skillStaticData.DescriptionSkill ?? "No description"}\n" +
-                $"{_uiSkillsDictionary[skillsType].skillStaticData.ValueBuff}";
+            Debug.Log("UpdateUISkill");
+            foreach (var (skillType, skillScreen) in _skillScreenDictionary)
+            {
+                var level = levelDictionary[skillType];
+                skillScreen.LevelSkill.text = level.ToString();
+                skillScreen.PriceSkill.text = _skillStaticDataDictionary[skillType].GetPriceForLevel(level).ToString();
+                skillScreen.PriceSkill.text = (_skillStaticDataDictionary[skillType].BaseValueSkill * level).ToString();
+                skillScreen.BackgroundSkill.color = _skillStaticDataDictionary[skillType].GetPriceForLevel(level) > amountMoney ? new Color(1f, 1f, 1f, 0.2f) : new Color(0f, 0f, 0f, 0.2f);
+            }
         }
 
-        [Serializable]
-        private class UISkill
+        private void SetUISkill(SkillType skillType)
         {
-            public Image imagePanelSkill;
-            public Button priceSkillButton;
-            public Image imageSkill;
-            public TextMeshProUGUI nameSkill;
-            public TextMeshProUGUI descriptionSkill;
+            Debug.Log($"SetUISkill {skillType.ToString()}");
+            _skillScreenDictionary[skillType].NameSkill.text = _skillStaticDataDictionary[skillType].NameSkill;
+            _skillScreenDictionary[skillType].DescriptionSkill.text =
+                _skillStaticDataDictionary[skillType].DescriptionSkill;
 
-            public SkillStaticData skillStaticData;
+            _skillScreenDictionary[skillType].TypeSkill.text = _skillStaticDataDictionary[skillType].TypeSkill;
+            _skillScreenDictionary[skillType].PriceSkillButton.onClick
+                .AddListener(() => _skillsBook.TryIncreaseSkill(skillType));
+
+            _skillScreenDictionary[skillType].PriceSkillButton.onClick
+                .AddListener(() => Debug.Log($"Нажата кнопка {skillType.ToString()}"));
         }
     }
 }

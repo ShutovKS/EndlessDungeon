@@ -1,5 +1,4 @@
-﻿using Data.Dynamic;
-using Data.Dynamic.Player;
+using Data.Dynamic;
 using Data.Static;
 using Services.PersistentProgress;
 using Skill;
@@ -21,13 +20,14 @@ namespace Units.Player
             _playerDead = playerDead;
             _defaultData = playerStaticDefaultData;
 
-            var triggerGetHit = new GameObject("TriggerGetHit")
+            var triggerGetHit = new GameObject
             {
+                name = "TriggerGetHit",
                 transform =
                 {
                     parent = transform,
                     localPosition = Vector3.zero
-                }
+                },
             };
 
             triggerGetHit.AddComponent<GetHit>().SetUp(TakeDamage);
@@ -50,12 +50,12 @@ namespace Units.Player
         public void LoadProgress(Progress progress)
         {
             _healthPoint =
-                (_defaultData.MaxHealthPoints + progress.skillsLevel.Skills[SkillsType.HEALTH_Count]) *
-                (1 + progress.skillsLevel.Skills[SkillsType.HEALTH_Percent] / 100f);
+                (_defaultData.MaxHealthPoints + progress.skillsLevel.Skills[SkillType.HEALTH_Count]) *
+                (1 + progress.skillsLevel.Skills[SkillType.HEALTH_Percent] / 100f);
 
             _protection =
-                (_defaultData.ProtectionPoints + progress.skillsLevel.Skills[SkillsType.PROTECTION_Count]) *
-                (1 + progress.skillsLevel.Skills[SkillsType.PROTECTION_Percent] / 100f);
+                (_defaultData.ProtectionPoints + progress.skillsLevel.Skills[SkillType.PROTECTION_Count]) *
+                (1 + progress.skillsLevel.Skills[SkillType.PROTECTION_Percent] / 100f);
         }
     }
 }

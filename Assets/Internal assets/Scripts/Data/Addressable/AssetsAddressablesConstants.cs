@@ -29,6 +29,5 @@
 
         public const string FLOOR = "Floor";
         public const string WALL = "Wall";
-        public const string PORTAL = "Portal";
     }
 }

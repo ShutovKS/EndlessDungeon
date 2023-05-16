@@ -7,16 +7,11 @@ namespace Data.Static
     [CreateAssetMenu(fileName = "SkillStatic", menuName = "StaticData/Skill", order = 0)]
     public class SkillStaticData : ScriptableObject
     {
-        [SerializeField] private string nameSkill;
-        [SerializeField] private string descriptionSkill;
-        [SerializeField] private int valueBuff;
-        [SerializeField] private SkillsType skillsType;
-        
-
-        public string NameSkill => nameSkill;
-        public string DescriptionSkill => descriptionSkill;
-        public int ValueBuff => valueBuff;
-        public SkillsType SkillsType => skillsType;
+        [field: SerializeField] public SkillType SkillType {get; private set;}
+        [field: SerializeField] public string NameSkill {get; private set;}
+        [field: SerializeField] public int BaseValueSkill {get; private set;}
+        [field: SerializeField] public string TypeSkill {get; private set;}
+        [field: SerializeField] public string DescriptionSkill {get; private set;}
 
         [Space] [Header("PRICE(x) = a1*((a2*x)^3) + b1*((b2*x)^2) + c*x + d")] 
         [SerializeField] private int a1;

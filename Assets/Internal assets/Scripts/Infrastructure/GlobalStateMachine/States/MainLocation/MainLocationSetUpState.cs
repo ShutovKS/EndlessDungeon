@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Abstract;
 using Data.Addressable;
 using Data.Settings;
 using Data.Static;
@@ -47,7 +48,6 @@ namespace Infrastructure.GlobalStateMachine.States
         public override async void Enter()
         {
             var mainLocationMap = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_LOCATION_MAP);
-            var portal = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PORTAL);
             var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
             var socket = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
             var menuInMainLocationScreen = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MENU_IN_MAIN_LOCATION_SCREEN);
@@ -63,14 +63,12 @@ namespace Infrastructure.GlobalStateMachine.States
             var socketInstance = _abstractFactory.CreateInstance(socket, _mainLocationSettings.SocketForWeaponSpawnPosition);
             socketInstance.transform.parent = playerInstance.transform.GetChild(0).GetChild(0);
             
-            var portalInstance = _abstractFactory.CreateInstance(portal, _mainLocationSettings.PortalSpawnPosition);
-            portalInstance.transform.rotation = new Quaternion(
-                _mainLocationSettings.PortalSpawnRotation.x,
-                _mainLocationSettings.PortalSpawnRotation.y,
-                _mainLocationSettings.PortalSpawnRotation.z,
-                0);
-            if (portalInstance.transform.GetChild(0).TryGetComponent<XRGrabInteractable>(out var xrGrabInteractable))
-                xrGrabInteractable.selectEntered.AddListener(_ => Context.StateMachine.SwitchState<DungeonRoomLoadingState>());
+            var portalInstance = _abstractFactory.CreateInstance(new GameObject("Portal"), _mainLocationSettings.PortalSpawnPosition);
+            var portalCollider = portalInstance.AddComponent<BoxCollider>();
+            portalCollider.size = new Vector3(2.5f, 2.5f, 1f);
+            portalCollider.isTrigger = true;
+            portalInstance.AddComponent<Rigidbody>().isKinematic = true;
+            portalInstance.AddComponent<PortalTrigger>().SetUp(Context.StateMachine.SwitchState<DungeonRoomLoadingState>);
             
             var swordInstance = _abstractFactory.CreateInstance(
                 sword,

@@ -1,6 +1,6 @@
 ﻿namespace Skill
 {
-    public enum SkillsType
+    public enum SkillType
     {
         STREANGHT_Count = 0,
         STREANGHT_Percent = 1,

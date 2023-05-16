@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Skill;
@@ -10,18 +10,18 @@ namespace Data.Dynamic.Player
     {
         public SkillsLevel()
         {
-            Skills = new Dictionary<SkillsType, int>
+            Skills = new Dictionary<SkillType, int>
             {
-                { SkillsType.STREANGHT_Count, 0 },
-                { SkillsType.STREANGHT_Percent, 0 },
-                { SkillsType.PROTECTION_Count, 0 },
-                { SkillsType.PROTECTION_Percent, 0 },
-                { SkillsType.HEALTH_Count, 0 },
-                { SkillsType.HEALTH_Percent, 0 },
+                { SkillType.STREANGHT_Count, 0 },
+                { SkillType.STREANGHT_Percent, 0 },
+                { SkillType.PROTECTION_Count, 0 },
+                { SkillType.PROTECTION_Percent, 0 },
+                { SkillType.HEALTH_Count, 0 },
+                { SkillType.HEALTH_Percent, 0 },
             };
         }
 
-        public Dictionary<SkillsType, int> Skills;
+        public Dictionary<SkillType, int> Skills;
 
         public List<SkillEntry> SkillEntries;
 
@@ -42,10 +42,10 @@ namespace Data.Dynamic.Player
     [Serializable]
     public class SkillEntry
     {
-        public SkillsType Key;
+        public SkillType Key;
         public int Value;
 
-        public SkillEntry(SkillsType key, int value)
+        public SkillEntry(SkillType key, int value)
         {
             Key = key;
             Value = value;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Data.Dynamic;
 using Data.Dynamic.Player;
@@ -16,27 +16,27 @@ namespace Skill
         [SerializeField] private SkillsBookScreen skillsBookScreen;
         [SerializeField] private SkillStaticData[] skillStaticDatas;
 
-        private readonly Dictionary<SkillsType, int> _skillsLevel = new()
+        private readonly Dictionary<SkillType, int> _skillsLevelDictionary = new()
         {
-            [SkillsType.STREANGHT_Count] = 0,
-            [SkillsType.STREANGHT_Percent] = 0,
-            [SkillsType.PROTECTION_Count] = 0,
-            [SkillsType.PROTECTION_Percent] = 0,
-            [SkillsType.HEALTH_Count] = 0,
-            [SkillsType.HEALTH_Percent] = 0,
+            [SkillType.STREANGHT_Count] = 0,
+            [SkillType.STREANGHT_Percent] = 0,
+            [SkillType.PROTECTION_Count] = 0,
+            [SkillType.PROTECTION_Percent] = 0,
+            [SkillType.HEALTH_Count] = 0,
+            [SkillType.HEALTH_Percent] = 0,
         };
 
-        private readonly Dictionary<SkillsType, SkillStaticData> _skillStaticDatas = new()
+        private readonly Dictionary<SkillType, SkillStaticData> _skillStaticDataDictionary = new()
         {
-            [SkillsType.STREANGHT_Count] = null,
-            [SkillsType.STREANGHT_Percent] = null,
-            [SkillsType.PROTECTION_Count] = null,
-            [SkillsType.PROTECTION_Percent] = null,
-            [SkillsType.HEALTH_Count] = null,
-            [SkillsType.HEALTH_Percent] = null,
+            [SkillType.STREANGHT_Count] = null,
+            [SkillType.STREANGHT_Percent] = null,
+            [SkillType.PROTECTION_Count] = null,
+            [SkillType.PROTECTION_Percent] = null,
+            [SkillType.HEALTH_Count] = null,
+            [SkillType.HEALTH_Percent] = null,
         };
 
-        private Action<SkillsType, int> _onChangeSkills;
+        private Action<Dictionary<SkillType, int>, int> _onChangeSkills;
         private LootManager _lootManager;
 
         public void SetUp(LootManager lootManager)
@@ -44,21 +44,21 @@ namespace Skill
             _lootManager = lootManager;
 
             foreach (var data in skillStaticDatas)
-                _skillStaticDatas[data.SkillsType] = data;
+                _skillStaticDataDictionary[data.SkillType] = data;
 
-            skillsBookScreen.SetUp(this, _skillStaticDatas);
+            skillsBookScreen.SetUp(this, _skillStaticDataDictionary);
         }
 
-        public void TryIncreaseSkill(SkillsType skillsType)
+        public void TryIncreaseSkill(SkillType skillType)
         {
-            var level = _skillsLevel[skillsType];
-            var price = _skillStaticDatas[skillsType].GetPriceForLevel(level);
+            var level = _skillsLevelDictionary[skillType];
+            var price = _skillStaticDataDictionary[skillType].GetPriceForLevel(level);
             if (!_lootManager.TryAmountChangeOnThe(-price)) return;
-            _skillsLevel[skillsType]++;
-            _onChangeSkills?.Invoke(skillsType, _skillsLevel[skillsType]);
+            _skillsLevelDictionary[skillType]++;
+            _onChangeSkills?.Invoke(_skillsLevelDictionary, _lootManager.SoulsOfTheDungeon);
         }
 
-        public void RegisterOnChangeSkill(Action<SkillsType, int> onChangeSkill)
+        public void RegisterOnChangeSkill(Action<Dictionary<SkillType, int>, int> onChangeSkill)
         {
             _onChangeSkills += onChangeSkill;
         }
@@ -66,16 +66,16 @@ namespace Skill
         public void LoadProgress(Progress progress)
         {
             progress.skillsLevel.DeserializeSkills();
-            foreach (var skillsType in (SkillsType[])Enum.GetValues(typeof(SkillsType)))
-            {
-                _skillsLevel[skillsType] = progress.skillsLevel.Skills[skillsType];
-                _onChangeSkills?.Invoke(skillsType, _skillsLevel[skillsType]);
-            }
+
+            foreach (var (key, level) in progress.skillsLevel.Skills)
+                _skillsLevelDictionary[key] = level;
+
+            _onChangeSkills?.Invoke(_skillsLevelDictionary, _lootManager.SoulsOfTheDungeon);
         }
 
         public void UpdateProgress(Progress progress)
         {
-            progress.skillsLevel.Skills = _skillsLevel;
+            progress.skillsLevel.Skills = _skillsLevelDictionary;
             progress.skillsLevel.SerializeSkills();
         }
     }

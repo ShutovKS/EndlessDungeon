@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Data.Dynamic;
 using Data.Dynamic.Player;
 using Data.Static;
@@ -56,8 +56,8 @@ namespace Item.Weapon
             foreach (var (_, weaponTransform) in WeaponsTransform)
             {
                 weaponTransform.GetComponent<IItemDamage>().Damage =
-                    (damage + skills[SkillsType.STREANGHT_Count]) *
-                    (1 + skills[SkillsType.STREANGHT_Percent]);
+                    (damage + skills[SkillType.STREANGHT_Count]) *
+                    (1 + skills[SkillType.STREANGHT_Percent]);
             }
 
             SelectedWeaponType = progress.selectedWeapon.weaponType;
