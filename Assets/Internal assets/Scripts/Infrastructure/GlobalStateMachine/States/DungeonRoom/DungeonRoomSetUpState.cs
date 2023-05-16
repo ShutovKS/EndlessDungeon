@@ -1,4 +1,5 @@
-﻿using Data.Addressable;
+﻿using System;
+using Data.Addressable;
 using Data.Settings;
 using Data.Static;
 using GeneratorDungeons;
@@ -38,23 +39,39 @@ namespace Infrastructure.GlobalStateMachine.States
         public override async void Enter(MapDungeon mainMenuScreen)
         {
             var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
-            var socket = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
+            var socket =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
+
             var floor = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.FLOOR);
             var wall = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WALL);
             var sword = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_SWORD);
             var ax = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_AX);
-            var hammer = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMMER);
+            var hammer =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMMER);
 
             var playerInstance = _abstractFactory.CreateInstance(player, Vector3.zero);
-            playerInstance.AddComponent<Player>().SetUp(Context.StateMachine.SwitchState<MainLocationLoadingState>, _playerStaticDefaultData);
-            var socketInstance = _abstractFactory.CreateInstance(socket, _mainLocationSettings.SocketForWeaponSpawnPosition);
+            playerInstance.AddComponent<Player>().SetUp(
+                () => Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
+                    AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
+                    typeof(MainLocationSetUpState)),
+                _playerStaticDefaultData);
+
+            var socketInstance = _abstractFactory.CreateInstance(
+                socket,
+                _mainLocationSettings.SocketForWeaponSpawnPosition);
+
             socketInstance.transform.parent = playerInstance.transform.GetChild(0).GetChild(0);
-            
+
             var swordInstance = _abstractFactory.CreateInstance(sword, Vector3.zero);
             var axInstance = _abstractFactory.CreateInstance(ax, Vector3.zero);
             var hammerInstance = _abstractFactory.CreateInstance(hammer, Vector3.zero);
             var weaponManagerInstance = _abstractFactory.CreateInstance(new GameObject("weaponManager"), Vector3.zero);
-            weaponManagerInstance.AddComponent<WeaponManagerDungeonRoom>().SetUp(socketInstance, _playerStaticDefaultData, swordInstance, axInstance, hammerInstance);
+            weaponManagerInstance.AddComponent<WeaponManagerDungeonRoom>().SetUp(
+                socketInstance,
+                _playerStaticDefaultData,
+                swordInstance,
+                axInstance,
+                hammerInstance);
 
             var enemyDetectorInstance = _abstractFactory.CreateInstance(new GameObject(), Vector3.zero);
             enemyDetectorInstance.transform.parent = playerInstance.transform;
@@ -84,7 +101,7 @@ namespace Infrastructure.GlobalStateMachine.States
             }
 
             _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance, lootManagerInstance, playerInstance);
-            
+
             Context.StateMachine.SwitchState<DungeonRoomSetUpNavMeshState, MapDungeon>(mainMenuScreen);
         }
     }

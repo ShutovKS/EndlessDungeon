@@ -38,6 +38,41 @@ namespace Infrastructure.GlobalStateMachine.StateMachine
             TickAsync();
         }
 
+        #region SwitchState
+
+        public void SwitchState(Type type)
+        {
+            CurrentState?.Exit();
+
+            var newState = _states[type] as State<TContext>;
+
+            CurrentState = newState;
+
+            newState?.Enter();
+        }
+        
+        public void SwitchState<T0>(Type type, T0 arg0)
+        {
+            CurrentState?.Exit();
+
+            var newState = _states[type] as StateOneParam<TContext, T0>;
+
+            CurrentState = newState;
+
+            newState?.Enter(arg0);
+        }
+
+        public void SwitchState<T0, T1>(Type type, T0 arg0, T1 arg1)
+        {
+            CurrentState?.Exit();
+
+            var newState = _states[type] as StateTwoParam<TContext, T0, T1>;
+
+            CurrentState = newState;
+
+            newState?.Enter(arg0, arg1);
+        }
+        
         public void SwitchState<TState>() where TState : State<TContext>
         {
             CurrentState?.Exit();
@@ -71,6 +106,8 @@ namespace Infrastructure.GlobalStateMachine.StateMachine
             newState.Enter(arg0, arg1);
         }
 
+        #endregion
+        
         private async void TickAsync()
         {
             while (true)

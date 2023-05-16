@@ -1,4 +1,6 @@
-﻿using Infrastructure.GlobalStateMachine.StateMachine;
+﻿using System;
+using Data.Addressable;
+using Infrastructure.GlobalStateMachine.StateMachine;
 using Services.SaveLoad;
 
 namespace Infrastructure.GlobalStateMachine.States.MainMenu
@@ -15,7 +17,9 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
         public override void Enter()
         {
             _saveLoadService.ClearProgress();
-            Context.StateMachine.SwitchState<MainLocationLoadingState>();
+            Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
+                AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME,
+                typeof(MainLocationSetUpState));
         }
     }
 }

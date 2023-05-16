@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using GeneratorDungeons;
 using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Units.Enemy;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
@@ -23,7 +25,7 @@ namespace Infrastructure.GlobalStateMachine.States
         {
             await SetUpEnemy(mainMenuScreen);
 
-            Context.StateMachine.SwitchState<ProgressLoadingForDungeonRoom>();
+            Context.StateMachine.SwitchState<ProgressLoadingState, Type>(typeof(DungeonRoomState));
         }
 
         private async Task SetUpEnemy(MapDungeon mapDungeon)

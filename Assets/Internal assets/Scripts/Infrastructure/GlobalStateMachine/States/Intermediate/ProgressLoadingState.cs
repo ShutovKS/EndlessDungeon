@@ -1,14 +1,19 @@
-﻿using Data.Dynamic;
+﻿using System;
+using Data.Dynamic;
+using Data.Dynamic.Loot;
+using Data.Dynamic.Player;
 using Infrastructure.GlobalStateMachine.StateMachine;
+using Item.Weapon;
 using Services.PersistentProgress;
 using Services.SaveLoad;
 using Services.Watchers.SaveLoadWatcher;
+using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class ProgressLoadingForDungeonRoom : State<GameInstance>
+    public class ProgressLoadingState : StateOneParam<GameInstance, Type>
     {
-        public ProgressLoadingForDungeonRoom(GameInstance context, ISaveLoadService saveLoadService,
+        public ProgressLoadingState(GameInstance context, ISaveLoadService saveLoadService,
             ISaveLoadInstancesWatcher saveLoadInstancesWatcher,
             IPersistentProgressService persistentProgressService) : base(context)
         {
@@ -21,13 +26,13 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
         private readonly IPersistentProgressService _persistentProgressService;
 
-        public override void Enter()
+        public override void Enter(Type newStateType)
         {
             LoadProgressOrInitNew();
 
             InformProgressReaders();
 
-            Context.StateMachine.SwitchState<DungeonRoomState>();
+            Context.StateMachine.SwitchState(newStateType);
         }
 
         private void LoadProgressOrInitNew() =>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abstract;
 using Data.Addressable;
@@ -25,7 +26,8 @@ namespace Infrastructure.GlobalStateMachine.States
     {
         public MainLocationSetUpState(GameInstance context, IAbstractFactory abstractFactory, IUIFactory uiFactory,
             IAssetsAddressableService assetsAddressableService, MainLocationSettings mainLocationSettings,
-            ISaveLoadService saveLoadService, ISaveLoadInstancesWatcher saveLoadInstancesWatcher, PlayerStaticDefaultData playerStaticDefaultData)
+            ISaveLoadService saveLoadService, ISaveLoadInstancesWatcher saveLoadInstancesWatcher,
+            PlayerStaticDefaultData playerStaticDefaultData)
             : base(context)
         {
             _abstractFactory = abstractFactory;
@@ -47,29 +49,48 @@ namespace Infrastructure.GlobalStateMachine.States
 
         public override async void Enter()
         {
-            var mainLocationMap = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_LOCATION_MAP);
+            var mainLocationMap =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_LOCATION_MAP);
+
             var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
-            var socket = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
-            var menuInMainLocationScreen = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MENU_IN_MAIN_LOCATION_SCREEN);
-            var skillsBookScreen = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SKILLS_BOOK_SCREEN);
+            var socket =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
+
+            var menuInMainLocationScreen =
+                await _assetsAddressableService.GetAsset<GameObject>(
+                    AssetsAddressablesConstants.MENU_IN_MAIN_LOCATION_SCREEN);
+
+            var skillsBookScreen =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SKILLS_BOOK_SCREEN);
+
             var sword = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_SWORD);
             var ax = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_AX);
-            var hammer = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMMER);
+            var hammer =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMMER);
 
             var mapInstance = _abstractFactory.CreateInstance(mainLocationMap, Vector3.zero);
 
             var playerInstance = _abstractFactory.CreateInstance(player, _mainLocationSettings.PlayerSpawnPosition);
 
-            var socketInstance = _abstractFactory.CreateInstance(socket, _mainLocationSettings.SocketForWeaponSpawnPosition);
+            var socketInstance = _abstractFactory.CreateInstance(
+                socket,
+                _mainLocationSettings.SocketForWeaponSpawnPosition);
+
             socketInstance.transform.parent = playerInstance.transform.GetChild(0).GetChild(0);
-            
-            var portalInstance = _abstractFactory.CreateInstance(new GameObject("Portal"), _mainLocationSettings.PortalSpawnPosition);
+
+            var portalInstance = _abstractFactory.CreateInstance(
+                new GameObject("Portal"),
+                _mainLocationSettings.PortalSpawnPosition);
+
             var portalCollider = portalInstance.AddComponent<BoxCollider>();
             portalCollider.size = new Vector3(2.5f, 2.5f, 1f);
             portalCollider.isTrigger = true;
             portalInstance.AddComponent<Rigidbody>().isKinematic = true;
-            portalInstance.AddComponent<PortalTrigger>().SetUp(Context.StateMachine.SwitchState<DungeonRoomLoadingState>);
-            
+            portalInstance.AddComponent<PortalTrigger>().SetUp(
+                () => Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
+                    AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME,
+                    typeof(DungeonRoomGenerationState)));
+
             var swordInstance = _abstractFactory.CreateInstance(
                 sword,
                 _mainLocationSettings.WeaponSpawnPosition[(int)sword.GetComponent<Weapon>().WeaponType]);
@@ -83,32 +104,54 @@ namespace Infrastructure.GlobalStateMachine.States
                 _mainLocationSettings.WeaponSpawnPosition[(int)hammer.GetComponent<Weapon>().WeaponType]);
 
             var weaponManagerInstance = _abstractFactory.CreateInstance(new GameObject("weaponManager"), Vector3.zero);
-            weaponManagerInstance.AddComponent<WeaponManagerMainLocation>().SetUp(socketInstance,_playerStaticDefaultData, swordInstance, axInstance, hammerInstance);
+            weaponManagerInstance.AddComponent<WeaponManagerMainLocation>().SetUp(
+                socketInstance,
+                _playerStaticDefaultData,
+                swordInstance,
+                axInstance,
+                hammerInstance);
 
             var lootManagerInstance = _abstractFactory.CreateInstance(new GameObject("lootManager"), Vector3.zero);
             lootManagerInstance.AddComponent<LootManager>();
 
-            var menuInMainLocationScreenInstance = _abstractFactory.CreateInstance(menuInMainLocationScreen, Vector3.zero);
-            menuInMainLocationScreenInstance.transform.SetParent(playerInstance.GetComponentInChildren<XRGazeInteractor>().transform.parent);
+            var menuInMainLocationScreenInstance =
+                _abstractFactory.CreateInstance(menuInMainLocationScreen, Vector3.zero);
+
+            menuInMainLocationScreenInstance.transform.SetParent(
+                playerInstance.GetComponentInChildren<XRGazeInteractor>().transform.parent);
+
             menuInMainLocationScreenInstance.transform.localPosition = Vector3.zero;
-            playerInstance.GetComponentInChildren<GazeInteractorTrigger>().AddHoverEntered(_ => menuInMainLocationScreenInstance.SetActive(true));
-            playerInstance.GetComponentInChildren<GazeInteractorTrigger>().AddHoverExited(_ => menuInMainLocationScreenInstance.SetActive(false));
-            menuInMainLocationScreenInstance.GetComponent<MenuInMainLocationScreen>().SetUp(_saveLoadService.SaveProgress, Context.StateMachine.SwitchState<MainMenuLoadingState>);
+            playerInstance.GetComponentInChildren<GazeInteractorTrigger>()
+                .AddHoverEntered(_ => menuInMainLocationScreenInstance.SetActive(true));
+
+            playerInstance.GetComponentInChildren<GazeInteractorTrigger>()
+                .AddHoverExited(_ => menuInMainLocationScreenInstance.SetActive(false));
+
+            menuInMainLocationScreenInstance.GetComponent<MenuInMainLocationScreen>().SetUp(
+                _saveLoadService.SaveProgress,
+                () => Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
+                    AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
+                    typeof(MainMenuSetUpState)));
+
             menuInMainLocationScreenInstance.SetActive(false);
 
-            var skillsBookScreenInstance = _abstractFactory.CreateInstance(skillsBookScreen, _mainLocationSettings.SkillsBookScreenPosition);
+            var skillsBookScreenInstance = _abstractFactory.CreateInstance(
+                skillsBookScreen,
+                _mainLocationSettings.SkillsBookScreenPosition);
+
             skillsBookScreenInstance.transform.rotation = Quaternion.Euler(
-                _mainLocationSettings.SkillsBookScreenRotation.x, 
-                _mainLocationSettings.SkillsBookScreenRotation.y, 
+                _mainLocationSettings.SkillsBookScreenRotation.x,
+                _mainLocationSettings.SkillsBookScreenRotation.y,
                 _mainLocationSettings.SkillsBookScreenRotation.z);
+
             skillsBookScreenInstance.GetComponent<SkillsBook>().SetUp(lootManagerInstance.GetComponent<LootManager>());
 
             _saveLoadInstancesWatcher.RegisterProgress(
                 weaponManagerInstance,
-                lootManagerInstance, 
+                lootManagerInstance,
                 skillsBookScreenInstance);
-            
-            Context.StateMachine.SwitchState<ProgressLoadingForMainState>();
+
+            Context.StateMachine.SwitchState<ProgressLoadingState, Type>(typeof(MainLocationState));
         }
     }
 }

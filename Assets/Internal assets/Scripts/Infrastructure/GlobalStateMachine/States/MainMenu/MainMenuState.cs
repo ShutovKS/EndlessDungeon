@@ -1,4 +1,6 @@
-﻿using Infrastructure.Factory.AbstractFactory;
+﻿using System;
+using Data.Addressable;
+using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using UI.MainMenu;
@@ -43,10 +45,12 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
         {
             Context.StateMachine.SwitchState<RemoveGameplayData>();
         }
-        
+
         private void GoToLoadGame()
         {
-            Context.StateMachine.SwitchState<MainLocationLoadingState>();
+            Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
+                AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME,
+                typeof(MainLocationSetUpState));
         }
     }
 }

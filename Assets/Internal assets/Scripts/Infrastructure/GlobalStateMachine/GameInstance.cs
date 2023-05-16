@@ -30,9 +30,11 @@ namespace Infrastructure.GlobalStateMachine
                 this,
                 new BootstrapState(
                     this),
-                new MainMenuLoadingState(
+                new ProgressLoadingState(
                     this,
-                    uiFactory),
+                    saveLoadService,
+                    saveLoadInstancesWatcher,
+                    persistentProgressService),
                 new MainMenuSetUpState(
                     this,
                     abstractFactory,
@@ -43,7 +45,7 @@ namespace Infrastructure.GlobalStateMachine
                     this,
                     uiFactory,
                     abstractFactory),
-                new MainLocationLoadingState(
+                new SceneLoadingState(
                     this,
                     uiFactory),
                 new MainLocationSetUpState(
@@ -55,11 +57,6 @@ namespace Infrastructure.GlobalStateMachine
                     saveLoadService,
                     saveLoadInstancesWatcher,
                     playerStaticDefaultData),
-                new ProgressLoadingForMainState(
-                    this,
-                    saveLoadService,
-                    saveLoadInstancesWatcher,
-                    persistentProgressService),
                 new MainLocationState(
                     this,
                     uiFactory,
@@ -69,9 +66,6 @@ namespace Infrastructure.GlobalStateMachine
                 new RemoveGameplayData(
                     this,
                     saveLoadService),
-                new DungeonRoomLoadingState(
-                    this,
-                    uiFactory),
                 new DungeonRoomGenerationState(
                     this),
                 new DungeonRoomSetUpState(
@@ -87,11 +81,6 @@ namespace Infrastructure.GlobalStateMachine
                 new DungeonRoomSetUpEnemyState(
                     this,
                     enemyFactory),
-                new ProgressLoadingForDungeonRoom(
-                    this,
-                    saveLoadService,
-                    saveLoadInstancesWatcher,
-                    persistentProgressService),
                 new DungeonRoomState(
                     this,
                     uiFactory,

@@ -1,4 +1,6 @@
-﻿using Infrastructure.Factory.AbstractFactory;
+﻿using System;
+using Data.Addressable;
+using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
@@ -44,7 +46,10 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private void Finish()
         {
-            Context.StateMachine.SwitchState<DungeonRoomLoadingState>();
+            Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
+                AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
+                typeof(DungeonRoomGenerationState));
+
             _saveLoadService.SaveProgress();
             Debug.Log("Finish");
         }
