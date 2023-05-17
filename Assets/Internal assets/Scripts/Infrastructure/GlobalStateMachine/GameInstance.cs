@@ -44,7 +44,8 @@ namespace Infrastructure.GlobalStateMachine
                 new MainMenuState(
                     this,
                     uiFactory,
-                    abstractFactory),
+                    abstractFactory,
+                    saveLoadService),
                 new SceneLoadingState(
                     this,
                     uiFactory),

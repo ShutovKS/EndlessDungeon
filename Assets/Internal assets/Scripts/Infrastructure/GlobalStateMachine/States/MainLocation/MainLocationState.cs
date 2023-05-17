@@ -28,10 +28,7 @@ namespace Infrastructure.GlobalStateMachine.States
         {
             await _uiFactory.CreateMainLocationScreen();
 
-            _uiFactory.DestroyMainMenuScreen();
             _uiFactory.DestroyLoadingScreen();
-            
-            
         }
 
         public override void Exit()

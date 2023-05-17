@@ -8,5 +8,6 @@ namespace Services.SaveLoad
         void SaveProgress();
         Progress LoadProgress();
         void ClearProgress();
+        bool IsInStockSave();
     }
 }

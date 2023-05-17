@@ -19,10 +19,7 @@ namespace Infrastructure.Factory.UIFactory
         private readonly DiContainer _container;
 
         public GameObject LoadingScreen { get; private set; }
-        public GameObject MainMenuScreen { get; private set; }
         public GameObject MainLocationScreen { get; private set; }
-        public GameObject MenuInMainLocationScreen { get; private set; }
-
 
         #region LoadingScreen
 
@@ -45,27 +42,7 @@ namespace Infrastructure.Factory.UIFactory
         }
 
         #endregion
-
-        #region MainMenuScreen
-
-        public async Task<GameObject> CreateMainMenuScreen()
-        {
-            var mainMenuScreenPrefab =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_MENU_SCREEN);
-
-            MainMenuScreen = _container.InstantiatePrefab(mainMenuScreenPrefab);
-
-            return MainMenuScreen;
-        }
-
-        public void DestroyMainMenuScreen()
-        {
-            if (MainMenuScreen != null)
-                Object.Destroy(MainMenuScreen);
-        }
-
-        #endregion
-
+        
         #region MainLocationScreen
 
         public async Task<GameObject> CreateMainLocationScreen()

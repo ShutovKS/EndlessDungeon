@@ -31,7 +31,7 @@ namespace Services.SaveLoad
 
         public Progress LoadProgress()
         {
-            if (!PlayerPrefs.HasKey(SAVE_LOAD_KEY))
+            if (!IsInStockSave())
                 return null;
 
             var prefs = JsonUtility.FromJson<Progress>(PlayerPrefs.GetString(SAVE_LOAD_KEY));
@@ -40,8 +40,13 @@ namespace Services.SaveLoad
 
         public void ClearProgress()
         {
-            if (PlayerPrefs.HasKey(SAVE_LOAD_KEY))
+            if (IsInStockSave())
                 PlayerPrefs.DeleteKey(SAVE_LOAD_KEY);
+        }
+
+        public bool IsInStockSave()
+        {
+            return PlayerPrefs.HasKey(SAVE_LOAD_KEY);
         }
     }
 }

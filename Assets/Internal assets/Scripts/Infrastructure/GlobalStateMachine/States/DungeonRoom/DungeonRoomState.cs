@@ -32,7 +32,6 @@ namespace Infrastructure.GlobalStateMachine.States
 
         public override void Enter()
         {
-            _uiFactory.DestroyMainMenuScreen();
             _uiFactory.DestroyLoadingScreen();
             _enemyFactory.AllDeadEnemies += Finish;
         }
@@ -51,7 +50,6 @@ namespace Infrastructure.GlobalStateMachine.States
                 typeof(DungeonRoomGenerationState));
 
             _saveLoadService.SaveProgress();
-            Debug.Log("Finish");
         }
     }
 }

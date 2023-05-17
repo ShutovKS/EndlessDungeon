@@ -1,4 +1,5 @@
-﻿using Data.Addressable;
+﻿using System.Threading;
+using Data.Addressable;
 using Data.Settings;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.UIFactory;
@@ -29,14 +30,13 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
             _uiFactory.DestroyLoadingScreen();
 
             var map = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_MENU_MAP);
-            var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
+            var player =await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
+            var mainMenuScreen =await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_MENU_SCREEN);
+            
+            _abstractFactory.CreateInstance(map, Vector3.zero);
+            _abstractFactory.CreateInstance(player, _mainMenuSettings.PlayerSpawnPosition);
+            var mainMenuScreenInstance = _abstractFactory.CreateInstance(mainMenuScreen, _mainMenuSettings.UIMenuSpawnPosition);
 
-            var mapInstance = _abstractFactory.CreateInstance(map, Vector3.zero);
-            var playerInstance = _abstractFactory.CreateInstance(player, _mainMenuSettings.PlayerSpawnPosition);
-            
-            var mainMenuScreenInstance = await _uiFactory.CreateMainMenuScreen();
-            mainMenuScreenInstance.transform.position = _mainMenuSettings.UIMenuSpawnPosition;
-            
             Context.StateMachine.SwitchState<MainMenuState, GameObject>(mainMenuScreenInstance);
         }
     }

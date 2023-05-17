@@ -8,8 +8,6 @@ namespace Infrastructure.Factory.UIFactory
     {
         public Task<GameObject> CreateLoadingScreen();
         public void DestroyLoadingScreen();
-        public Task<GameObject> CreateMainMenuScreen();
-        public void DestroyMainMenuScreen();
         public Task<GameObject> CreateMainLocationScreen();
         public void DestroyMainLocationScreen();
     }
