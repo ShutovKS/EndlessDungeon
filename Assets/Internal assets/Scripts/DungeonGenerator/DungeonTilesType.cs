@@ -1,6 +1,6 @@
-﻿namespace GeneratorDungeons
+﻿namespace DungeonGenerator
 {
-    public enum Tiles
+    public enum DungeonTilesType
     {
         FLOOR,
         WALL,

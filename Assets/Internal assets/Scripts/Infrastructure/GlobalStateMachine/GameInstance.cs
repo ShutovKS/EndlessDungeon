@@ -5,6 +5,7 @@ using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States;
+using Infrastructure.GlobalStateMachine.States.Intermediate;
 using Infrastructure.GlobalStateMachine.States.MainMenu;
 using Services.AssetsAddressableService;
 using Services.PersistentProgress;
@@ -30,6 +31,9 @@ namespace Infrastructure.GlobalStateMachine
                 this,
                 new BootstrapState(
                     this),
+                new LoadLateLocation(
+                    this,
+                    saveLoadService),
                 new ProgressLoadingState(
                     this,
                     saveLoadService,
@@ -68,7 +72,9 @@ namespace Infrastructure.GlobalStateMachine
                     this,
                     saveLoadService),
                 new DungeonRoomGenerationState(
-                    this),
+                    this,
+                    persistentProgressService,
+                    saveLoadService),
                 new DungeonRoomSetUpState(
                     this,
                     abstractFactory,

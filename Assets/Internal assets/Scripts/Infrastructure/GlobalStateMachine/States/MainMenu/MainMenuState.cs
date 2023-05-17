@@ -3,6 +3,7 @@ using Data.Addressable;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
+using Infrastructure.GlobalStateMachine.States.Intermediate;
 using Services.SaveLoad;
 using UI.MainMenu;
 using UnityEngine;
@@ -44,9 +45,7 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
 
         private void GoToLoadGame()
         {
-            Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME,
-                typeof(MainLocationSetUpState));
+            Context.StateMachine.SwitchState<LoadLateLocation>();
         }
     }
 }

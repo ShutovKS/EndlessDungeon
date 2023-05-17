@@ -8,6 +8,7 @@ using Data.Static;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
+using Infrastructure.GlobalStateMachine.States.Intermediate;
 using Infrastructure.GlobalStateMachine.States.MainMenu;
 using Item.Weapon;
 using Loot;

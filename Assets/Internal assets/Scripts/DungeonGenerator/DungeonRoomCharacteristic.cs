@@ -1,6 +1,6 @@
-﻿namespace GeneratorDungeons
+﻿namespace DungeonGenerator
 {
-    public struct Room
+    public struct DungeonRoomCharacteristic
     {
         public int x;
         public int y;

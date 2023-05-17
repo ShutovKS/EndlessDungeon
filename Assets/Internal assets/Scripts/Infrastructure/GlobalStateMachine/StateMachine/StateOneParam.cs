@@ -6,6 +6,6 @@
         {
         }
 
-        public virtual void Enter(T0 mainMenuScreen) {}
+        public virtual void Enter(T0 dungeonMapAndEnemiesPosition) {}
     }
 }

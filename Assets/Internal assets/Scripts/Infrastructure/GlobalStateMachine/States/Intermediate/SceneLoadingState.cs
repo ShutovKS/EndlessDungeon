@@ -3,7 +3,7 @@ using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using UnityEngine.AddressableAssets;
 
-namespace Infrastructure.GlobalStateMachine.States
+namespace Infrastructure.GlobalStateMachine.States.Intermediate
 {
     public class SceneLoadingState : StateTwoParam<GameInstance, string, Type>
     {

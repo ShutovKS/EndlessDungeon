@@ -1,6 +1,7 @@
 ﻿using System;
 using Data.Addressable;
 using Infrastructure.GlobalStateMachine.StateMachine;
+using Infrastructure.GlobalStateMachine.States.Intermediate;
 using Services.SaveLoad;
 
 namespace Infrastructure.GlobalStateMachine.States.MainMenu

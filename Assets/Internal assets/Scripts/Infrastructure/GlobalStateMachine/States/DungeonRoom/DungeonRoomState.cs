@@ -4,6 +4,7 @@ using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
+using Infrastructure.GlobalStateMachine.States.Intermediate;
 using Loot;
 using Services.SaveLoad;
 using Services.Watchers.SaveLoadWatcher;

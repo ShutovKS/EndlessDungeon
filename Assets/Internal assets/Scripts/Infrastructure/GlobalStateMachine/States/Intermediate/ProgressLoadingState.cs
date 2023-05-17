@@ -1,15 +1,11 @@
 ﻿using System;
 using Data.Dynamic;
-using Data.Dynamic.Loot;
-using Data.Dynamic.Player;
 using Infrastructure.GlobalStateMachine.StateMachine;
-using Item.Weapon;
 using Services.PersistentProgress;
 using Services.SaveLoad;
 using Services.Watchers.SaveLoadWatcher;
-using UnityEngine;
 
-namespace Infrastructure.GlobalStateMachine.States
+namespace Infrastructure.GlobalStateMachine.States.Intermediate
 {
     public class ProgressLoadingState : StateOneParam<GameInstance, Type>
     {
@@ -26,13 +22,13 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
         private readonly IPersistentProgressService _persistentProgressService;
 
-        public override void Enter(Type newStateType)
+        public override void Enter(Type dungeonMapAndEnemiesPosition)
         {
             LoadProgressOrInitNew();
 
             InformProgressReaders();
 
-            Context.StateMachine.SwitchState(newStateType);
+            Context.StateMachine.SwitchState(dungeonMapAndEnemiesPosition);
         }
 
         private void LoadProgressOrInitNew() =>

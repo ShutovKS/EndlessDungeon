@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Data.Addressable;
 using Data.Settings;
 using Data.Static;
-using GeneratorDungeons;
+using DungeonGenerator;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
+using Infrastructure.GlobalStateMachine.States.Intermediate;
 using Item.Weapon;
 using Loot;
 using Services.AssetsAddressableService;
@@ -14,7 +16,7 @@ using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class DungeonRoomSetUpState : StateOneParam<GameInstance, MapDungeon>
+    public class DungeonRoomSetUpState : StateOneParam<GameInstance, (DungeonTilesType[,], List<(int, int)>)>
     {
         public DungeonRoomSetUpState(GameInstance context, IAbstractFactory abstractFactory,
             IAssetsAddressableService assetsAddressableService, MainLocationSettings mainLocationSettings,
@@ -36,7 +38,8 @@ namespace Infrastructure.GlobalStateMachine.States
 
         private const float UNIT = 4.85f / 2;
 
-        public override async void Enter(MapDungeon mainMenuScreen)
+        public override async void Enter(
+            (DungeonTilesType[,], List<(int, int)>) dungeonMapAndEnemiesPosition)
         {
             var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
             var socket =
@@ -82,18 +85,18 @@ namespace Infrastructure.GlobalStateMachine.States
             var lootManagerInstance = _abstractFactory.CreateInstance(new GameObject("lootManager"), Vector3.zero);
             lootManagerInstance.AddComponent<LootManager>();
 
-            for (var y = 0; y < mainMenuScreen.TilesMap.GetLength(0); y++)
-            for (var x = 0; x < mainMenuScreen.TilesMap.GetLength(1); x++)
+            for (var y = 0; y < dungeonMapAndEnemiesPosition.Item1.GetLength(0); y++)
+            for (var x = 0; x < dungeonMapAndEnemiesPosition.Item1.GetLength(1); x++)
             {
-                switch (mainMenuScreen.TilesMap[y, x])
+                switch (dungeonMapAndEnemiesPosition.Item1[y, x])
                 {
-                    case Tiles.FLOOR:
+                    case DungeonTilesType.FLOOR:
                         _abstractFactory.CreateInstance(floor, new Vector3(x, 0, y) * UNIT);
                         break;
-                    case Tiles.WALL:
+                    case DungeonTilesType.WALL:
                         _abstractFactory.CreateInstance(wall, new Vector3(x, 0, y) * UNIT);
                         break;
-                    case Tiles.PLAYER:
+                    case DungeonTilesType.PLAYER:
                         _abstractFactory.CreateInstance(floor, new Vector3(x, 0, y) * UNIT);
                         playerInstance.transform.position = new Vector3(x, 0, y) * UNIT;
                         break;
@@ -102,7 +105,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
             _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance, lootManagerInstance, playerInstance);
 
-            Context.StateMachine.SwitchState<DungeonRoomSetUpNavMeshState, MapDungeon>(mainMenuScreen);
+            Context.StateMachine.SwitchState<DungeonRoomSetUpNavMeshState, List<(int, int)>>(dungeonMapAndEnemiesPosition.Item2);
         }
     }
 }
