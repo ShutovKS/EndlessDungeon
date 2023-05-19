@@ -2,7 +2,9 @@ using Data.Settings;
 using Data.Static;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.EnemyFactory;
+using Infrastructure.Factory.PlayerFactory;
 using Infrastructure.Factory.UIFactory;
+using Infrastructure.GlobalStateMachine.States;
 using Services.AssetsAddressableService;
 using Services.PersistentProgress;
 using Services.SaveLoad;
@@ -15,21 +17,20 @@ namespace Infrastructure.Installers
 {
     public class ServiceInstaller : MonoInstaller
     {
-        [SerializeField] private MainLocationSettings _mainLocationSettings;
-        [SerializeField] private MainMenuSettings _mainMenuSettings;
         [SerializeField] private PlayerStaticDefaultData _playerStaticDefaultData;
+        [SerializeField] private MainLocationSettings _mainLocationSettings;
+        [SerializeField] private DungeonRoomSettings _dungeonRoomSettings;
+        [SerializeField] private MainMenuSettings _mainMenuSettings;
 
         public override void InstallBindings()
         {
-            BindAssetsAddressable();
-            BindAbstractFactory();
-            BindSettings();
-            BindUIFactory();
-            BindStaticDataService();
-            BindSaveLoadInstancesWatcher();
             BindPersistentProgressService();
+            BindSaveLoadInstancesWatcher();
+            BindAssetsAddressable();
+            BindStaticDataService();
             BindSaveLoadService();
-            BindEnemyFactory();
+            BindSettings();
+            BindFactory();
         }
 
         private void BindAssetsAddressable()
@@ -37,26 +38,20 @@ namespace Infrastructure.Installers
             Container.BindInterfacesTo<AssetsAddressableService>().AsSingle();
         }
 
-        private void BindUIFactory()
-        {
-            Container.BindInterfacesTo<UIFactory>().AsSingle();
-        }
-
-        private void BindAbstractFactory()
+        private void BindFactory()
         {
             Container.BindInterfacesTo<AbstractFactory>().AsSingle();
-        }
-        
-        private void BindEnemyFactory()
-        {
+            Container.BindInterfacesTo<PlayerFactory>().AsSingle();
             Container.BindInterfacesTo<EnemyFactory>().AsSingle();
+            Container.BindInterfacesTo<UIFactory>().AsSingle();
         }
 
         private void BindSettings()
         {
-            Container.Bind<MainLocationSettings>().FromInstance(_mainLocationSettings).AsSingle();
-            Container.Bind<MainMenuSettings>().FromInstance(_mainMenuSettings).AsSingle();
             Container.Bind<PlayerStaticDefaultData>().FromInstance(_playerStaticDefaultData).AsSingle();
+            Container.Bind<MainLocationSettings>().FromInstance(_mainLocationSettings).AsSingle();
+            Container.Bind<DungeonRoomSettings>().FromInstance(_dungeonRoomSettings).AsSingle();
+            Container.Bind<MainMenuSettings>().FromInstance(_mainMenuSettings).AsSingle();
         }
 
         private void BindPersistentProgressService()

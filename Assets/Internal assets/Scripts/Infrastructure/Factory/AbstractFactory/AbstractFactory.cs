@@ -13,16 +13,14 @@ namespace Infrastructure.Factory.AbstractFactory
             _container = container;
         }
 
-        private DiContainer _container;
-    
-        private List<GameObject> _instances = new();
-        public List<GameObject> Instances => _instances;
+        private readonly DiContainer _container;
+        public List<GameObject> Instances { get; } = new();
 
         public GameObject CreateInstance(GameObject prefab, Vector3 spawnPoint)
         {
             var instance = _container.InstantiatePrefab(prefab, spawnPoint, Quaternion.identity, null);
         
-            _instances.Add(instance);
+            Instances.Add(instance);
 
             return instance;
         }
@@ -34,23 +32,23 @@ namespace Infrastructure.Factory.AbstractFactory
                 throw new NullReferenceException("There is no instance to destroy");
             }
         
-            if (!_instances.Contains(instance))
+            if (!Instances.Contains(instance))
             {
                 throw new NullReferenceException($"Instance {instance} can't be destroyed, cause there is no {instance} on Abstract Factory Instances");
             }
 
             Object.Destroy(instance);
-            _instances.Remove(instance);
+            Instances.Remove(instance);
         }
 
         public void DestroyAllInstances()
         {
-            for (int i = 0; i < _instances.Count; i++)
+            for (int i = 0; i < Instances.Count; i++)
             {
-                Object.Destroy(_instances[i]);
+                Object.Destroy(Instances[i]);
             }
         
-            _instances.Clear();
+            Instances.Clear();
         }
 
         public void DestroyAllInstances<T>(List<T> list) where T : Object

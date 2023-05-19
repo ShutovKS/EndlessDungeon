@@ -11,7 +11,7 @@ namespace Units.Enemy.State_Machines.State
 
         private readonly Animator _animator;
         private readonly Enemy _enemy;
-        private readonly static int DAMAGE = Animator.StringToHash("Damage");
+        private readonly static int DAMAGE = Animator.StringToHash("GetHit");
 
         private Action<string> _animationTriggerName;
 

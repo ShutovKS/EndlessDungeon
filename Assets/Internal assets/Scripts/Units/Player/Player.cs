@@ -30,7 +30,7 @@ namespace Units.Player
                 },
             };
 
-            triggerGetHit.AddComponent<GetHit>().SetUp(TakeDamage);
+            triggerGetHit.AddComponent<PlayerGetHit>().SetUp(TakeDamage);
         }
 
         private void TakeDamage(float healthLoss)
@@ -43,8 +43,6 @@ namespace Units.Player
                 _playerDead?.Invoke();
                 _isDead = true;
             }
-
-            Debug.Log(_healthPoint);
         }
 
         public void LoadProgress(Progress progress)

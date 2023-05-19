@@ -38,10 +38,11 @@ namespace Infrastructure.GlobalStateMachine.States
             {
                 seed = progress.dungeonRoom.seed;
             }
-            
-            var dungeonMapAndEnemiesPosition = DungeonGenerator.DungeonGenerator.GetDungeon(seed);
-            Context.StateMachine.SwitchState<DungeonRoomSetUpState, (DungeonTilesType[,], List<(int, int)>)>(
-                (dungeonMapAndEnemiesPosition.dungeonMap, dungeonMapAndEnemiesPosition.enemyPosition));
+
+            var dungeonArchitecture = DungeonGenerator.DungeonGenerator.GetDungeon(seed);
+            Context.StateMachine
+                .SwitchState<DungeonRoomSetUpState, (DungeonTilesType[,] dungeonMap, (int, int) playerPosition,
+                    List<(int, int)> enemiesPosition)>(dungeonArchitecture);
         }
     }
 }

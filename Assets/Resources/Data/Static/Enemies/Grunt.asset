@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5320a4236b9743e9aa9d1b876a1aad57, type: 3}
+  m_Name: Grunt
+  m_EditorClassIdentifier: 
+  <EnemyType>k__BackingField: 2
+  <Name>k__BackingField: Grunt
+  <MaxHealthPoints>k__BackingField: 60.9
+  <Damage>k__BackingField: 7.5
+  <EffectiveDistance>k__BackingField: 1.15
+  <Cleavage>k__BackingField: 0.8
+  <AttackCooldown>k__BackingField: 5.05
+  <MovementSpeed>k__BackingField: 5.05
+  <RotationSpeed>k__BackingField: 72.8
+  <PrefabReference>k__BackingField:
+    m_AssetGUID: 557bc9ac3f857ec4c833d20ce03e0497
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

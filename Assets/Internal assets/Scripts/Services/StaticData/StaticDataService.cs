@@ -10,6 +10,10 @@ namespace Services.StaticData
 {
     public class StaticDataService : IStaticDataService
     {
+        private const string ENEMIES_STATIC_DATA_PATH = "Data/Static/Enemies";
+
+        private Dictionary<EnemyType, EnemyStaticData> _enemies;
+
         public StaticDataService(IAssetsAddressableService assetsAddressableService)
         {
             _assetsAddressableService = assetsAddressableService;
@@ -18,15 +22,11 @@ namespace Services.StaticData
 
         private readonly IAssetsAddressableService _assetsAddressableService;
 
-        private readonly Dictionary<EnemyType, EnemyStaticData> _enemies = new()
+        public void LoadStaticData()
         {
-            { EnemyType.Golem, null }
-        };
-
-        public async void LoadStaticData()
-        {
-            _enemies[EnemyType.Golem] = await _assetsAddressableService
-                .GetAsset<EnemyStaticData>(AssetsAddressablesConstants.GOLEM_DATA);
+            _enemies = Resources.LoadAll<EnemyStaticData>(ENEMIES_STATIC_DATA_PATH).ToDictionary(
+                enemyStaticData => enemyStaticData.EnemyType,
+                enemyStaticData => enemyStaticData);
         }
 
         public EnemyStaticData GetEnemyData(EnemyType enemyType)

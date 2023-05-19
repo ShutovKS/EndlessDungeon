@@ -17,11 +17,7 @@
         public const string MAIN_MENU_MAP = "MainMenuMap";
 
         public const string PLAYER = "Player";
-
-        public const string GOLEM = "Golem";
-        public const string GOLEM_DATA = "GolemData";
-
-
+        
         public const string WEAPON_AX = "WeaponAx";
         public const string WEAPON_HAMMER = "WeaponHammer";
         public const string WEAPON_SWORD = "WeaponSword";

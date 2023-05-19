@@ -12,7 +12,7 @@ namespace Item
         Transform SocketTransform { get; set; }
         Dictionary<WeaponType, Transform> WeaponsTransform { get; }
 
-        void SetUp(GameObject socketTransform, PlayerStaticDefaultData playerStaticDefaultData,
+        void SetUp(Transform socketTransform, PlayerStaticDefaultData playerStaticDefaultData,
             params GameObject[] weapons);
         void MoveWeaponInSocket(WeaponType selectedWeaponType);
     }

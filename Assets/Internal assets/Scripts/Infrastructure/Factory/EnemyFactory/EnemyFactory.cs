@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Addressable;
 using Data.Static;
+using Infrastructure.Factory.PlayerFactory;
 using Services.AssetsAddressableService;
 using Services.StaticData;
 using Units.Enemy;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
@@ -17,16 +19,19 @@ namespace Infrastructure.Factory.EnemyFactory
     {
         public EnemyFactory(DiContainer container,
             IAssetsAddressableService assetsAddressableService,
-            IStaticDataService staticDataService)
+            IStaticDataService staticDataService,
+            IPlayerFactory playerFactory)
         {
             _container = container;
             _assetsAddressableService = assetsAddressableService;
             _staticDataService = staticDataService;
+            _playerFactory = playerFactory;
         }
 
-        private readonly DiContainer _container;
         private readonly IAssetsAddressableService _assetsAddressableService;
         private readonly IStaticDataService _staticDataService;
+        private readonly IPlayerFactory _playerFactory;
+        private readonly DiContainer _container;
 
         public event UnityAction AllDeadEnemies;
         public List<GameObject> Instances { get; } = new();
@@ -36,7 +41,7 @@ namespace Infrastructure.Factory.EnemyFactory
         {
             var enemyStaticData = _staticDataService.GetEnemyData(enemyType);
 
-            var prefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.GOLEM);
+            var prefab = await _assetsAddressableService.GetAsset<GameObject>(enemyStaticData.PrefabReference);
 
             var instance = _container.InstantiatePrefab(prefab, position, Quaternion.identity, null);
 
@@ -69,8 +74,8 @@ namespace Infrastructure.Factory.EnemyFactory
             }
 
             Enemies.Remove(instance.GetComponent<Enemy>());
-            Object.Destroy(instance);
             Instances.Remove(instance);
+            Object.Destroy(instance);
         }
 
         public void DestroyAllInstances()
@@ -96,30 +101,20 @@ namespace Infrastructure.Factory.EnemyFactory
 
         private void SetUp(GameObject instance, EnemyStaticData enemyStaticData)
         {
-            if (instance.TryGetComponent(out Enemy enemy))
-            {
-                enemy.SetUp(
-                    enemyStaticData.MaxHealthPoints,
-                    enemyStaticData.EffectiveDistance,
-                    enemyStaticData.Cleavage,
-                    enemyStaticData.AttackCooldown,
-                    enemyStaticData.Damage,
-                    enemyStaticData.MovementSpeed,
-                    enemyStaticData.RotationSpeed,
-                    this);
-            }
-            else
-            {
-                instance.AddComponent<Enemy>().SetUp(
-                    enemyStaticData.MaxHealthPoints,
-                    enemyStaticData.EffectiveDistance,
-                    enemyStaticData.Cleavage,
-                    enemyStaticData.AttackCooldown,
-                    enemyStaticData.Damage,
-                    enemyStaticData.MovementSpeed,
-                    enemyStaticData.RotationSpeed,
-                    this);
-            }
+            var enemy = instance.TryGetComponent(out Enemy enemyComponent)
+                ? enemyComponent
+                : instance.AddComponent<Enemy>();
+
+            enemy.SetUp(
+                enemyStaticData.MaxHealthPoints,
+                enemyStaticData.EffectiveDistance,
+                enemyStaticData.Cleavage,
+                enemyStaticData.AttackCooldown,
+                enemyStaticData.Damage,
+                enemyStaticData.MovementSpeed,
+                enemyStaticData.RotationSpeed,
+                _playerFactory.PlayerInstance.transform,
+                this);
         }
     }
 }

@@ -21,10 +21,10 @@ namespace Item.Weapon
             [WeaponType.Hammer] = null
         };
 
-        public void SetUp(GameObject socketTransform, PlayerStaticDefaultData playerStaticDefaultData,
+        public void SetUp(Transform socketTransform, PlayerStaticDefaultData playerStaticDefaultData,
             params GameObject[] weapons)
         {
-            SocketTransform = socketTransform.transform;
+            SocketTransform = socketTransform;
             _defaultData = playerStaticDefaultData;
             foreach (var weapon in weapons)
             {
@@ -37,9 +37,11 @@ namespace Item.Weapon
 
         public void MoveWeaponInSocket(WeaponType selectedWeaponType)
         {
+            WeaponsTransform[selectedWeaponType].GetComponent<Rigidbody>().isKinematic = true;
             WeaponsTransform[selectedWeaponType].GetComponent<XRGrabInteractable>().enabled = false;
             WeaponsTransform[selectedWeaponType].position = SocketTransform.position;
             WeaponsTransform[selectedWeaponType].GetComponent<XRGrabInteractable>().enabled = true;
+            WeaponsTransform[selectedWeaponType].GetComponent<Rigidbody>().isKinematic = false;
         }
 
         public void LoadProgress(Progress progress)

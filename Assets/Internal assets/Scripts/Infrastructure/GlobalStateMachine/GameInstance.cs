@@ -2,6 +2,7 @@ using Data.Settings;
 using Data.Static;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.EnemyFactory;
+using Infrastructure.Factory.PlayerFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States;
@@ -16,43 +17,35 @@ namespace Infrastructure.GlobalStateMachine
 {
     public class GameInstance
     {
-        public GameInstance(IUIFactory uiFactory,
-            IAssetsAddressableService assetsAddressableService,
-            IAbstractFactory abstractFactory,
-            MainLocationSettings mainLocationSettings,
-            MainMenuSettings mainMenuSettings,
-            PlayerStaticDefaultData playerStaticDefaultData,
-            ISaveLoadInstancesWatcher saveLoadInstancesWatcher,
+        public GameInstance(
             IPersistentProgressService persistentProgressService,
+            IAssetsAddressableService assetsAddressableService,
+            ISaveLoadInstancesWatcher saveLoadInstancesWatcher,
+            PlayerStaticDefaultData playerStaticDefaultData,
+            MainLocationSettings mainLocationSettings,
+            DungeonRoomSettings dungeonRoomSettings,
+            MainMenuSettings mainMenuSettings,
+            IAbstractFactory abstractFactory,
             ISaveLoadService saveLoadService,
-            IEnemyFactory enemyFactory)
+            IPlayerFactory playerFactory,
+            IEnemyFactory enemyFactory,
+            IUIFactory uiFactory)
         {
             StateMachine = new StateMachine<GameInstance>(
                 this,
-                new BootstrapState(
-                    this),
-                new LoadLateLocation(
-                    this,
-                    saveLoadService),
-                new ProgressLoadingState(
-                    this,
-                    saveLoadService,
-                    saveLoadInstancesWatcher,
-                    persistentProgressService),
+                new BootstrapState(this),
+                new LoadLateLocation(this, saveLoadService),
+                new SceneLoadingState(this, uiFactory),
+                new RemoveProgressData(this, saveLoadService),
+                new ProgressLoadingState(this, saveLoadService, saveLoadInstancesWatcher, persistentProgressService),
                 new MainMenuSetUpState(
                     this,
                     abstractFactory,
                     uiFactory,
                     assetsAddressableService,
-                    mainMenuSettings),
-                new MainMenuState(
-                    this,
-                    uiFactory,
-                    abstractFactory,
-                    saveLoadService),
-                new SceneLoadingState(
-                    this,
-                    uiFactory),
+                    mainMenuSettings,
+                    playerFactory),
+                new MainMenuState(this, uiFactory, abstractFactory, saveLoadService, playerFactory),
                 new MainLocationSetUpState(
                     this,
                     abstractFactory,
@@ -61,40 +54,33 @@ namespace Infrastructure.GlobalStateMachine
                     mainLocationSettings,
                     saveLoadService,
                     saveLoadInstancesWatcher,
-                    playerStaticDefaultData),
+                    playerStaticDefaultData,
+                    playerFactory),
                 new MainLocationState(
                     this,
                     uiFactory,
                     saveLoadService,
                     saveLoadInstancesWatcher,
-                    abstractFactory),
-                new RemoveGameplayData(
-                    this,
-                    saveLoadService),
-                new DungeonRoomGenerationState(
-                    this,
-                    persistentProgressService,
-                    saveLoadService),
+                    abstractFactory,
+                    playerFactory),
+                new DungeonRoomGenerationState(this, persistentProgressService, saveLoadService),
                 new DungeonRoomSetUpState(
                     this,
                     abstractFactory,
                     assetsAddressableService,
-                    mainLocationSettings,
+                    dungeonRoomSettings,
                     saveLoadInstancesWatcher,
-                    playerStaticDefaultData),
-                new DungeonRoomSetUpNavMeshState(
-                    this,
-                    abstractFactory),
-                new DungeonRoomSetUpEnemyState(
-                    this,
-                    enemyFactory),
+                    playerStaticDefaultData,
+                    enemyFactory,
+                    playerFactory),
                 new DungeonRoomState(
                     this,
                     uiFactory,
                     saveLoadService,
                     abstractFactory,
                     enemyFactory,
-                    saveLoadInstancesWatcher)
+                    saveLoadInstancesWatcher,
+                    playerFactory)
             );
 
             StateMachine.SwitchState<BootstrapState>();

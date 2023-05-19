@@ -1,6 +1,7 @@
 ﻿using System;
 using Data.Addressable;
 using Infrastructure.Factory.AbstractFactory;
+using Infrastructure.Factory.PlayerFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States.Intermediate;
@@ -13,17 +14,19 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
     public class MainMenuState : StateOneParam<GameInstance, GameObject>
     {
         public MainMenuState(GameInstance context, IUIFactory uiFactory, IAbstractFactory abstractFactory,
-            ISaveLoadService saveLoadService) : base(
+            ISaveLoadService saveLoadService, IPlayerFactory playerFactory) : base(
             context)
         {
             _uiFactory = uiFactory;
             _abstractFactory = abstractFactory;
             _saveLoadService = saveLoadService;
+            _playerFactory = playerFactory;
         }
 
-        private readonly IUIFactory _uiFactory;
         private readonly IAbstractFactory _abstractFactory;
         private readonly ISaveLoadService _saveLoadService;
+        private readonly IPlayerFactory _playerFactory;
+        private readonly IUIFactory _uiFactory;
 
         public override void Enter(GameObject mainMenuScreen)
         {
@@ -36,11 +39,12 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
         public override void Exit()
         {
             _abstractFactory.DestroyAllInstances();
+            _playerFactory.DestroyPlayer();
         }
 
         private void GoToNewGame()
         {
-            Context.StateMachine.SwitchState<RemoveGameplayData>();
+            Context.StateMachine.SwitchState<RemoveProgressData>();
         }
 
         private void GoToLoadGame()

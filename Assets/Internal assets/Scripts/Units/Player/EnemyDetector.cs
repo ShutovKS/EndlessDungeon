@@ -8,13 +8,13 @@ namespace Units.Player
         // private void OnTriggerStay(Collider other)
         {
             if (other.TryGetComponent<Enemy.Enemy>(out var enemy))
-                enemy.playerInRange = true;
+                enemy.PlayerInRange = true;
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (other.TryGetComponent<Enemy.Enemy>(out var enemy))
-                enemy.playerInRange = false;
+                enemy.PlayerInRange = false;
         }
     }
 }

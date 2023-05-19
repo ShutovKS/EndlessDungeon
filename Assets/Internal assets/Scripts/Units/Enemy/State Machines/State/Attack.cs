@@ -18,7 +18,6 @@ namespace Units.Enemy.State_Machines.State
         {
             { EnemyDamage.Side.Left, null },
             { EnemyDamage.Side.Right, null },
-            { EnemyDamage.Side.Other, null }
         };
 
         private Action<string> _animationTriggerName;

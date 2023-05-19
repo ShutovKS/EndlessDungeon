@@ -20,7 +20,6 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
 
         public override void Enter()
         {
-            Debug.Log(_saveLoadService.LoadProgress().currentLocation.locationType.ToString());
             switch (_saveLoadService.LoadProgress().currentLocation.locationType)
             {
                 case CurrentLocation.LocationType.Main:

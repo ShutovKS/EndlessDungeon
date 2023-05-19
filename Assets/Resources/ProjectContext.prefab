@@ -201,5 +201,7 @@ MonoBehaviour:
   _mainLocationSettings: {fileID: 11400000, guid: 6057a08ead4bb2a45bbac7768551c102,
     type: 2}
   _mainMenuSettings: {fileID: 11400000, guid: 2ab1f53f56cf0b14ba91c39059ee7658, type: 2}
+  _dungeonRoomSettings: {fileID: 11400000, guid: 9a93bb9829ae7a94ea351c65852147a5,
+    type: 2}
   _playerStaticDefaultData: {fileID: 11400000, guid: 33f51b640f5e3444ca77e568a564fecc,
     type: 2}

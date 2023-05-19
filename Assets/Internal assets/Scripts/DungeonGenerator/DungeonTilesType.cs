@@ -4,7 +4,6 @@
     {
         FLOOR,
         WALL,
-        PLAYER,
         EMPTY
     }
 }

@@ -92,11 +92,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 661f588cf56caea4d93119169006efb8
-    m_Address: GolemData
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 368e41dda746cad4191edd03d57597e1
     m_Address: Golem
     m_ReadOnly: 0
@@ -114,6 +109,31 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c8aa97602fe61c247a3d9a6b9498dca0
     m_Address: SkillsBookScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 905263f3a0bd25c47b27d8a3ab391d68
+    m_Address: Footman
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 557bc9ac3f857ec4c833d20ce03e0497
+    m_Address: Grunt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f38f6e712b8b0d2408efd126885e3161
+    m_Address: Lich
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 89c5d7aac3a11884894effb98f27989a
+    m_Address: Beholder
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff68ffe12e7cb12459560996b4adff53
+    m_Address: ChestMonster
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

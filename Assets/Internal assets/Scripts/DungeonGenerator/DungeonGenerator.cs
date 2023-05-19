@@ -6,7 +6,8 @@ namespace DungeonGenerator
 {
     public static class DungeonGenerator
     {
-        public static (DungeonTilesType[,] dungeonMap, List<(int, int)> enemyPosition) GetDungeon(int seed)
+        public static (DungeonTilesType[,] dungeonMap, (int, int) playerPosition, List<(int, int)> enemiesPosition)
+            GetDungeon(int seed)
         {
             const int minRoomSize = 4;
             const int maxRoomSize = 8;
@@ -14,8 +15,8 @@ namespace DungeonGenerator
             const int maxRoomCount = 11;
             const int width = 45;
             const int height = 45;
-            
-            
+
+
             var map = Generation(
                 seed,
                 minRoomSize,
@@ -24,19 +25,20 @@ namespace DungeonGenerator
                 maxRoomCount,
                 width,
                 height);
-            
+
             return map;
         }
 
         #region Generation Map
 
-        private static (DungeonTilesType[,], List<(int, int)>) Generation(int seed,
-            int minRoomSize,
-            int maxRoomSize,
-            int minRoomCount,
-            int maxRoomCount,
-            int width,
-            int height)
+        private static (DungeonTilesType[,] dungeonMap, (int, int) playerPosition, List<(int, int)> enemiesPosition)
+            Generation(int seed,
+                int minRoomSize,
+                int maxRoomSize,
+                int minRoomCount,
+                int maxRoomCount,
+                int width,
+                int height)
         {
             DungeonTilesType[,] tilesMap = FillInWalls(height, width);
 
@@ -56,7 +58,7 @@ namespace DungeonGenerator
             ClearWall(height, width, ref tilesMap);
             var enemyPosition = GetEnemiesPosition(rooms, startRoom, tilesMap, height, width);
 
-            return (tilesMap, enemyPosition);
+            return (tilesMap, (startRoom.x, startRoom.y), enemyPosition);
         }
 
         private static DungeonTilesType[,] FillInWalls(int height, int width)
@@ -69,7 +71,8 @@ namespace DungeonGenerator
             return tilesMap;
         }
 
-        private static void AddRooms(ref DungeonTilesType[,] tilesMap, out List<DungeonRoomCharacteristic> rooms, int seed, int minRoomSize,
+        private static void AddRooms(ref DungeonTilesType[,] tilesMap, out List<DungeonRoomCharacteristic> rooms,
+            int seed, int minRoomSize,
             int maxRoomSize, int minRoomCount,
             int maxRoomCount, int width, int height)
         {
@@ -118,7 +121,8 @@ namespace DungeonGenerator
         }
 
         //TODO: переделать, сделать поиск наименьшей комнаты, не пересекающейся с другими
-        private static void AddPlayer(ref List<DungeonRoomCharacteristic> rooms, ref DungeonTilesType[,] tilesMap, out DungeonRoomCharacteristic startDungeonRoomCharacteristic)
+        private static void AddPlayer(ref List<DungeonRoomCharacteristic> rooms, ref DungeonTilesType[,] tilesMap,
+            out DungeonRoomCharacteristic startDungeonRoomCharacteristic)
         {
             var distHi = 0;
             var startIdx = -1;
@@ -132,7 +136,6 @@ namespace DungeonGenerator
             }
 
             startDungeonRoomCharacteristic = rooms[startIdx];
-            tilesMap[startDungeonRoomCharacteristic.y, startDungeonRoomCharacteristic.x] = DungeonTilesType.PLAYER;
             rooms.Remove(startDungeonRoomCharacteristic);
         }
 
@@ -152,18 +155,25 @@ namespace DungeonGenerator
         #region Generation Enemy
 
         private static List<(int, int)> GetEnemiesPosition(
-            List<DungeonRoomCharacteristic> rooms, DungeonRoomCharacteristic startDungeonRoomCharacteristic, DungeonTilesType[,] tilesMap, int height, int width)
+            List<DungeonRoomCharacteristic> rooms, DungeonRoomCharacteristic startDungeonRoomCharacteristic,
+            DungeonTilesType[,] dungeonMap, int height, int width)
         {
             var enemyPosition = new List<(int, int)>();
+            var tilesMap = (DungeonTilesType[,])dungeonMap.Clone();
+            
 
-            for (var y = startDungeonRoomCharacteristic.y - startDungeonRoomCharacteristic.height / 2 - 5; y < startDungeonRoomCharacteristic.y - startDungeonRoomCharacteristic.height / 2 + 7; y++)
+            for (var y = startDungeonRoomCharacteristic.y - startDungeonRoomCharacteristic.height / 2 - 5;
+                 y < startDungeonRoomCharacteristic.y - startDungeonRoomCharacteristic.height / 2 + 7;
+                 y++)
             {
                 if (y < 0 || y > height - 1) continue;
-                for (var x = startDungeonRoomCharacteristic.x - startDungeonRoomCharacteristic.width / 2 - 5; x < startDungeonRoomCharacteristic.x - startDungeonRoomCharacteristic.width / 2 + 7; x++)
+                for (var x = startDungeonRoomCharacteristic.x - startDungeonRoomCharacteristic.width / 2 - 5;
+                     x < startDungeonRoomCharacteristic.x - startDungeonRoomCharacteristic.width / 2 + 7;
+                     x++)
                 {
                     if (x < 0 || x > width - 1) continue;
                     if (tilesMap[y, x] == DungeonTilesType.FLOOR)
-                        tilesMap[y, x] = DungeonTilesType.PLAYER;
+                        tilesMap[y, x] = DungeonTilesType.EMPTY;
                 }
             }
 

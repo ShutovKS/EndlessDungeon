@@ -22,7 +22,7 @@ namespace Item.Weapon
             [WeaponType.Hammer] = null
         };
 
-        public void SetUp(GameObject socketTransform, PlayerStaticDefaultData playerStaticDefaultData,
+        public void SetUp(Transform socketTransform, PlayerStaticDefaultData playerStaticDefaultData,
             params GameObject[] weapons)
         {
             SocketTransform = socketTransform.transform;

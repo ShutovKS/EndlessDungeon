@@ -2,6 +2,7 @@
 using Data.Addressable;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.EnemyFactory;
+using Infrastructure.Factory.PlayerFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States.Intermediate;
@@ -16,13 +17,14 @@ namespace Infrastructure.GlobalStateMachine.States
     {
         public DungeonRoomState(GameInstance context, IUIFactory uiFactory, ISaveLoadService saveLoadService,
             IAbstractFactory abstractFactory, IEnemyFactory enemyFactory,
-            ISaveLoadInstancesWatcher saveLoadInstancesWatcher) : base(context)
+            ISaveLoadInstancesWatcher saveLoadInstancesWatcher, IPlayerFactory playerFactory) : base(context)
         {
             _uiFactory = uiFactory;
             _saveLoadService = saveLoadService;
             _abstractFactory = abstractFactory;
             _enemyFactory = enemyFactory;
             _saveLoadInstancesWatcher = saveLoadInstancesWatcher;
+            _playerFactory = playerFactory;
         }
 
         private readonly IEnemyFactory _enemyFactory;
@@ -30,6 +32,7 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly ISaveLoadService _saveLoadService;
         private readonly IAbstractFactory _abstractFactory;
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
+        private readonly IPlayerFactory _playerFactory;
 
         public override void Enter()
         {
@@ -39,6 +42,7 @@ namespace Infrastructure.GlobalStateMachine.States
 
         public override void Exit()
         {
+            _playerFactory.DestroyPlayer();
             _enemyFactory.DestroyAllInstances();
             _abstractFactory.DestroyAllInstances();
             _saveLoadInstancesWatcher.ClearProgress();

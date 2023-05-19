@@ -14,5 +14,14 @@ namespace Services.AssetsAddressableService
 
             return asyncOperationHandle.Result;
         }
+        
+        public async Task<T> GetAsset<T>(AssetReference assetReference) where T : Object
+        {
+            var asyncOperationHandle = Addressables.LoadAssetAsync<T>(assetReference.AssetGUID); 
+            
+            await asyncOperationHandle.Task; 
+ 
+            return asyncOperationHandle.Result; 
+        }
     }
 }
