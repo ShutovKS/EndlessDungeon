@@ -10,6 +10,7 @@
         public const string MAIN_MENU_SCREEN = "MainMenuScreen";
         public const string MAIN_LOCATION_SCREEN = "MainLocationScreen";
         public const string MENU_IN_MAIN_LOCATION_SCREEN = "MenuInMainLocationScreen";
+        public const string MENU_IN_DUNGEON_ROOM_SCREEN = "MenuInDungeonRoomScreen";
         public const string SKILLS_BOOK_SCREEN = "SkillsBookScreen";
         
 

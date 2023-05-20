@@ -8,16 +8,21 @@ using DungeonGenerator;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.PlayerFactory;
+using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States.Intermediate;
+using Infrastructure.GlobalStateMachine.States.MainMenu;
 using Item.Weapon;
 using Loot;
 using Services.AssetsAddressableService;
 using Services.Watchers.SaveLoadWatcher;
+using UI.DungeonRoom;
 using Units.Enemy;
 using Units.Player;
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using XR;
 using Random = UnityEngine.Random;
 
 namespace Infrastructure.GlobalStateMachine.States
@@ -28,7 +33,7 @@ namespace Infrastructure.GlobalStateMachine.States
         public DungeonRoomSetUpState(GameInstance context, IAbstractFactory abstractFactory,
             IAssetsAddressableService assetsAddressableService, DungeonRoomSettings dungeonRoomSettings,
             ISaveLoadInstancesWatcher saveLoadInstancesWatcher, PlayerStaticDefaultData playerStaticDefaultData,
-            IEnemyFactory enemyFactory, IPlayerFactory playerFactory)
+            IEnemyFactory enemyFactory, IPlayerFactory playerFactory, IUIFactory uiFactory)
             : base(context)
         {
             _abstractFactory = abstractFactory;
@@ -38,6 +43,7 @@ namespace Infrastructure.GlobalStateMachine.States
             _playerStaticDefaultData = playerStaticDefaultData;
             _enemyFactory = enemyFactory;
             _playerFactory = playerFactory;
+            _uiFactory = uiFactory;
         }
 
         private readonly IAbstractFactory _abstractFactory;
@@ -47,8 +53,8 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly PlayerStaticDefaultData _playerStaticDefaultData;
         private readonly IEnemyFactory _enemyFactory;
         private readonly IPlayerFactory _playerFactory;
+        private readonly IUIFactory _uiFactory;
         private Transform _socketInstanceTransform;
-
 
         private const float UNIT = 4.85f / 2;
 
@@ -60,6 +66,7 @@ namespace Infrastructure.GlobalStateMachine.States
             await CreatePlayer(dungeonArchitecture.playerPosition);
             await CreatePlayerAddons();
             await CreateWeapon();
+            await CreateMenu();
             CreateLootManager();
             BuildNavMeshForDungeon();
             await CreateEnemies(dungeonArchitecture.enemiesPosition);
@@ -141,6 +148,25 @@ namespace Infrastructure.GlobalStateMachine.States
                 hammerInstance);
 
             _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance);
+        }
+
+        private async Task CreateMenu()
+        {
+            var playerInstance = _playerFactory.PlayerInstance;
+
+            var menuInDungeonRoomScreenInstance = await _uiFactory.CreateMenuInDungeonRoomScreen();
+
+            menuInDungeonRoomScreenInstance.transform.SetParent(
+                playerInstance.GetComponentInChildren<XRGazeInteractor>().transform.parent);
+
+            menuInDungeonRoomScreenInstance.transform.localPosition = Vector3.zero;
+            playerInstance.GetComponentInChildren<GazeInteractorTrigger>()
+                .AddHoverEntered(_ => menuInDungeonRoomScreenInstance.SetActive(true));
+
+            playerInstance.GetComponentInChildren<GazeInteractorTrigger>()
+                .AddHoverExited(_ => menuInDungeonRoomScreenInstance.SetActive(false));
+
+            menuInDungeonRoomScreenInstance.SetActive(false);
         }
 
         private void CreateLootManager()

@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.States.MainMenu
 {
-    public class MainMenuState : StateOneParam<GameInstance, GameObject>
+    public class MainMenuState : State<GameInstance>
     {
         public MainMenuState(GameInstance context, IUIFactory uiFactory, IAbstractFactory abstractFactory,
             ISaveLoadService saveLoadService, IPlayerFactory playerFactory) : base(
@@ -28,28 +28,27 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
         private readonly IPlayerFactory _playerFactory;
         private readonly IUIFactory _uiFactory;
 
-        public override void Enter(GameObject mainMenuScreen)
+        public override void Enter()
         {
+            SettingMenu();
+            
             _uiFactory.DestroyLoadingScreen();
-
-            if (mainMenuScreen.TryGetComponent<MainMenuScreen>(out var mainMenuScreenComponent))
-                mainMenuScreenComponent.SetUp(GoToNewGame, GoToLoadGame, _saveLoadService.IsInStockSave());
         }
 
         public override void Exit()
         {
+            _uiFactory.DestroyMainMenuScreen();
             _abstractFactory.DestroyAllInstances();
             _playerFactory.DestroyPlayer();
         }
 
-        private void GoToNewGame()
+        private void SettingMenu()
         {
-            Context.StateMachine.SwitchState<RemoveProgressData>();
+            if (_uiFactory.MainMenuScreen.TryGetComponent<MainMenuScreen>(out var mainMenuScreenComponent))
+                mainMenuScreenComponent.SetUp(GoToNewGame, GoToLoadGame, _saveLoadService.IsInStockSave());
         }
 
-        private void GoToLoadGame()
-        {
-            Context.StateMachine.SwitchState<LoadLateLocation>();
-        }
+        private void GoToNewGame() => Context.StateMachine.SwitchState<RemoveProgressData>();
+        private void GoToLoadGame() => Context.StateMachine.SwitchState<LoadLateLocation>();
     }
 }

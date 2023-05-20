@@ -1,14 +1,18 @@
 ﻿using System;
 using Data.Addressable;
+using Data.Dynamic.Location;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.PlayerFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States.Intermediate;
+using Infrastructure.GlobalStateMachine.States.MainMenu;
 using Loot;
+using Services.PersistentProgress;
 using Services.SaveLoad;
 using Services.Watchers.SaveLoadWatcher;
+using UI.DungeonRoom;
 using UnityEngine;
 
 namespace Infrastructure.GlobalStateMachine.States
@@ -17,7 +21,8 @@ namespace Infrastructure.GlobalStateMachine.States
     {
         public DungeonRoomState(GameInstance context, IUIFactory uiFactory, ISaveLoadService saveLoadService,
             IAbstractFactory abstractFactory, IEnemyFactory enemyFactory,
-            ISaveLoadInstancesWatcher saveLoadInstancesWatcher, IPlayerFactory playerFactory) : base(context)
+            ISaveLoadInstancesWatcher saveLoadInstancesWatcher, IPlayerFactory playerFactory,
+            IPersistentProgressService persistentProgressService) : base(context)
         {
             _uiFactory = uiFactory;
             _saveLoadService = saveLoadService;
@@ -25,6 +30,7 @@ namespace Infrastructure.GlobalStateMachine.States
             _enemyFactory = enemyFactory;
             _saveLoadInstancesWatcher = saveLoadInstancesWatcher;
             _playerFactory = playerFactory;
+            _persistentProgressService = persistentProgressService;
         }
 
         private readonly IEnemyFactory _enemyFactory;
@@ -33,28 +39,62 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly IAbstractFactory _abstractFactory;
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
         private readonly IPlayerFactory _playerFactory;
+        private readonly IPersistentProgressService _persistentProgressService;
 
         public override void Enter()
         {
+            SelectionLocationSettingChange();
+            CreatedActionAllDeadEnemies();
+            SettingMenu();
+            
             _uiFactory.DestroyLoadingScreen();
-            _enemyFactory.AllDeadEnemies += Finish;
         }
 
         public override void Exit()
         {
+            _saveLoadInstancesWatcher.ClearProgress();
+
             _playerFactory.DestroyPlayer();
             _enemyFactory.DestroyAllInstances();
             _abstractFactory.DestroyAllInstances();
-            _saveLoadInstancesWatcher.ClearProgress();
+            _uiFactory.DestroyMenuInDungeonRoomScreen();
         }
 
-        private void Finish()
+        private void SelectionLocationSettingChange()
         {
-            Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
-                typeof(DungeonRoomGenerationState));
-
+            var progress = _saveLoadService.LoadProgress();
+            progress.currentLocation.locationType = CurrentLocation.LocationType.DungeonRoom;
             _saveLoadService.SaveProgress();
+        }
+        
+        private void CreatedActionAllDeadEnemies()
+        {
+            _enemyFactory.AllDeadEnemies += Finish;
+            
+            void Finish()
+            {
+                _persistentProgressService.Progress.dungeonRoom.seed = 0;
+                _persistentProgressService.Progress.dungeonRoom.roomPassedCount++;
+                _saveLoadService.SaveProgress();
+
+                Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
+                    AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
+                    typeof(DungeonRoomGenerationState));
+            }
+
+        }
+
+        private void SettingMenu()
+        {
+            _uiFactory.MenuInDungeonRoomScreen.GetComponent<MenuInDungeonRoomScreen>().SetUp(ExitInMainLocation);
+            
+            void ExitInMainLocation()
+            {
+                Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
+                    AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME,
+                    typeof(MainLocationSetUpState));
+            }
+
         }
     }
 }

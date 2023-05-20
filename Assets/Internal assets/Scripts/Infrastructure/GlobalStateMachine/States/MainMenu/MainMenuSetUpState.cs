@@ -29,7 +29,6 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
         private readonly IAbstractFactory _abstractFactory;
         private readonly IPlayerFactory _playerFactory;
         private readonly IUIFactory _uiFactory;
-        private GameObject _mainMenuScreenInstance;
 
         public override async void Enter()
         {
@@ -39,7 +38,7 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
             await CreatePlayer();
             await CreateMainMenu();
 
-            Context.StateMachine.SwitchState<MainMenuState, GameObject>(_mainMenuScreenInstance);
+            Context.StateMachine.SwitchState<MainMenuState>();
         }
 
         private async Task CreatePlayer()
@@ -56,12 +55,8 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
 
         private async Task CreateMainMenu()
         {
-            var mainMenuScreen =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_MENU_SCREEN);
-
-            _mainMenuScreenInstance = _abstractFactory.CreateInstance(
-                mainMenuScreen,
-                _mainMenuSettings.UIMenuSpawnPosition);
+            var menu = await _uiFactory.CreateMainMenuScreen();
+            menu.transform.position = _mainMenuSettings.UIMenuSpawnPosition;
         }
     }
 }

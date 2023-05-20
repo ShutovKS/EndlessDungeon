@@ -9,14 +9,11 @@ using Infrastructure.Factory.PlayerFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States.Intermediate;
-using Infrastructure.GlobalStateMachine.States.MainMenu;
 using Item.Weapon;
 using Loot;
 using Services.AssetsAddressableService;
-using Services.SaveLoad;
 using Services.Watchers.SaveLoadWatcher;
 using Skill;
-using UI.MainLocation;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using XR;
@@ -27,7 +24,7 @@ namespace Infrastructure.GlobalStateMachine.States
     {
         public MainLocationSetUpState(GameInstance context, IAbstractFactory abstractFactory, IUIFactory uiFactory,
             IAssetsAddressableService assetsAddressableService, MainLocationSettings mainLocationSettings,
-            ISaveLoadService saveLoadService, ISaveLoadInstancesWatcher saveLoadInstancesWatcher,
+            ISaveLoadInstancesWatcher saveLoadInstancesWatcher,
             PlayerStaticDefaultData playerStaticDefaultData, IPlayerFactory playerFactory)
             : base(context)
         {
@@ -35,7 +32,6 @@ namespace Infrastructure.GlobalStateMachine.States
             _uiFactory = uiFactory;
             _assetsAddressableService = assetsAddressableService;
             _mainLocationSettings = mainLocationSettings;
-            _saveLoadService = saveLoadService;
             _saveLoadInstancesWatcher = saveLoadInstancesWatcher;
             _playerStaticDefaultData = playerStaticDefaultData;
             _playerFactory = playerFactory;
@@ -45,10 +41,10 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
         private readonly PlayerStaticDefaultData _playerStaticDefaultData;
         private readonly MainLocationSettings _mainLocationSettings;
-        private readonly ISaveLoadService _saveLoadService;
         private readonly IAbstractFactory _abstractFactory;
         private readonly IPlayerFactory _playerFactory;
         private readonly IUIFactory _uiFactory;
+
         private GameObject _socketInstance;
         private GameObject _lootManagerInstance;
 
@@ -126,12 +122,8 @@ namespace Infrastructure.GlobalStateMachine.States
         {
             var playerInstance = _playerFactory.PlayerInstance;
 
-            var menuInMainLocationScreen =
-                await _assetsAddressableService.GetAsset<GameObject>(
-                    AssetsAddressablesConstants.MENU_IN_MAIN_LOCATION_SCREEN);
-
             var menuInMainLocationScreenInstance =
-                _abstractFactory.CreateInstance(menuInMainLocationScreen, Vector3.zero);
+                await _uiFactory.CreateMenuInMainLocationScreen();
 
             menuInMainLocationScreenInstance.transform.SetParent(
                 playerInstance.GetComponentInChildren<XRGazeInteractor>().transform.parent);
@@ -142,12 +134,6 @@ namespace Infrastructure.GlobalStateMachine.States
 
             playerInstance.GetComponentInChildren<GazeInteractorTrigger>()
                 .AddHoverExited(_ => menuInMainLocationScreenInstance.SetActive(false));
-
-            menuInMainLocationScreenInstance.GetComponent<MenuInMainLocationScreen>().SetUp(
-                _saveLoadService.SaveProgress,
-                () => Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                    AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
-                    typeof(MainMenuSetUpState)));
 
             menuInMainLocationScreenInstance.SetActive(false);
         }
@@ -188,10 +174,14 @@ namespace Infrastructure.GlobalStateMachine.States
             portalCollider.size = new Vector3(2.5f, 2.5f, 1f);
             portalCollider.isTrigger = true;
             portalInstance.AddComponent<Rigidbody>().isKinematic = true;
-            portalInstance.AddComponent<PortalTrigger>().SetUp(
-                () => Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                    AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME,
-                    typeof(DungeonRoomGenerationState)));
+            portalInstance.AddComponent<PortalTrigger>().SetUp(MoveToDungeonRoom);
+
+            void MoveToDungeonRoom()
+            {
+                Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
+                    AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
+                    typeof(DungeonRoomGenerationState));
+            }
         }
     }
 }

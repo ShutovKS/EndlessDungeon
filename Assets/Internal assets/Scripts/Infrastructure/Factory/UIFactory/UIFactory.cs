@@ -20,6 +20,10 @@ namespace Infrastructure.Factory.UIFactory
 
         public GameObject LoadingScreen { get; private set; }
         public GameObject MainLocationScreen { get; private set; }
+        public GameObject MainMenuScreen { get; private set; }
+        public GameObject MenuInDungeonRoomScreen { get; private set; }
+        public GameObject MenuInMainLocationScreen { get; private set; }
+        public GameObject SkillsBookScreen { get; private set; }
 
         #region LoadingScreen
 
@@ -42,7 +46,7 @@ namespace Infrastructure.Factory.UIFactory
         }
 
         #endregion
-        
+
         #region MainLocationScreen
 
         public async Task<GameObject> CreateMainLocationScreen()
@@ -59,6 +63,88 @@ namespace Infrastructure.Factory.UIFactory
         {
             if (MainLocationScreen != null)
                 Object.Destroy(MainLocationScreen);
+        }
+
+        #endregion
+
+        #region MainMenuScreen
+
+        public async Task<GameObject> CreateMainMenuScreen()
+        {
+            var mainMenuScreenPrefab =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_MENU_SCREEN);
+
+            MainMenuScreen = _container.InstantiatePrefab(mainMenuScreenPrefab);
+
+            return MainMenuScreen;
+        }
+
+        public void DestroyMainMenuScreen()
+        {
+            if (MainMenuScreen != null)
+                Object.Destroy(MainMenuScreen);
+        }
+
+        #endregion
+
+        #region MenuInDungeonRoomScreen
+
+        public async Task<GameObject> CreateMenuInDungeonRoomScreen()
+        {
+            var menuInDungeonRoomScreenPrefab =
+                await _assetsAddressableService.GetAsset<GameObject>(
+                    AssetsAddressablesConstants.MENU_IN_DUNGEON_ROOM_SCREEN);
+
+            MenuInDungeonRoomScreen = _container.InstantiatePrefab(menuInDungeonRoomScreenPrefab);
+
+            return MenuInDungeonRoomScreen;
+        }
+
+        public void DestroyMenuInDungeonRoomScreen()
+        {
+            if (MenuInDungeonRoomScreen != null)
+                Object.Destroy(MenuInDungeonRoomScreen);
+        }
+
+        #endregion
+
+        #region MenuInMainLocationScreen
+
+        public async Task<GameObject> CreateMenuInMainLocationScreen()
+        {
+            var menuInMainLocationScreenPrefab =
+                await _assetsAddressableService.GetAsset<GameObject>(
+                    AssetsAddressablesConstants.MENU_IN_MAIN_LOCATION_SCREEN);
+
+            MenuInMainLocationScreen = _container.InstantiatePrefab(menuInMainLocationScreenPrefab);
+
+            return MenuInMainLocationScreen;
+        }
+
+        public void DestroyMenuInMainLocationScreen()
+        {
+            if (MenuInMainLocationScreen != null)
+                Object.Destroy(MenuInMainLocationScreen);
+        }
+
+        #endregion
+
+        #region SkillsBookScreen
+
+        public async Task<GameObject> CreateSkillsBookScreen()
+        {
+            var skillsBookScreenPrefab =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SKILLS_BOOK_SCREEN);
+
+            SkillsBookScreen = _container.InstantiatePrefab(skillsBookScreenPrefab);
+
+            return SkillsBookScreen;
+        }
+
+        public void DestroySkillsBookScreen()
+        {
+            if (SkillsBookScreen != null)
+                Object.Destroy(SkillsBookScreen);
         }
 
         #endregion

@@ -52,7 +52,6 @@ namespace Infrastructure.GlobalStateMachine
                     uiFactory,
                     assetsAddressableService,
                     mainLocationSettings,
-                    saveLoadService,
                     saveLoadInstancesWatcher,
                     playerStaticDefaultData,
                     playerFactory),
@@ -72,7 +71,8 @@ namespace Infrastructure.GlobalStateMachine
                     saveLoadInstancesWatcher,
                     playerStaticDefaultData,
                     enemyFactory,
-                    playerFactory),
+                    playerFactory,
+                    uiFactory),
                 new DungeonRoomState(
                     this,
                     uiFactory,
@@ -80,7 +80,8 @@ namespace Infrastructure.GlobalStateMachine
                     abstractFactory,
                     enemyFactory,
                     saveLoadInstancesWatcher,
-                    playerFactory)
+                    playerFactory, 
+                    persistentProgressService)
             );
 
             StateMachine.SwitchState<BootstrapState>();

@@ -1,7 +1,12 @@
-﻿using Infrastructure.Factory.AbstractFactory;
+﻿using System;
+using Data.Addressable;
+using Data.Dynamic.Location;
+using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.PlayerFactory;
 using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
+using Infrastructure.GlobalStateMachine.States.Intermediate;
+using Infrastructure.GlobalStateMachine.States.MainMenu;
 using Services.SaveLoad;
 using Services.Watchers.SaveLoadWatcher;
 using UI.MainLocation;
@@ -28,20 +33,43 @@ namespace Infrastructure.GlobalStateMachine.States
         private readonly IPlayerFactory _playerFactory;
         private readonly IUIFactory _uiFactory;
 
-        public override async void Enter()
+        public override void Enter()
         {
-            await _uiFactory.CreateMainLocationScreen();
+            _saveLoadService.SaveProgress();
+            SelectionLocationSettingChange();
+            SettingMenu();
 
             _uiFactory.DestroyLoadingScreen();
         }
 
         public override void Exit()
         {
-            _playerFactory.DestroyPlayer();
             _saveLoadService.SaveProgress();
-            _abstractFactory.DestroyAllInstances();
-            _uiFactory.DestroyMainLocationScreen();
             _saveLoadInstancesWatcher.ClearProgress();
+
+            _playerFactory.DestroyPlayer();
+            _abstractFactory.DestroyAllInstances();
+            _uiFactory.DestroyMenuInMainLocationScreen();
+        }
+
+        private void SelectionLocationSettingChange()
+        {
+            var progress = _saveLoadService.LoadProgress();
+            progress.currentLocation.locationType = CurrentLocation.LocationType.Main;
+            _saveLoadService.SaveProgress();
+        }
+
+        private void SettingMenu()
+        {
+            _uiFactory.MenuInMainLocationScreen.GetComponent<MenuInMainLocationScreen>()
+                .SetUp(_saveLoadService.SaveProgress, ExitInMainMenu);
+            
+            void ExitInMainMenu()
+            {
+                Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
+                    AssetsAddressablesConstants.MAIN_MENU_SCENE_NAME,
+                    typeof(MainMenuSetUpState));
+            }
         }
     }
 }
