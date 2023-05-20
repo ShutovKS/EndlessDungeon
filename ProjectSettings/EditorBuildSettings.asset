@@ -18,6 +18,8 @@ EditorBuildSettings:
     path: Assets/Internal assets/Scenes/DungeonRoom.unity
     guid: 1234c24e47c8aa74fb4530c3b3f83f3b
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 7b90fab3c8fd4fb47bc11fc7cff665da,
+      type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: bd82933945fcfb140bbb1b2538684377,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: eee0a6cf1ec9b1b4891d89cb3533e414,
