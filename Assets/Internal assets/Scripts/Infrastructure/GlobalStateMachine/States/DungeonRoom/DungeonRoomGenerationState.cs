@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Data.Dynamic.Location;
 using DungeonGenerator;
+using DungeonGenerator.Tiles.Interface;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Services.PersistentProgress;
 using Services.SaveLoad;
@@ -30,18 +31,21 @@ namespace Infrastructure.GlobalStateMachine.States
             {
                 seed = Random.Range(int.MinValue, int.MaxValue);
                 progress.dungeonRoom.seed = seed;
-                _persistentProgressService.SetProgress(progress);
             }
             else
             {
                 seed = progress.dungeonRoom.seed;
             }
 
+            progress.currentLocation.locationType = CurrentLocation.LocationType.DungeonRoom;
+            _persistentProgressService.SetProgress(progress);
+            _saveLoadService.SaveProgress();
+
             var dungeonArchitecture = DungeonGenerator.DungeonGenerator.GetDungeon(seed);
-            
+
             Context.StateMachine
-                .SwitchState<DungeonRoomSetUpState, (DungeonTilesType[,] dungeonMap, (int, int) playerPosition,
-                    List<(int, int)> enemiesPosition)>(dungeonArchitecture);
+                .SwitchState<DungeonRoomSetUpState, (ITile[,] dungeonMap, (int, int) playerPosition, List<(int, int)>
+                    enemiesPosition)>(dungeonArchitecture);
         }
     }
 }

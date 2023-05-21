@@ -5,6 +5,8 @@ using Data.Addressable;
 using Data.Settings;
 using Data.Static;
 using DungeonGenerator;
+using DungeonGenerator.Tiles;
+using DungeonGenerator.Tiles.Interface;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.PlayerFactory;
@@ -27,8 +29,8 @@ using Random = UnityEngine.Random;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class DungeonRoomSetUpState : StateOneParam<GameInstance, (DungeonTilesType[,] dungeonMap, (int, int)
-        playerPosition, List<(int, int)> enemiesPosition)>
+    public class DungeonRoomSetUpState : StateOneParam<GameInstance, (ITile[,] dungeonMap, (int, int) playerPosition,
+        List<(int, int)> enemiesPosition)>
     {
         public DungeonRoomSetUpState(GameInstance context, IAbstractFactory abstractFactory,
             IAssetsAddressableService assetsAddressableService, DungeonRoomSettings dungeonRoomSettings,
@@ -59,8 +61,7 @@ namespace Infrastructure.GlobalStateMachine.States
         private const float UNIT = 4.85f / 2;
 
         public override async void Enter(
-            (DungeonTilesType[,] dungeonMap, (int, int) playerPosition, List<(int, int)> enemiesPosition)
-                dungeonArchitecture)
+            (ITile[,] dungeonMap, (int, int) playerPosition, List<(int, int)> enemiesPosition) dungeonArchitecture)
         {
             await CreateMap(dungeonArchitecture.dungeonMap);
             await CreatePlayer(dungeonArchitecture.playerPosition);
@@ -74,10 +75,12 @@ namespace Infrastructure.GlobalStateMachine.States
             Context.StateMachine.SwitchState<ProgressLoadingState, Type>(typeof(DungeonRoomState));
         }
 
-        private async Task CreateMap(DungeonTilesType[,] dungeonMap)
+        private async Task CreateMap(ITile[,] dungeonMap)
         {
             var floor = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.FLOOR);
             var wall = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WALL);
+            var wallAndLight =
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WALL_AND_LIGHT);
 
 
             for (var y = 0; y < dungeonMap.GetLength(0); y++)
@@ -85,11 +88,23 @@ namespace Infrastructure.GlobalStateMachine.States
             {
                 switch (dungeonMap[y, x])
                 {
-                    case DungeonTilesType.FLOOR:
+                    case FloorTile:
                         _abstractFactory.CreateInstance(floor, new Vector3(x, 0, y) * UNIT);
+                        _abstractFactory.CreateInstance(floor, new Vector3(x, 2, y) * UNIT).transform.rotation =
+                            new Quaternion(180, 0, 0, 0);
+
                         break;
-                    case DungeonTilesType.WALL:
-                        _abstractFactory.CreateInstance(wall, new Vector3(x, 0, y) * UNIT);
+                    case WallTile tile:
+                        if (tile.IsLight)
+                        {
+                            _abstractFactory.CreateInstance(wallAndLight, new Vector3(x, 0, y) * UNIT).transform
+                                .rotation = new Quaternion(0, 90 * (int)tile.LightDirectionType, 0, 0);
+                        }
+                        else
+                        {
+                            _abstractFactory.CreateInstance(wall, new Vector3(x, 0, y) * UNIT);
+                        }
+
                         break;
                 }
             }

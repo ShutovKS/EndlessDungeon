@@ -4,12 +4,7 @@ namespace Socket.SocketInPlayer
 {
     public class SocketRotation : MonoBehaviour
     {
-        private Transform _triggerTransform;
-
-        private void Awake()
-        {
-            _triggerTransform = Camera.main!.transform;
-        }
+        [SerializeField] private Transform _triggerTransform;
 
         private void Update()
         {

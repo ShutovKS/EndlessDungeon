@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using DungeonGenerator.Tiles;
+using DungeonGenerator.Tiles.Interface;
 using Random = UnityEngine.Random;
+
 
 namespace DungeonGenerator
 {
     public static class DungeonGenerator
     {
-        public static (DungeonTilesType[,] dungeonMap, (int, int) playerPosition, List<(int, int)> enemiesPosition)
+        public static (ITile[,] dungeonMap, (int, int) playerPosition, List<(int, int)> enemiesPosition)
             GetDungeon(int seed)
         {
             const int minRoomSize = 4;
@@ -15,7 +18,6 @@ namespace DungeonGenerator
             const int maxRoomCount = 11;
             const int width = 45;
             const int height = 45;
-
 
             var map = Generation(
                 seed,
@@ -31,7 +33,7 @@ namespace DungeonGenerator
 
         #region Generation Map
 
-        private static (DungeonTilesType[,] dungeonMap, (int, int) playerPosition, List<(int, int)> enemiesPosition)
+        private static (ITile[,] dungeonMap, (int, int) playerPosition, List<(int, int)> enemiesPosition)
             Generation(int seed,
                 int minRoomSize,
                 int maxRoomSize,
@@ -40,7 +42,7 @@ namespace DungeonGenerator
                 int width,
                 int height)
         {
-            DungeonTilesType[,] tilesMap = FillInWalls(height, width);
+            var tilesMap = FillInWalls(height, width);
 
             AddRooms(
                 ref tilesMap,
@@ -56,22 +58,25 @@ namespace DungeonGenerator
             AddCorridors(ref tilesMap, ref rooms);
             AddPlayer(ref rooms, ref tilesMap, out var startRoom);
             ClearWall(height, width, ref tilesMap);
+            AddedLight(height, width, ref tilesMap);
             var enemyPosition = GetEnemiesPosition(rooms, startRoom, tilesMap, height, width);
 
             return (tilesMap, (startRoom.x, startRoom.y), enemyPosition);
         }
 
-        private static DungeonTilesType[,] FillInWalls(int height, int width)
+        private static ITile[,] FillInWalls(int height, int width)
         {
-            var tilesMap = new DungeonTilesType[height, width];
+            var tilesMap = new ITile[height, width];
             for (var y = 0; y < height; y++)
             for (var x = 0; x < width; x++)
-                tilesMap[y, x] = DungeonTilesType.EMPTY;
+            {
+                tilesMap[y, x] = new EmptyTile();
+            }
 
             return tilesMap;
         }
 
-        private static void AddRooms(ref DungeonTilesType[,] tilesMap, out List<DungeonRoomCharacteristic> rooms,
+        private static void AddRooms(ref ITile[,] tilesMap, out List<DungeonRoomCharacteristic> rooms,
             int seed, int minRoomSize,
             int maxRoomSize, int minRoomCount,
             int maxRoomCount, int width, int height)
@@ -100,7 +105,7 @@ namespace DungeonGenerator
         }
 
 
-        private static void AddCorridors(ref DungeonTilesType[,] tilesMap, ref List<DungeonRoomCharacteristic> rooms)
+        private static void AddCorridors(ref ITile[,] tilesMap, ref List<DungeonRoomCharacteristic> rooms)
         {
             for (var i = 0; i != rooms.Count - 1; ++i)
             {
@@ -121,7 +126,7 @@ namespace DungeonGenerator
         }
 
         //TODO: переделать, сделать поиск наименьшей комнаты, не пересекающейся с другими
-        private static void AddPlayer(ref List<DungeonRoomCharacteristic> rooms, ref DungeonTilesType[,] tilesMap,
+        private static void AddPlayer(ref List<DungeonRoomCharacteristic> rooms, ref ITile[,] tilesMap,
             out DungeonRoomCharacteristic startDungeonRoomCharacteristic)
         {
             var distHi = 0;
@@ -139,15 +144,57 @@ namespace DungeonGenerator
             rooms.Remove(startDungeonRoomCharacteristic);
         }
 
-        private static void ClearWall(int height, int width, ref DungeonTilesType[,] tilesMap)
+        private static void ClearWall(int height, int width, ref ITile[,] tilesMap)
         {
             for (var y = 0; y < height; y++)
             for (var x = 0; x < width; x++)
-                if (tilesMap[y, x] == DungeonTilesType.FLOOR)
+                if (tilesMap[y, x] is FloorTile)
                     for (var dy = -1; dy <= 1; ++dy)
                     for (var dx = -1; dx <= 1; ++dx)
-                        if (tilesMap[y + dy, x + dx] == DungeonTilesType.EMPTY)
-                            tilesMap[y + dy, x + dx] = DungeonTilesType.WALL;
+                        if (tilesMap[y + dy, x + dx] is EmptyTile)
+                            tilesMap[y + dy, x + dx] = new WallTile();
+        }
+
+        private static void AddedLight(int height, int width, ref ITile[,] tilesMap)
+        {
+            for (var y = 2; y < height - 2; y++)
+            for (var x = 2; x < width - 2; x++)
+            {
+                if (tilesMap[y, x] is not WallTile tile) continue;
+
+                var isLightVisible = false;
+                for (var dy = -2; dy <= 2; dy++)
+                    if (tilesMap[y + dy, x] is WallTile tileTemp)
+                        if (tileTemp.IsLight)
+                            isLightVisible = true;
+
+                for (var dx = -2; dx <= 2; dx++)
+                    if (tilesMap[y, x + dx] is WallTile tileTemp)
+                        if (tileTemp.IsLight)
+                            isLightVisible = true;
+
+                if (isLightVisible) continue;
+                if (tilesMap[y + 1, x] is FloorTile)
+                {
+                    tile.LightDirectionType = WallTile.DirectionType.Up;
+                    tile.IsLight = true;
+                }
+                else if (tilesMap[y - 1, x] is FloorTile)
+                {
+                    tile.LightDirectionType = WallTile.DirectionType.Down;
+                    tile.IsLight = true;
+                }
+                else if (tilesMap[y, x + 1] is FloorTile)
+                {
+                    tile.LightDirectionType = WallTile.DirectionType.Right;
+                    tile.IsLight = true;
+                }
+                else if (tilesMap[y, x - 1] is FloorTile)
+                {
+                    tile.LightDirectionType = WallTile.DirectionType.Left;
+                    tile.IsLight = true;
+                }
+            }
         }
 
         #endregion
@@ -156,11 +203,11 @@ namespace DungeonGenerator
 
         private static List<(int, int)> GetEnemiesPosition(
             List<DungeonRoomCharacteristic> rooms, DungeonRoomCharacteristic startDungeonRoomCharacteristic,
-            DungeonTilesType[,] dungeonMap, int height, int width)
+            ITile[,] dungeonMap, int height, int width)
         {
             var enemyPosition = new List<(int, int)>();
-            var tilesMap = (DungeonTilesType[,])dungeonMap.Clone();
-            
+            var tilesMap = (ITile[,])dungeonMap.Clone();
+
 
             for (var y = startDungeonRoomCharacteristic.y - startDungeonRoomCharacteristic.height / 2 - 5;
                  y < startDungeonRoomCharacteristic.y - startDungeonRoomCharacteristic.height / 2 + 7;
@@ -172,8 +219,8 @@ namespace DungeonGenerator
                      x++)
                 {
                     if (x < 0 || x > width - 1) continue;
-                    if (tilesMap[y, x] == DungeonTilesType.FLOOR)
-                        tilesMap[y, x] = DungeonTilesType.EMPTY;
+                    if (tilesMap[y, x] is FloorTile)
+                        tilesMap[y, x] = new EmptyTile();
                 }
             }
 
@@ -185,7 +232,7 @@ namespace DungeonGenerator
                         Random.Range(room.x - room.width / 2, room.x + room.width / 2),
                         Random.Range(room.y - room.height / 2, room.y + room.height / 2));
 
-                    if (tilesMap[position.Item1, position.Item2] != DungeonTilesType.FLOOR) continue;
+                    if (tilesMap[position.Item1, position.Item2] is not FloorTile) continue;
 
                     enemyPosition.Add(position);
                     break;
@@ -217,7 +264,7 @@ namespace DungeonGenerator
             return min + range;
         }
 
-        private static void CarveFloor(ref DungeonTilesType[,] tilesMap, int y, int x, int height, int width)
+        private static void CarveFloor(ref ITile[,] tilesMap, int y, int x, int height, int width)
         {
             if (width < 1 || height < 1)
             {
@@ -226,7 +273,7 @@ namespace DungeonGenerator
 
             for (var dy = y; dy < y + height; dy++)
             for (var dx = x; dx < x + width; dx++)
-                tilesMap[dy, dx] = DungeonTilesType.FLOOR;
+                tilesMap[dy, dx] = new FloorTile();
         }
 
         #endregion

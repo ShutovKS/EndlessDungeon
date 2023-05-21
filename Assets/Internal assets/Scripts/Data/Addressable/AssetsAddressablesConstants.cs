@@ -26,5 +26,6 @@
 
         public const string FLOOR = "Floor";
         public const string WALL = "Wall";
+        public const string WALL_AND_LIGHT = "WallAndLight";
     }
 }

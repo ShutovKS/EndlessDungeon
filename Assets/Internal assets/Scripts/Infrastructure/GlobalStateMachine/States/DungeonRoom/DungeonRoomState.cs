@@ -43,10 +43,9 @@ namespace Infrastructure.GlobalStateMachine.States
 
         public override void Enter()
         {
-            SelectionLocationSettingChange();
             CreatedActionAllDeadEnemies();
             SettingMenu();
-            
+
             _uiFactory.DestroyLoadingScreen();
         }
 
@@ -60,17 +59,10 @@ namespace Infrastructure.GlobalStateMachine.States
             _uiFactory.DestroyMenuInDungeonRoomScreen();
         }
 
-        private void SelectionLocationSettingChange()
-        {
-            var progress = _saveLoadService.LoadProgress();
-            progress.currentLocation.locationType = CurrentLocation.LocationType.DungeonRoom;
-            _saveLoadService.SaveProgress();
-        }
-        
         private void CreatedActionAllDeadEnemies()
         {
             _enemyFactory.AllDeadEnemies += Finish;
-            
+
             void Finish()
             {
                 _persistentProgressService.Progress.dungeonRoom.seed = 0;
@@ -81,20 +73,22 @@ namespace Infrastructure.GlobalStateMachine.States
                     AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
                     typeof(DungeonRoomGenerationState));
             }
-
         }
 
         private void SettingMenu()
         {
             _uiFactory.MenuInDungeonRoomScreen.GetComponent<MenuInDungeonRoomScreen>().SetUp(ExitInMainLocation);
-            
+
             void ExitInMainLocation()
             {
+                _persistentProgressService.Progress.dungeonRoom.seed = 0;
+                _persistentProgressService.Progress.dungeonRoom.roomPassedCount = 0;
+                _saveLoadService.SaveProgress();
+
                 Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
                     AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME,
                     typeof(MainLocationSetUpState));
             }
-
         }
     }
 }
