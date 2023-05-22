@@ -4,7 +4,6 @@ using System.Linq;
 using Data.Dynamic.Player;
 using Data.Static;
 using Skill;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
