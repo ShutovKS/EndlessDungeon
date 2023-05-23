@@ -1,4 +1,8 @@
-﻿using Data.Dynamic;
+﻿#region
+
+using Data.Dynamic;
+
+#endregion
 
 namespace Services.PersistentProgress
 {

@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿#region
+
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+
+#endregion
 
 namespace UI.MainLocation
 {

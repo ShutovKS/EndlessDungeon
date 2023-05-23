@@ -1,10 +1,13 @@
-﻿using DungeonGenerator.Tiles.Interface;
+﻿#region
+
+using DungeonGenerator.Tiles.Interface;
+
+#endregion
 
 namespace DungeonGenerator.Tiles
 {
     public class FloorTile : ITile
     {
-        public DungeonTilesType Type { get; set; } = DungeonTilesType.FLOOR;
         public bool IsOccupied;
     }
 }

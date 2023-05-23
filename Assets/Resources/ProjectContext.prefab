@@ -141,6 +141,7 @@ MonoBehaviour:
   - {fileID: 8573405490719690380}
   - {fileID: 5814523664234508488}
   _installerPrefabs: []
+  _findSiblingMonoInstallers: 0
   _parentNewObjectsUnderContext: 0
   _editorReflectionBakingCoverageMode: 0
   _buildsReflectionBakingCoverageMode: 0
@@ -149,6 +150,7 @@ MonoBehaviour:
     _displayWarningWhenResolvingDuringInstall: 1
     _validationRootResolveMethod: 0
     _validationErrorResponse: 0
+    _constructorChoiceStrategy: 0
     _signalSettings:
       _defaultSyncMode: 0
       _missingHandlerDefaultResponse: 2
@@ -198,10 +200,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4fb24278df4da4e8502c359ddeccdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainLocationSettings: {fileID: 11400000, guid: 6057a08ead4bb2a45bbac7768551c102,
+  playerStaticDefaultData: {fileID: 11400000, guid: 33f51b640f5e3444ca77e568a564fecc,
     type: 2}
-  _mainMenuSettings: {fileID: 11400000, guid: 2ab1f53f56cf0b14ba91c39059ee7658, type: 2}
-  _dungeonRoomSettings: {fileID: 11400000, guid: 9a93bb9829ae7a94ea351c65852147a5,
+  mainLocationSettings: {fileID: 11400000, guid: 6057a08ead4bb2a45bbac7768551c102,
     type: 2}
-  _playerStaticDefaultData: {fileID: 11400000, guid: 33f51b640f5e3444ca77e568a564fecc,
+  dungeonRoomSettings: {fileID: 11400000, guid: 9a93bb9829ae7a94ea351c65852147a5,
     type: 2}
+  mainMenuSettings: {fileID: 11400000, guid: 2ab1f53f56cf0b14ba91c39059ee7658, type: 2}

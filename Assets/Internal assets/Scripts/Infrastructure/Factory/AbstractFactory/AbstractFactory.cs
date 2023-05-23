@@ -1,8 +1,12 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 using Object = UnityEngine.Object;
+
+#endregion
 
 namespace Infrastructure.Factory.AbstractFactory
 {
@@ -14,12 +18,13 @@ namespace Infrastructure.Factory.AbstractFactory
         }
 
         private readonly DiContainer _container;
+
         public List<GameObject> Instances { get; } = new();
 
         public GameObject CreateInstance(GameObject prefab, Vector3 spawnPoint)
         {
             var instance = _container.InstantiatePrefab(prefab, spawnPoint, Quaternion.identity, null);
-        
+
             Instances.Add(instance);
 
             return instance;
@@ -31,10 +36,11 @@ namespace Infrastructure.Factory.AbstractFactory
             {
                 throw new NullReferenceException("There is no instance to destroy");
             }
-        
+
             if (!Instances.Contains(instance))
             {
-                throw new NullReferenceException($"Instance {instance} can't be destroyed, cause there is no {instance} on Abstract Factory Instances");
+                throw new NullReferenceException(
+                    $"Instance {instance} can't be destroyed, cause there is no {instance} on Abstract Factory Instances");
             }
 
             Object.Destroy(instance);
@@ -43,22 +49,12 @@ namespace Infrastructure.Factory.AbstractFactory
 
         public void DestroyAllInstances()
         {
-            for (int i = 0; i < Instances.Count; i++)
+            foreach (var gameObject in Instances)
             {
-                Object.Destroy(Instances[i]);
+                Object.Destroy(gameObject);
             }
-        
-            Instances.Clear();
-        }
 
-        public void DestroyAllInstances<T>(List<T> list) where T : Object
-        {
-            for (int i = 0; i < list.Count; i++)
-            {
-                Object.Destroy(list[i]);
-            }
-        
-            list.Clear();
+            Instances.Clear();
         }
     }
 }

@@ -1,15 +1,20 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DungeonGenerator.Tiles;
 using DungeonGenerator.Tiles.Interface;
 using Random = UnityEngine.Random;
 
+#endregion
 
 namespace DungeonGenerator
 {
     public static class DungeonGenerator
     {
-        public static (ITile[,] dungeonMap, (int, int) playerPosition, List<(int, int)> enemiesPosition)
+        public static async Task<(ITile[,] dungeonMap, (int x, int y) playerPosition, List<(int x, int y)>
+                enemiesPosition)>
             GetDungeon(int seed)
         {
             const int minRoomSize = 4;
@@ -19,7 +24,7 @@ namespace DungeonGenerator
             const int width = 45;
             const int height = 45;
 
-            var map = Generation(
+            var map = await Generation(
                 seed,
                 minRoomSize,
                 maxRoomSize,
@@ -31,16 +36,62 @@ namespace DungeonGenerator
             return map;
         }
 
+        #region Generation Enemy
+
+        private static List<(int x, int y)> GetEnemiesPosition(
+            List<DungeonRoomCharacteristic> rooms, DungeonRoomCharacteristic startDungeonRoomCharacteristic,
+            ITile[,] dungeonMap, int height, int width)
+        {
+            var enemyPosition = new List<(int x, int y)>();
+            var tilesMap = (ITile[,])dungeonMap.Clone();
+
+
+            for (var y = startDungeonRoomCharacteristic.Y - startDungeonRoomCharacteristic.Height / 2 - 5;
+                 y < startDungeonRoomCharacteristic.Y - startDungeonRoomCharacteristic.Height / 2 + 7;
+                 y++)
+            {
+                if (y < 0 || y > height - 1) continue;
+                for (var x = startDungeonRoomCharacteristic.X - startDungeonRoomCharacteristic.Width / 2 - 5;
+                     x < startDungeonRoomCharacteristic.X - startDungeonRoomCharacteristic.Width / 2 + 7;
+                     x++)
+                {
+                    if (x < 0 || x > width - 1) continue;
+                    if (tilesMap[y, x] is FloorTile)
+                        tilesMap[y, x] = new EmptyTile();
+                }
+            }
+
+            foreach (var room in rooms)
+            {
+                for (var i = 0; i < (room.Height * room.Width / 20 == 0 ? 1 : room.Height * room.Width / 20); i++)
+                for (var flag = 0; flag < 25; flag++)
+                {
+                    (int x, int y) position = (
+                        Random.Range(room.X - room.Width / 2, room.X + room.Width / 2),
+                        Random.Range(room.Y - room.Height / 2, room.Y + room.Height / 2));
+
+                    if (tilesMap[position.x, position.y] is not FloorTile) continue;
+
+                    enemyPosition.Add(position);
+                    break;
+                }
+            }
+
+            return enemyPosition;
+        }
+
+        #endregion
+
         #region Generation Map
 
-        private static (ITile[,] dungeonMap, (int, int) playerPosition, List<(int, int)> enemiesPosition)
-            Generation(int seed,
-                int minRoomSize,
-                int maxRoomSize,
-                int minRoomCount,
-                int maxRoomCount,
-                int width,
-                int height)
+        private static Task<(ITile[,] tilesMap, (int x, int y), List<(int, int)> enemyPosition)> Generation(
+            int seed,
+            int minRoomSize,
+            int maxRoomSize,
+            int minRoomCount,
+            int maxRoomCount,
+            int width,
+            int height)
         {
             var tilesMap = FillInWalls(height, width);
 
@@ -56,12 +107,12 @@ namespace DungeonGenerator
                 height);
 
             AddCorridors(ref tilesMap, ref rooms);
-            AddPlayer(ref rooms, ref tilesMap, out var startRoom);
-            ClearWall(height, width, ref tilesMap);
+            AddPlayer(ref rooms, out var startRoom);
+            AddWalls(height, width, ref tilesMap);
             AddedLight(height, width, ref tilesMap);
             var enemyPosition = GetEnemiesPosition(rooms, startRoom, tilesMap, height, width);
 
-            return (tilesMap, (startRoom.x, startRoom.y), enemyPosition);
+            return Task.FromResult((tilesMap, (x: startRoom.X, y: startRoom.Y), enemyPosition));
         }
 
         private static ITile[,] FillInWalls(int height, int width)
@@ -87,18 +138,18 @@ namespace DungeonGenerator
             {
                 var room = new DungeonRoomCharacteristic
                 {
-                    x = RandomRange(ref seed, maxRoomSize, width - maxRoomSize),
-                    y = RandomRange(ref seed, maxRoomSize, height - maxRoomSize),
-                    width = RandomRange(ref seed, minRoomSize, maxRoomSize),
-                    height = RandomRange(ref seed, minRoomSize, maxRoomSize)
+                    X = RandomRange(ref seed, maxRoomSize, width - maxRoomSize),
+                    Y = RandomRange(ref seed, maxRoomSize, height - maxRoomSize),
+                    Width = RandomRange(ref seed, minRoomSize, maxRoomSize),
+                    Height = RandomRange(ref seed, minRoomSize, maxRoomSize)
                 };
 
                 CarveFloor(
                     ref tilesMap,
-                    room.y - room.height / 2,
-                    room.x - room.width / 2,
-                    room.height,
-                    room.width);
+                    room.Y - room.Height / 2,
+                    room.X - room.Width / 2,
+                    room.Height,
+                    room.Width);
 
                 rooms.Add(room);
             }
@@ -111,22 +162,22 @@ namespace DungeonGenerator
             {
                 CarveFloor(
                     ref tilesMap,
-                    rooms[i].y,
-                    Math.Min(rooms[i].x, rooms[i + 1].x),
+                    rooms[i].Y,
+                    Math.Min(rooms[i].X, rooms[i + 1].X),
                     2,
-                    1 + Math.Abs(rooms[i + 1].x - rooms[i].x));
+                    1 + Math.Abs(rooms[i + 1].X - rooms[i].X));
 
                 CarveFloor(
                     ref tilesMap,
-                    Math.Min(rooms[i].y, rooms[i + 1].y),
-                    rooms[i + 1].x,
-                    1 + Math.Abs(rooms[i + 1].y - rooms[i].y),
+                    Math.Min(rooms[i].Y, rooms[i + 1].Y),
+                    rooms[i + 1].X,
+                    1 + Math.Abs(rooms[i + 1].Y - rooms[i].Y),
                     2);
             }
         }
 
         //TODO: переделать, сделать поиск наименьшей комнаты, не пересекающейся с другими
-        private static void AddPlayer(ref List<DungeonRoomCharacteristic> rooms, ref ITile[,] tilesMap,
+        private static void AddPlayer(ref List<DungeonRoomCharacteristic> rooms,
             out DungeonRoomCharacteristic startDungeonRoomCharacteristic)
         {
             var distHi = 0;
@@ -134,7 +185,7 @@ namespace DungeonGenerator
             for (var i = 0; i != rooms.Count; ++i)
             for (var j = 0; j != rooms.Count; ++j)
             {
-                var dist = Math.Abs(rooms[i].x - rooms[j].x) + Math.Abs(rooms[i].y - rooms[j].y);
+                var dist = Math.Abs(rooms[i].X - rooms[j].X) + Math.Abs(rooms[i].Y - rooms[j].Y);
                 if (dist <= distHi) continue;
                 distHi = dist;
                 startIdx = i;
@@ -144,15 +195,17 @@ namespace DungeonGenerator
             rooms.Remove(startDungeonRoomCharacteristic);
         }
 
-        private static void ClearWall(int height, int width, ref ITile[,] tilesMap)
+        private static void AddWalls(int height, int width, ref ITile[,] tilesMap)
         {
             for (var y = 0; y < height; y++)
             for (var x = 0; x < width; x++)
                 if (tilesMap[y, x] is FloorTile)
+                {
                     for (var dy = -1; dy <= 1; ++dy)
                     for (var dx = -1; dx <= 1; ++dx)
                         if (tilesMap[y + dy, x + dx] is EmptyTile)
                             tilesMap[y + dy, x + dx] = new WallTile();
+                }
         }
 
         private static void AddedLight(int height, int width, ref ITile[,] tilesMap)
@@ -163,82 +216,37 @@ namespace DungeonGenerator
                 if (tilesMap[y, x] is not WallTile tile) continue;
 
                 var isLightVisible = false;
-                for (var dy = -2; dy <= 2; dy++)
-                    if (tilesMap[y + dy, x] is WallTile tileTemp)
-                        if (tileTemp.IsLight)
-                            isLightVisible = true;
 
-                for (var dx = -2; dx <= 2; dx++)
-                    if (tilesMap[y, x + dx] is WallTile tileTemp)
-                        if (tileTemp.IsLight)
-                            isLightVisible = true;
+                for (var dy = -2; dy <= 2; dy++)
+                    if (tilesMap[y + dy, x] is WallTile { IsLight: true })
+                    {
+                        isLightVisible = true;
+                        break;
+                    }
 
                 if (isLightVisible) continue;
-                if (tilesMap[y + 1, x] is FloorTile)
-                {
-                    tile.LightDirectionType = WallTile.DirectionType.Up;
-                    tile.IsLight = true;
-                }
-                else if (tilesMap[y - 1, x] is FloorTile)
-                {
-                    tile.LightDirectionType = WallTile.DirectionType.Down;
-                    tile.IsLight = true;
-                }
-                else if (tilesMap[y, x + 1] is FloorTile)
-                {
-                    tile.LightDirectionType = WallTile.DirectionType.Right;
-                    tile.IsLight = true;
-                }
-                else if (tilesMap[y, x - 1] is FloorTile)
-                {
-                    tile.LightDirectionType = WallTile.DirectionType.Left;
-                    tile.IsLight = true;
-                }
+
+                for (var dx = -2; dx <= 2; dx++)
+                    if (tilesMap[y, x + dx] is WallTile { IsLight: true })
+                    {
+                        isLightVisible = true;
+                        break;
+                    }
+
+                if (isLightVisible) continue;
+
+                for (var i = y - 1; i <= y + 1; i++)
+                for (var j = x - 1; j <= x + 1; j++)
+                    if ((j != x || i != y) && tilesMap[i, j] is FloorTile)
+                    {
+                        if (i == y - 1) tile.LightDirectionType = WallTile.DirectionType.Up;
+                        else if (i == y + 1) tile.LightDirectionType = WallTile.DirectionType.Down;
+                        else if (j == x - 1) tile.LightDirectionType = WallTile.DirectionType.Left;
+                        else if (j == x + 1) tile.LightDirectionType = WallTile.DirectionType.Right;
+
+                        tile.IsLight = true;
+                    }
             }
-        }
-
-        #endregion
-
-        #region Generation Enemy
-
-        private static List<(int, int)> GetEnemiesPosition(
-            List<DungeonRoomCharacteristic> rooms, DungeonRoomCharacteristic startDungeonRoomCharacteristic,
-            ITile[,] dungeonMap, int height, int width)
-        {
-            var enemyPosition = new List<(int, int)>();
-            var tilesMap = (ITile[,])dungeonMap.Clone();
-
-
-            for (var y = startDungeonRoomCharacteristic.y - startDungeonRoomCharacteristic.height / 2 - 5;
-                 y < startDungeonRoomCharacteristic.y - startDungeonRoomCharacteristic.height / 2 + 7;
-                 y++)
-            {
-                if (y < 0 || y > height - 1) continue;
-                for (var x = startDungeonRoomCharacteristic.x - startDungeonRoomCharacteristic.width / 2 - 5;
-                     x < startDungeonRoomCharacteristic.x - startDungeonRoomCharacteristic.width / 2 + 7;
-                     x++)
-                {
-                    if (x < 0 || x > width - 1) continue;
-                    if (tilesMap[y, x] is FloorTile)
-                        tilesMap[y, x] = new EmptyTile();
-                }
-            }
-
-            foreach (var room in rooms)
-                for (var i = 0; i < (room.height * room.width / 20 == 0 ? 1 : room.height * room.width / 20); i++)
-                for (var flag = 0; flag < 25; flag++)
-                {
-                    var position = (
-                        Random.Range(room.x - room.width / 2, room.x + room.width / 2),
-                        Random.Range(room.y - room.height / 2, room.y + room.height / 2));
-
-                    if (tilesMap[position.Item1, position.Item2] is not FloorTile) continue;
-
-                    enemyPosition.Add(position);
-                    break;
-                }
-
-            return enemyPosition;
         }
 
         #endregion
@@ -252,15 +260,15 @@ namespace DungeonGenerator
                 x = 1;
             }
 
-            x = ((x >> 16) ^ x) * 0x45d9f3b;
-            x = ((x >> 16) ^ x) * 0x45d9f3b;
-            x = (x >> 16) ^ x;
+            x = (x >> 16 ^ x) * 0x45d9f3b;
+            x = (x >> 16 ^ x) * 0x45d9f3b;
+            x = x >> 16 ^ x;
             return x;
         }
 
         private static int RandomRange(ref int seed, int min, int max)
         {
-            var range = IntHash(ref seed) % ((max + 1) - min);
+            var range = IntHash(ref seed) % (max + 1 - min);
             return min + range;
         }
 

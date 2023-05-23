@@ -3988,14 +3988,28 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: Action
+    functionName: AnimationTriggerAnimationTriggerAction
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.016666668
+    functionName: AnimationTriggerAnimationTriggerAction
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.38333333
-    functionName: Revived
+    functionName: AnimationTriggerRevived
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.4
+    functionName: AnimationTriggerRevived
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

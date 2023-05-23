@@ -1,5 +1,9 @@
-﻿using Data.Static;
+﻿#region
+
+using Data.Static;
 using Units.Enemy;
+
+#endregion
 
 namespace Services.StaticData
 {

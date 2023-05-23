@@ -1,26 +1,30 @@
-﻿using UnityEngine;
+﻿#region
+
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+
+#endregion
 
 namespace UI.MainMenu
 {
     public class MainMenuScreen : MonoBehaviour
     {
-        [SerializeField] private Button _loadGameButton;
-        [SerializeField] private Button _newGameButton;
-        [SerializeField] private Button _exitButton;
-        [Space]
-        [SerializeField] private Button _confirmationTrueButton;
-        [SerializeField] private Button _confirmationFalseButton;
-        [Space]
-        [SerializeField] private GameObject _mainPanel;
-        [SerializeField] private GameObject _confirmationPanel;
+        [SerializeField] private Button loadGameButton;
+        [SerializeField] private Button newGameButton;
+        [SerializeField] private Button exitButton;
+
+        [Space] [SerializeField] private Button confirmationTrueButton;
+        [SerializeField] private Button confirmationFalseButton;
+
+        [Space] [SerializeField] private GameObject mainPanel;
+        [SerializeField] private GameObject confirmationPanel;
 
         private readonly UnityAction _exitGame = Application.Quit;
-        private UnityAction _newGame;
-        private UnityAction _loadGame;
 
         private bool _isInStockSave;
+        private UnityAction _loadGame;
+        private UnityAction _newGame;
 
         public void SetUp(UnityAction newGame, UnityAction loadGame, bool isInStockSave)
         {
@@ -28,14 +32,14 @@ namespace UI.MainMenu
             _newGame = newGame;
             _loadGame = loadGame;
 
-            _loadGameButton.onClick.AddListener(LoadGame);
-            _newGameButton.onClick.AddListener(NewGame);
-            _exitButton.onClick.AddListener(ExitGame);
+            loadGameButton.onClick.AddListener(LoadGame);
+            newGameButton.onClick.AddListener(NewGame);
+            exitButton.onClick.AddListener(ExitGame);
 
-            _mainPanel.SetActive(true);
-            _confirmationPanel.SetActive(false);
+            mainPanel.SetActive(true);
+            confirmationPanel.SetActive(false);
 
-            _loadGameButton.gameObject.SetActive(_isInStockSave);
+            loadGameButton.gameObject.SetActive(_isInStockSave);
         }
 
         private void LoadGame()
@@ -56,16 +60,16 @@ namespace UI.MainMenu
 
         private void ActionConfirmation(UnityAction unityAction)
         {
-            _mainPanel.SetActive(false);
-            _confirmationPanel.SetActive(true);
-            _confirmationTrueButton.onClick.AddListener(unityAction);
-            _confirmationFalseButton.onClick.AddListener(
+            mainPanel.SetActive(false);
+            confirmationPanel.SetActive(true);
+            confirmationTrueButton.onClick.AddListener(unityAction);
+            confirmationFalseButton.onClick.AddListener(
                 () =>
                 {
-                    _confirmationFalseButton.onClick.RemoveAllListeners();
-                    _confirmationTrueButton.onClick.RemoveAllListeners();
-                    _mainPanel.SetActive(true);
-                    _confirmationPanel.SetActive(false);
+                    confirmationFalseButton.onClick.RemoveAllListeners();
+                    confirmationTrueButton.onClick.RemoveAllListeners();
+                    mainPanel.SetActive(true);
+                    confirmationPanel.SetActive(false);
                 });
         }
     }

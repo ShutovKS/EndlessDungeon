@@ -1,19 +1,22 @@
+#region
+
 using Infrastructure.GlobalStateMachine;
-using UnityEngine;
 using Zenject;
+
+#endregion
 
 namespace Infrastructure.Installers
 {
-   public class GameInstanceInstaller : MonoInstaller
-   {
-      public override void InstallBindings()
-      {
-         BindGameInstance();
-      }
+    public class GameInstanceInstaller : MonoInstaller
+    {
+        public override void InstallBindings()
+        {
+            BindGameInstance();
+        }
 
-      private void BindGameInstance()
-      {
-         Container.Bind<GameInstance>().AsSingle().NonLazy();
-      }
-   }
+        private void BindGameInstance()
+        {
+            Container.Bind<GameInstance>().AsSingle().NonLazy();
+        }
+    }
 }

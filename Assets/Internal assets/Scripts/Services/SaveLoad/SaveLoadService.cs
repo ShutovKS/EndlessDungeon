@@ -1,7 +1,11 @@
-﻿using Data.Dynamic;
+﻿#region
+
+using Data.Dynamic;
 using Services.PersistentProgress;
 using Services.Watchers.SaveLoadWatcher;
 using UnityEngine;
+
+#endregion
 
 namespace Services.SaveLoad
 {
@@ -14,10 +18,10 @@ namespace Services.SaveLoad
             _saveLoadInstancesWatcher = saveLoadInstancesWatcher;
         }
 
+        private const string SAVE_LOAD_KEY = "SaveLoadKey";
+
         private readonly IPersistentProgressService _persistentProgressService;
         private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
-
-        private const string SAVE_LOAD_KEY = "SaveLoadKey";
 
         public void SaveProgress()
         {

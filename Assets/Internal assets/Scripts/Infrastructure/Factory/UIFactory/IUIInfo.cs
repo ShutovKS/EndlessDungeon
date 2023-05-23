@@ -1,4 +1,8 @@
+#region
+
 using UnityEngine;
+
+#endregion
 
 namespace Infrastructure.Factory.UIFactory
 {
@@ -10,7 +14,5 @@ namespace Infrastructure.Factory.UIFactory
         public GameObject MenuInDungeonRoomScreen { get; }
         public GameObject MenuInMainLocationScreen { get; }
         public GameObject SkillsBookScreen { get; }
-        
     }
 }
-

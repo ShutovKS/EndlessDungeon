@@ -1,32 +1,24 @@
-﻿using UnityEngine;
+﻿#region
+
+using UnityEngine;
+
+#endregion
 
 namespace Units.Enemy.State_Machines.State
 {
     public class CombatReadiness : IState
     {
-        #region Variables
-
-        public float TimePassed;
-        private readonly Animator _animator;
-        private Transform _playerTransform;
-        private Transform _transform;
-        private float _speedRotation;
-
-        #endregion
-
-        #region Constructors
-
-        public CombatReadiness(Animator animator, Transform transform, Transform playerTransform, float speedRotation)
+        public CombatReadiness(Transform transform, Transform playerTransform, float speedRotation)
         {
-            _animator = animator;
             _transform = transform;
             _playerTransform = playerTransform;
             _speedRotation = speedRotation;
         }
 
-        #endregion
-
-        #region Methods
+        private readonly Transform _playerTransform;
+        private readonly float _speedRotation;
+        private readonly Transform _transform;
+        public float TimePassed;
 
         public void OnEnter()
         {
@@ -52,11 +44,5 @@ namespace Units.Enemy.State_Machines.State
         public void OnExit()
         {
         }
-
-        #endregion
-
-        #region Methods Other
-
-        #endregion
     }
 }

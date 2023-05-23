@@ -1,24 +1,37 @@
+#region
+
 using Data.Dynamic;
-using Data.Static;
-using Services.PersistentProgress;
+using Services.Watchers.PersistentProgressWatcher;
 using Skill;
 using UnityEngine;
 using UnityEngine.Events;
 
+#endregion
+
 namespace Units.Player
 {
-    public class Player : MonoBehaviour, IProgressLoadable
+    public class Player : MonoBehaviour, IProgressLoadableWatcher
     {
-        private PlayerStaticDefaultData _defaultData;
-        private UnityAction _playerDead;
-        private float _healthPoint;
-        private float _protection;
+        private float _healthPoints;
         private bool _isDead;
+        private UnityAction _playerDead;
+        private float _protectionPoints;
 
-        public void SetUp(UnityAction playerDead, PlayerStaticDefaultData playerStaticDefaultData)
+        public void LoadProgress(Progress progress)
         {
-            _playerDead = playerDead;
-            _defaultData = playerStaticDefaultData;
+            _healthPoints =
+                (_healthPoints + progress.skillsLevel.skills[SkillType.HealthCount]) *
+                (1 + progress.skillsLevel.skills[SkillType.HealthPercent] / 100f);
+
+            _protectionPoints =
+                (_protectionPoints + progress.skillsLevel.skills[SkillType.ProtectionCount]) *
+                (1 + progress.skillsLevel.skills[SkillType.ProtectionPercent] / 100f);
+        }
+
+        public void SetUp(float health, float protection)
+        {
+            _healthPoints = health;
+            _protectionPoints = protection;
 
             var triggerGetHit = new GameObject
             {
@@ -27,33 +40,27 @@ namespace Units.Player
                 {
                     parent = transform,
                     localPosition = Vector3.zero
-                },
+                }
             };
 
             triggerGetHit.AddComponent<PlayerGetHit>().SetUp(TakeDamage);
         }
 
-        private void TakeDamage(float healthLoss)
+        public void RegisterOnPlayerDead(UnityAction playerDead)
         {
-            if (healthLoss - _protection < 0) return;
+            _playerDead += playerDead;
+        }
 
-            _healthPoint -= (healthLoss - _protection);
-            if (_healthPoint <= 0 && !_isDead)
+        private void TakeDamage(float damage)
+        {
+            if (_protectionPoints > damage) return;
+
+            _healthPoints -= damage - _protectionPoints;
+            if (_healthPoints <= 0 && !_isDead)
             {
                 _playerDead?.Invoke();
                 _isDead = true;
             }
-        }
-
-        public void LoadProgress(Progress progress)
-        {
-            _healthPoint =
-                (_defaultData.MaxHealthPoints + progress.skillsLevel.Skills[SkillType.HEALTH_Count]) *
-                (1 + progress.skillsLevel.Skills[SkillType.HEALTH_Percent] / 100f);
-
-            _protection =
-                (_defaultData.ProtectionPoints + progress.skillsLevel.Skills[SkillType.PROTECTION_Count]) *
-                (1 + progress.skillsLevel.Skills[SkillType.PROTECTION_Percent] / 100f);
         }
     }
 }

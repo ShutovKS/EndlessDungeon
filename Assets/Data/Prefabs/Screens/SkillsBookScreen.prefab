@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillsBookScreen: {fileID: 6440274993910932920}
-  skillStaticDatas:
+  skillStaticData:
   - {fileID: 11400000, guid: 0840ba806e578cd46a4c48924c1c7467, type: 2}
   - {fileID: 11400000, guid: 013ceb497b40a6d4d9742cef1d808ddf, type: 2}
   - {fileID: 11400000, guid: 8135a765b04665346ac5fbb4d1e84561, type: 2}

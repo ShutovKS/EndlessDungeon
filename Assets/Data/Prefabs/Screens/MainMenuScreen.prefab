@@ -214,7 +214,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 28
+    m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -225,7 +225,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0412\u044B\u0445\u043E\u0434"
+  m_Text: Quit the game
 --- !u!1 &1194671910175534311
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7443329427527070274
 RectTransform:
   m_ObjectHideFlags: 0
@@ -350,13 +350,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d8a6d66b9544278aed2ac906bd7b87a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadGameButton: {fileID: 1779619751781562242}
-  _newGameButton: {fileID: 2083498177441079276}
-  _exitButton: {fileID: 4246581536859399904}
-  _confirmationTrueButton: {fileID: 7439516310675594391}
-  _confirmationFalseButton: {fileID: 2585468938132591199}
-  _mainPanel: {fileID: 1194671910175534311}
-  _confirmationPanel: {fileID: 3797558796280507627}
+  loadGameButton: {fileID: 1779619751781562242}
+  newGameButton: {fileID: 2083498177441079276}
+  exitButton: {fileID: 4246581536859399904}
+  confirmationTrueButton: {fileID: 7439516310675594391}
+  confirmationFalseButton: {fileID: 2585468938132591199}
+  mainPanel: {fileID: 1194671910175534311}
+  confirmationPanel: {fileID: 3797558796280507627}
 --- !u!1 &2243252762000319621
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,7 +558,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0412\u044B \u0443\u0432\u0435\u0440\u0435\u043D\u044B?"
+  m_Text: Are you sure?
 --- !u!1 &3521282476389640396
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,7 +987,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0414\u0430"
+  m_Text: Yes
 --- !u!1 &6248911724214527216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,7 +1067,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u041D\u0435\u0442"
+  m_Text: No
 --- !u!1 &6884738178947652401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1282,7 +1282,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 28
+    m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -1293,7 +1293,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u041D\u043E\u0432\u0430\u044F \u0438\u0433\u0440\u0430"
+  m_Text: A new game
 --- !u!1 &8582870331173928121
 GameObject:
   m_ObjectHideFlags: 0
@@ -1362,7 +1362,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 28
+    m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -1373,7 +1373,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C"
+  m_Text: Continue game
 --- !u!1 &8889132334504304846
 GameObject:
   m_ObjectHideFlags: 0

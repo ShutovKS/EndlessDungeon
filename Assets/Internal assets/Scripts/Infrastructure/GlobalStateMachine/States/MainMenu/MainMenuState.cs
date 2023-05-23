@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using Data.Addressable;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.PlayerFactory;
@@ -7,25 +9,29 @@ using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States.Intermediate;
 using Services.SaveLoad;
 using UI.MainMenu;
-using UnityEngine;
+
+#endregion
 
 namespace Infrastructure.GlobalStateMachine.States.MainMenu
 {
     public class MainMenuState : State<GameInstance>
     {
-        public MainMenuState(GameInstance context, IUIFactory uiFactory, IAbstractFactory abstractFactory,
-            ISaveLoadService saveLoadService, IPlayerFactory playerFactory) : base(
-            context)
+        public MainMenuState(
+            GameInstance context,
+            IUIFactory uiFactory,
+            IAbstractFactory abstractFactory,
+            ISaveLoadService saveLoadService,
+            IPlayerFactory playerFactory) : base(context)
         {
-            _uiFactory = uiFactory;
             _abstractFactory = abstractFactory;
             _saveLoadService = saveLoadService;
             _playerFactory = playerFactory;
+            _uiFactory = uiFactory;
         }
 
         private readonly IAbstractFactory _abstractFactory;
-        private readonly ISaveLoadService _saveLoadService;
         private readonly IPlayerFactory _playerFactory;
+        private readonly ISaveLoadService _saveLoadService;
         private readonly IUIFactory _uiFactory;
 
         public override void Enter()
@@ -48,10 +54,16 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
                 mainMenuScreenComponent.SetUp(GoToNewGame, GoToLoadGame, _saveLoadService.IsInStockSave());
         }
 
-        private void GoToNewGame() =>
-            Context.StateMachine.SwitchState<RemoveProgressData, (string sceneName, Type nextStateType)>(
-                (AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME, typeof(MainLocationSetUpState)));
+        private void GoToNewGame()
+        {
+            Context.StateMachine.SwitchState<(string sceneName, Type nextStateType)>(
+                typeof(RemoveProgressDataState),
+                (AssetsAddressableConstants.MAIN_LOCATION_SCENE_NAME, typeof(MainLocationSetUpState)));
+        }
 
-        private void GoToLoadGame() => Context.StateMachine.SwitchState<LoadLastSavedLocation>();
+        private void GoToLoadGame()
+        {
+            Context.StateMachine.SwitchState(typeof(LoadLastSavedLocationState));
+        }
     }
 }

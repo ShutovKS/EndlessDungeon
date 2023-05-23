@@ -1,26 +1,25 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.Linq;
-using Data.Addressable;
 using Data.Static;
-using Services.AssetsAddressableService;
 using Units.Enemy;
 using UnityEngine;
+
+#endregion
 
 namespace Services.StaticData
 {
     public class StaticDataService : IStaticDataService
     {
-        private const string ENEMIES_STATIC_DATA_PATH = "Data/Static/Enemies";
-
-        private Dictionary<EnemyType, EnemyStaticData> _enemies;
-
-        public StaticDataService(IAssetsAddressableService assetsAddressableService)
+        public StaticDataService()
         {
-            _assetsAddressableService = assetsAddressableService;
             LoadStaticData();
         }
 
-        private readonly IAssetsAddressableService _assetsAddressableService;
+        private const string ENEMIES_STATIC_DATA_PATH = "Data/Static/Enemies";
+
+        private Dictionary<EnemyType, EnemyStaticData> _enemies;
 
         public void LoadStaticData()
         {

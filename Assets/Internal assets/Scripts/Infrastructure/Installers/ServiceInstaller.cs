@@ -1,10 +1,11 @@
-using Data.Settings;
+#region
+
+using Data.LocationSettings;
 using Data.Static;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.EnemyFactory;
 using Infrastructure.Factory.PlayerFactory;
 using Infrastructure.Factory.UIFactory;
-using Infrastructure.GlobalStateMachine.States;
 using Services.AssetsAddressableService;
 using Services.PersistentProgress;
 using Services.SaveLoad;
@@ -13,14 +14,16 @@ using Services.Watchers.SaveLoadWatcher;
 using UnityEngine;
 using Zenject;
 
+#endregion
+
 namespace Infrastructure.Installers
 {
     public class ServiceInstaller : MonoInstaller
     {
-        [SerializeField] private PlayerStaticDefaultData _playerStaticDefaultData;
-        [SerializeField] private MainLocationSettings _mainLocationSettings;
-        [SerializeField] private DungeonRoomSettings _dungeonRoomSettings;
-        [SerializeField] private MainMenuSettings _mainMenuSettings;
+        [SerializeField] private PlayerStaticDefaultData playerStaticDefaultData;
+        [SerializeField] private MainLocationSettings mainLocationSettings;
+        [SerializeField] private DungeonRoomSettings dungeonRoomSettings;
+        [SerializeField] private MainMenuSettings mainMenuSettings;
 
         public override void InstallBindings()
         {
@@ -33,9 +36,12 @@ namespace Infrastructure.Installers
             BindFactory();
         }
 
-        private void BindAssetsAddressable()
+        private void BindSettings()
         {
-            Container.BindInterfacesTo<AssetsAddressableService>().AsSingle();
+            Container.Bind<PlayerStaticDefaultData>().FromInstance(playerStaticDefaultData).AsSingle();
+            Container.Bind<MainLocationSettings>().FromInstance(mainLocationSettings).AsSingle();
+            Container.Bind<DungeonRoomSettings>().FromInstance(dungeonRoomSettings).AsSingle();
+            Container.Bind<MainMenuSettings>().FromInstance(mainMenuSettings).AsSingle();
         }
 
         private void BindFactory()
@@ -44,14 +50,6 @@ namespace Infrastructure.Installers
             Container.BindInterfacesTo<PlayerFactory>().AsSingle();
             Container.BindInterfacesTo<EnemyFactory>().AsSingle();
             Container.BindInterfacesTo<UIFactory>().AsSingle();
-        }
-
-        private void BindSettings()
-        {
-            Container.Bind<PlayerStaticDefaultData>().FromInstance(_playerStaticDefaultData).AsSingle();
-            Container.Bind<MainLocationSettings>().FromInstance(_mainLocationSettings).AsSingle();
-            Container.Bind<DungeonRoomSettings>().FromInstance(_dungeonRoomSettings).AsSingle();
-            Container.Bind<MainMenuSettings>().FromInstance(_mainMenuSettings).AsSingle();
         }
 
         private void BindPersistentProgressService()
@@ -64,14 +62,19 @@ namespace Infrastructure.Installers
             Container.BindInterfacesTo<SaveLoadInstancesWatcher>().AsSingle();
         }
 
-        private void BindSaveLoadService()
+        private void BindAssetsAddressable()
         {
-            Container.BindInterfacesTo<SaveLoadService>().AsSingle();
+            Container.BindInterfacesTo<AssetsAddressableService>().AsSingle();
         }
 
         private void BindStaticDataService()
         {
             Container.BindInterfacesTo<StaticDataService>().AsSingle();
+        }
+
+        private void BindSaveLoadService()
+        {
+            Container.BindInterfacesTo<SaveLoadService>().AsSingle();
         }
     }
 }

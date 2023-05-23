@@ -7,6 +7,6 @@
         Grunt = 2,
         Footman = 3,
         Beholder = 4,
-        ChestMonster = 5,
+        ChestMonster = 5
     }
 }

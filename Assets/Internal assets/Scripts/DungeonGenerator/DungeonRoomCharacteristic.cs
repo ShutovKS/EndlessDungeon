@@ -1,10 +1,10 @@
 ﻿namespace DungeonGenerator
 {
-    public struct DungeonRoomCharacteristic
+    public class DungeonRoomCharacteristic
     {
-        public int x;
-        public int y;
-        public int width;
-        public int height;
+        public int Height;
+        public int Width;
+        public int X;
+        public int Y;
     }
 }

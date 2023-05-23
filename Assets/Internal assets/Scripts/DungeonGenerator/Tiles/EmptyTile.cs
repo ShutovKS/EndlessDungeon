@@ -1,9 +1,12 @@
-﻿using DungeonGenerator.Tiles.Interface;
+﻿#region
+
+using DungeonGenerator.Tiles.Interface;
+
+#endregion
 
 namespace DungeonGenerator.Tiles
 {
     public class EmptyTile : ITile
     {
-        public DungeonTilesType Type { get; set; } = DungeonTilesType.EMPTY;
     }
 }

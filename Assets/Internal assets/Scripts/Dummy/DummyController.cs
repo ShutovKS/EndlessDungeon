@@ -1,57 +1,69 @@
+#region
+
 using System.Collections;
-using Item;
 using UnityEngine;
+
+#endregion
 
 namespace Dummy
 {
     public class DummyController : MonoBehaviour
     {
-        private static readonly int Damage = Animator.StringToHash("Damage");
-        private static readonly int Dead = Animator.StringToHash("Dead");
-        private static readonly int Reset = Animator.StringToHash("Reset");
+        private readonly static int Damage = Animator.StringToHash("Damage");
+        private readonly static int Dead = Animator.StringToHash("Dead");
+        private readonly static int Reset = Animator.StringToHash("Reset");
+
+        [SerializeField] private float healthMax;
+        [SerializeField] private float timeRestart;
 
         private Animator _animator;
+        private float _health;
+        private bool _isAction;
 
-        private int _health = 100;
-        private bool _isAction = false;
-
-        private int Health
+        private void Start()
         {
-            get => _health;
-            set
+            _animator = GetComponent<Animator>();
+            _health = healthMax;
+            foreach (var dummyGetHit in GetComponentsInChildren<DummyGetHit>())
             {
-                _health = value;
-                if (_health > 0) return;
+                dummyGetHit.RegisterOnGetHit(TakeDamage);
+            }
+        }
+
+        public void AnimationTriggerAction()
+        {
+            _isAction = true;
+        }
+
+        public void AnimationTriggerIdle()
+        {
+            _isAction = false;
+        }
+
+        public void AnimationTriggerRevived()
+        {
+            _health = healthMax;
+        }
+
+        private void TakeDamage(float damage)
+        {
+            if (_isAction) return;
+            _health -= damage;
+
+            if (_health > 0)
+            {
+                _animator.SetTrigger(Damage);
+            }
+            else
+            {
                 _animator.SetTrigger(Dead);
                 StartCoroutine(Restart());
             }
         }
 
-        private void Start()
-        {
-            _animator = GetComponent<Animator>();
-        }
-
-        private void OnCollisionEnter(Collision other)
-        {
-            if (!_isAction && other.gameObject.TryGetComponent<IItemDamage>(out var itemDamage))
-            {
-                if (itemDamage.IsDamage)
-                {
-                    _animator.SetTrigger(Damage);
-                    Health -= (int)itemDamage.Damage;
-                }
-            }
-        }
-
-        //using animation
-        public void Action() => _isAction = true;
-        public void Idle() => _isAction = false;
-        public void Revived() => _health = 1000;
-
         private IEnumerator Restart()
         {
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(timeRestart);
             _animator.SetTrigger(Reset);
         }
     }

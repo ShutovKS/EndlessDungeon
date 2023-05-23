@@ -1,5 +1,8 @@
-﻿using Data.Dynamic;
-using Data.Dynamic.Loot;
+﻿#region
+
+using Data.Dynamic;
+
+#endregion
 
 namespace Services.SaveLoad
 {

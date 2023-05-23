@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using UnityEngine;
+
+#endregion
 
 namespace Infrastructure.Factory.AbstractFactory
 {
     public interface IAbstractFactoryInfo
     {
-        public List<GameObject> Instances { get; }
+        List<GameObject> Instances { get; }
     }
 }

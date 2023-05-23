@@ -164,9 +164,9 @@ namespace WakaTime {
               if (_debug) Debug.LogWarning("<WakaTime> Duplicate heartbeat");
             }
             else {
-              Debug.LogError(
-                "<WakaTime> Failed to send heartbeat to WakaTime!\n" +
-                response.error);
+              // Debug.LogError(
+              //   "<WakaTime> Failed to send heartbeat to WakaTime!\n" +
+              //   response.error);
             }
           }
           else {

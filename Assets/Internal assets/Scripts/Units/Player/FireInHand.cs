@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿#region
+
+using UnityEngine;
+
+#endregion
 
 namespace Units.Player
 {
@@ -6,7 +10,6 @@ namespace Units.Player
     {
         private GameObject _fire;
         private Transform _transform;
-        private bool _state;
 
         private void Start()
         {
@@ -16,9 +19,10 @@ namespace Units.Player
 
         private void Update()
         {
-            var rotation = _transform.rotation.eulerAngles;
-            _state = rotation.z is > 75 and < 135 && rotation.x is > 330 or < 30;
-            _fire.SetActive(_state);
+            var rotation = _transform.rotation;
+            var rotationEulerAngles = rotation.eulerAngles;
+            var state = rotationEulerAngles.z is > 75 and < 135 && rotationEulerAngles.x is > 330 or < 30;
+            _fire.SetActive(state);
         }
     }
 }

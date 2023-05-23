@@ -1,10 +1,15 @@
-﻿using UnityEngine;
-using IFactory = Infrastructure.Factory.Model.IFactory;
+﻿#region
+
+using UnityEngine;
+
+#endregion
 
 namespace Infrastructure.Factory.AbstractFactory
 {
-    public interface IAbstractFactory : IAbstractFactoryInfo, IFactory
+    public interface IAbstractFactory : IAbstractFactoryInfo
     {
-        public GameObject CreateInstance(GameObject prefab, Vector3 spawnPoint);
+        GameObject CreateInstance(GameObject prefab, Vector3 spawnPoint);
+        void DestroyInstance(GameObject instance);
+        void DestroyAllInstances();
     }
 }

@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Threading.Tasks;
 using Data.Addressable;
-using Data.Settings;
+using Data.LocationSettings;
 using Data.Static;
 using Infrastructure.Factory.AbstractFactory;
 using Infrastructure.Factory.PlayerFactory;
@@ -9,95 +11,121 @@ using Infrastructure.Factory.UIFactory;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States.Intermediate;
 using Item.Weapon;
+using Item.WeaponManager;
 using Loot;
-using Portal;
 using Services.AssetsAddressableService;
 using Services.Watchers.SaveLoadWatcher;
 using Skill;
+using TransitionToTheDungeon;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using XR;
+
+#endregion
 
 namespace Infrastructure.GlobalStateMachine.States
 {
     public class MainLocationSetUpState : State<GameInstance>
     {
-        public MainLocationSetUpState(GameInstance context, IAbstractFactory abstractFactory, IUIFactory uiFactory,
-            IAssetsAddressableService assetsAddressableService, MainLocationSettings mainLocationSettings,
+        public MainLocationSetUpState(
+            GameInstance context,
+            IAbstractFactory abstractFactory,
+            IUIFactory uiFactory,
+            IAssetsAddressableService assetsAddressableService,
+            MainLocationSettings mainLocationSettings,
             ISaveLoadInstancesWatcher saveLoadInstancesWatcher,
-            PlayerStaticDefaultData playerStaticDefaultData, IPlayerFactory playerFactory)
-            : base(context)
+            PlayerStaticDefaultData playerStaticDefaultData,
+            IPlayerFactory playerFactory) : base(context)
         {
-            _abstractFactory = abstractFactory;
-            _uiFactory = uiFactory;
             _assetsAddressableService = assetsAddressableService;
-            _mainLocationSettings = mainLocationSettings;
             _saveLoadInstancesWatcher = saveLoadInstancesWatcher;
             _playerStaticDefaultData = playerStaticDefaultData;
+            _mainLocationSettings = mainLocationSettings;
+            _abstractFactory = abstractFactory;
             _playerFactory = playerFactory;
+            _uiFactory = uiFactory;
         }
 
-        private readonly IAssetsAddressableService _assetsAddressableService;
-        private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
-        private readonly PlayerStaticDefaultData _playerStaticDefaultData;
-        private readonly MainLocationSettings _mainLocationSettings;
         private readonly IAbstractFactory _abstractFactory;
+
+        private readonly IAssetsAddressableService _assetsAddressableService;
+        private readonly MainLocationSettings _mainLocationSettings;
         private readonly IPlayerFactory _playerFactory;
+        private readonly PlayerStaticDefaultData _playerStaticDefaultData;
+        private readonly ISaveLoadInstancesWatcher _saveLoadInstancesWatcher;
         private readonly IUIFactory _uiFactory;
 
-        private GameObject _socketInstance;
         private GameObject _lootManagerInstance;
+        private GameObject _socketInstance;
 
         public override async void Enter()
         {
+            CreateLootManager();
             await CreateMap();
             await CreatePlayer();
             await CreatePlayerAddons();
+            await CreateSkillsBookScreen();
             await CreateWeapons();
             await CreateMenu();
-            CreateLootManager();
-            await CreateSkillsBook();
-            CreatePortal();
+            CreateTransitionToTheDungeon();
 
-            Context.StateMachine.SwitchState<ProgressLoadingState, Type>(typeof(MainLocationState));
+            Context.StateMachine.SwitchState(typeof(ProgressLoadingState), typeof(MainLocationState));
         }
 
         private async Task CreateMap()
         {
             var mainLocationMap =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_LOCATION_MAP);
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressableConstants.MAIN_LOCATION_MAP);
 
-            var mapInstance = _abstractFactory.CreateInstance(mainLocationMap, Vector3.zero);
+            _abstractFactory.CreateInstance(mainLocationMap, Vector3.zero);
         }
 
         private async Task CreatePlayer()
         {
-            var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.PLAYER);
+            var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressableConstants.PLAYER);
             _playerFactory.CreatePlayer(player, _mainLocationSettings.PlayerSpawnPosition);
         }
 
         private async Task CreatePlayerAddons()
         {
             var socket =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SOCKET_FOR_SWORD);
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressableConstants.SOCKET_FOR_SWORD);
 
-            _socketInstance = _abstractFactory.CreateInstance(
-                socket,
-                _mainLocationSettings.SocketForWeaponSpawnPosition);
-
+            _socketInstance = _abstractFactory.CreateInstance(socket, Vector3.zero);
             _socketInstance.transform.parent = _playerFactory.PlayerInstance.transform.GetChild(0).GetChild(0);
+            _socketInstance.transform.localPosition = _mainLocationSettings.SocketForWeaponSpawnPosition;
+        }
+
+        private void CreateLootManager()
+        {
+            _lootManagerInstance = _abstractFactory.CreateInstance(new GameObject("lootManager"), Vector3.zero);
+            _lootManagerInstance.AddComponent<LootManager>();
+
+            _saveLoadInstancesWatcher.RegisterProgressWatchers(_lootManagerInstance);
+        }
+
+        private async Task CreateSkillsBookScreen()
+        {
+            var skillsBookScreenInstance = await _uiFactory.CreateSkillsBookScreen();
+
+            skillsBookScreenInstance.transform.position = _mainLocationSettings.SkillsBookScreenPosition;
+
+            skillsBookScreenInstance.transform.rotation =
+                Quaternion.Euler(_mainLocationSettings.SkillsBookScreenRotation);
+
+            var lootManager = _lootManagerInstance.GetComponent<LootManager>();
+            skillsBookScreenInstance.GetComponent<SkillsManager>().SetUp(
+                lootManager.TryAmountChangeOnThe,
+                () => lootManager.SoulsOfTheDungeon);
+
+            _saveLoadInstancesWatcher.RegisterProgressWatchers(skillsBookScreenInstance);
         }
 
         private async Task CreateWeapons()
         {
-            var sword = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_SWORD);
-            var ax = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_AX);
-            var hammer =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.WEAPON_HAMMER);
-
-            var swordInstance = _abstractFactory.CreateInstance(
-                sword,
-                _mainLocationSettings.WeaponSpawnPosition[(int)sword.GetComponent<Weapon>().WeaponType]);
+            var sword = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressableConstants.WEAPON_SWORD);
+            var ax = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressableConstants.WEAPON_AX);
+            var hammer = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressableConstants.WEAPON_HAMMER);
 
             var axInstance = _abstractFactory.CreateInstance(
                 ax,
@@ -107,79 +135,59 @@ namespace Infrastructure.GlobalStateMachine.States
                 hammer,
                 _mainLocationSettings.WeaponSpawnPosition[(int)hammer.GetComponent<Weapon>().WeaponType]);
 
+            var swordInstance = _abstractFactory.CreateInstance(
+                sword,
+                _mainLocationSettings.WeaponSpawnPosition[(int)sword.GetComponent<Weapon>().WeaponType]);
+
             var weaponManagerInstance = _abstractFactory.CreateInstance(new GameObject("weaponManager"), Vector3.zero);
             weaponManagerInstance.AddComponent<WeaponManagerMainLocation>().SetUp(
                 _socketInstance.transform,
-                _playerStaticDefaultData,
-                swordInstance,
+                _playerStaticDefaultData.DamagePoints,
                 axInstance,
-                hammerInstance);
+                hammerInstance,
+                swordInstance);
 
-            _saveLoadInstancesWatcher.RegisterProgress(weaponManagerInstance);
+            _saveLoadInstancesWatcher.RegisterProgressWatchers(weaponManagerInstance);
         }
 
         private async Task CreateMenu()
         {
             var playerInstance = _playerFactory.PlayerInstance;
 
-            var menuInMainLocationScreenInstance =
-                await _uiFactory.CreateMenuInMainLocationScreen();
+            var menuInMainLocationScreenInstance = await _uiFactory.CreateMenuInMainLocationScreen();
 
             menuInMainLocationScreenInstance.transform.SetParent(
                 playerInstance.GetComponentInChildren<XRGazeInteractor>().transform.parent);
 
             menuInMainLocationScreenInstance.transform.localPosition = Vector3.zero;
-            playerInstance.GetComponentInChildren<GazeInteractorTrigger>()
+
+            playerInstance.GetComponentInChildren<GazeInteractTrigger>()
                 .AddHoverEntered(_ => menuInMainLocationScreenInstance.SetActive(true));
 
-            playerInstance.GetComponentInChildren<GazeInteractorTrigger>()
+            playerInstance.GetComponentInChildren<GazeInteractTrigger>()
                 .AddHoverExited(_ => menuInMainLocationScreenInstance.SetActive(false));
 
             menuInMainLocationScreenInstance.SetActive(false);
         }
 
-        private void CreateLootManager()
-        {
-            _lootManagerInstance = _abstractFactory.CreateInstance(new GameObject("lootManager"), Vector3.zero);
-            _lootManagerInstance.AddComponent<LootManager>();
-            _saveLoadInstancesWatcher.RegisterProgress(_lootManagerInstance);
-        }
-
-        private async Task CreateSkillsBook()
-        {
-            var skillsBookScreen =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SKILLS_BOOK_SCREEN);
-
-            var skillsBookScreenInstance = _abstractFactory.CreateInstance(
-                skillsBookScreen,
-                _mainLocationSettings.SkillsBookScreenPosition);
-
-            skillsBookScreenInstance.transform.rotation = Quaternion.Euler(
-                _mainLocationSettings.SkillsBookScreenRotation.x,
-                _mainLocationSettings.SkillsBookScreenRotation.y,
-                _mainLocationSettings.SkillsBookScreenRotation.z);
-
-            skillsBookScreenInstance.GetComponent<SkillsBook>().SetUp(_lootManagerInstance.GetComponent<LootManager>());
-
-            _saveLoadInstancesWatcher.RegisterProgress(skillsBookScreenInstance);
-        }
-
-        private void CreatePortal()
+        private void CreateTransitionToTheDungeon()
         {
             var portalInstance = _abstractFactory.CreateInstance(
-                new GameObject("Portal"),
-                _mainLocationSettings.PortalSpawnPosition);
+                new GameObject("Transition to the Dungeon"),
+                _mainLocationSettings.TransitionToTheDungeonSpawnPosition);
 
             var portalCollider = portalInstance.AddComponent<BoxCollider>();
             portalCollider.size = new Vector3(2.5f, 2.5f, 1f);
             portalCollider.isTrigger = true;
+
             portalInstance.AddComponent<Rigidbody>().isKinematic = true;
-            portalInstance.AddComponent<PortalTrigger>().SetUp(MoveToDungeonRoom);
+            portalInstance.AddComponent<TransitionToTheDungeonTrigger>().RegisterOnTransitionToTheDungeon(MoveToDungeonRoom);
 
             void MoveToDungeonRoom()
             {
-                Context.StateMachine.SwitchState<SceneLoadingState, (string sceneName, Type newStateType)>(
-                    (AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME, typeof(DungeonRoomGenerationState)));
+                Context.StateMachine.SwitchState<(string sceneName, Type newStateType)>(
+                    typeof(SceneLoadingState),
+                    (AssetsAddressableConstants.DUNGEON_ROOM_SCENE_NAME, typeof(DungeonLocationGenerationState)));
             }
         }
     }

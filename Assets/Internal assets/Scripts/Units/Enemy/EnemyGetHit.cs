@@ -1,6 +1,10 @@
-﻿using Item;
+﻿#region
+
+using Item;
 using UnityEngine;
 using UnityEngine.Events;
+
+#endregion
 
 namespace Units.Enemy
 {
@@ -14,12 +18,12 @@ namespace Units.Enemy
                 _onGetHit?.Invoke(itemDamage.Damage);
         }
 
-        public void RegisterOnGetHit(UnityAction<float> action)
+        public void RegisterOnGetHitWatcher(UnityAction<float> action)
         {
             _onGetHit += action;
         }
-        
-        public void RemoveOnGetHit(UnityAction<float> action)
+
+        public void RemoveOnGetHitWatcher(UnityAction<float> action)
         {
             _onGetHit -= action;
         }

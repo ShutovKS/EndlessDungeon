@@ -1,4 +1,8 @@
+#region
+
 using UnityEngine;
+
+#endregion
 
 namespace BuildSetting
 {
@@ -8,7 +12,7 @@ namespace BuildSetting
         {
 #if UNITY_EDITOR
 #else
-            gameObject.SetActive(false);
+            Destroy(gameObject);
 #endif
         }
     }

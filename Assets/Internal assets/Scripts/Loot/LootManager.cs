@@ -1,37 +1,46 @@
-﻿using System;
+﻿#region
+
+using System;
 using Data.Dynamic;
-using Services.PersistentProgress;
+using Services.Watchers.PersistentProgressWatcher;
 using UnityEngine;
+
+#endregion
 
 namespace Loot
 {
-    public class LootManager : MonoBehaviour, IProgressLoadable, IProgressSavable
+    public class LootManager : MonoBehaviour, IProgressLoadableWatcher, IProgressSavableWatcher
     {
+        private Action<int> _onAmountChanged;
         public int SoulsOfTheDungeon { get; private set; }
-        private Action<int> _isAmountChanged;
 
-        public void RegisterOnTheAmountChange(Action<int> isAmountChanged)
+        public void LoadProgress(Progress progress)
         {
-            _isAmountChanged += isAmountChanged;
+            SoulsOfTheDungeon = progress.lootData.loot;
+            _onAmountChanged?.Invoke(SoulsOfTheDungeon);
+        }
+
+        public void UpdateProgress(Progress progress)
+        {
+            progress.lootData.loot = SoulsOfTheDungeon;
+        }
+
+        public void RegisterWatcherOnTheAmountChange(Action<int> isAmountChanged)
+        {
+            _onAmountChanged += isAmountChanged;
+        }
+        
+        public void UnregisterWatcherOnTheAmountChange(Action<int> isAmountChanged)
+        {
+            _onAmountChanged -= isAmountChanged;
         }
 
         public bool TryAmountChangeOnThe(int value)
         {
             if (SoulsOfTheDungeon + value < 0) return false;
             SoulsOfTheDungeon += value;
-            _isAmountChanged?.Invoke(SoulsOfTheDungeon);
+            _onAmountChanged?.Invoke(SoulsOfTheDungeon);
             return true;
-        }
-
-        public void LoadProgress(Progress progress)
-        {
-            SoulsOfTheDungeon = progress.lootData.soulsOfTheDungeon;
-            _isAmountChanged?.Invoke(SoulsOfTheDungeon);
-        }
-
-        public void UpdateProgress(Progress progress)
-        {
-            progress.lootData.soulsOfTheDungeon = SoulsOfTheDungeon;
         }
     }
 }

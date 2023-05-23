@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
-using Services.PersistentProgress;
+﻿#region
+
+using System.Collections.Generic;
+using Services.Watchers.PersistentProgressWatcher;
 using UnityEngine;
+
+#endregion
 
 namespace Services.Watchers.SaveLoadWatcher
 {
     public interface ISaveLoadInstancesWatcher
     {
-        public List<IProgressSavable> ProgressSavable { get; }
-        public List<IProgressLoadable> ProgressLoadable { get; }
-        public void RegisterProgress(params GameObject[] instances);
-        public void DeleteProgress(params GameObject[] instances);
-        public void ClearProgress();
+        public List<IProgressSavableWatcher> ProgressSavable { get; }
+        public List<IProgressLoadableWatcher> ProgressLoadable { get; }
+        public void RegisterProgressWatchers(params GameObject[] instances);
+        public void DeleteProgressWatchers(params GameObject[] instances);
+        public void ClearProgressWatchers();
     }
 }

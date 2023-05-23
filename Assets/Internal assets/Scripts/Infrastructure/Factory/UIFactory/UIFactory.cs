@@ -1,8 +1,12 @@
+#region
+
 using System.Threading.Tasks;
 using Data.Addressable;
 using Services.AssetsAddressableService;
 using UnityEngine;
 using Zenject;
+
+#endregion
 
 namespace Infrastructure.Factory.UIFactory
 {
@@ -31,7 +35,7 @@ namespace Infrastructure.Factory.UIFactory
         {
             var loadingScreenPrefab =
                 await _assetsAddressableService.GetAsset<GameObject>(
-                    AssetsAddressablesConstants
+                    AssetsAddressableConstants
                         .LOADING_PROCESS_SCREEN);
 
             LoadingScreen = _container.InstantiatePrefab(loadingScreenPrefab);
@@ -52,7 +56,7 @@ namespace Infrastructure.Factory.UIFactory
         public async Task<GameObject> CreateMainLocationScreen()
         {
             var gameplayScreenPrefab =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_LOCATION_SCREEN);
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressableConstants.MAIN_LOCATION_SCREEN);
 
             MainLocationScreen = _container.InstantiatePrefab(gameplayScreenPrefab);
 
@@ -72,7 +76,7 @@ namespace Infrastructure.Factory.UIFactory
         public async Task<GameObject> CreateMainMenuScreen()
         {
             var mainMenuScreenPrefab =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_MENU_SCREEN);
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressableConstants.MAIN_MENU_SCREEN);
 
             MainMenuScreen = _container.InstantiatePrefab(mainMenuScreenPrefab);
 
@@ -93,7 +97,7 @@ namespace Infrastructure.Factory.UIFactory
         {
             var menuInDungeonRoomScreenPrefab =
                 await _assetsAddressableService.GetAsset<GameObject>(
-                    AssetsAddressablesConstants.MENU_IN_DUNGEON_ROOM_SCREEN);
+                    AssetsAddressableConstants.MENU_IN_DUNGEON_ROOM_SCREEN);
 
             MenuInDungeonRoomScreen = _container.InstantiatePrefab(menuInDungeonRoomScreenPrefab);
 
@@ -114,7 +118,7 @@ namespace Infrastructure.Factory.UIFactory
         {
             var menuInMainLocationScreenPrefab =
                 await _assetsAddressableService.GetAsset<GameObject>(
-                    AssetsAddressablesConstants.MENU_IN_MAIN_LOCATION_SCREEN);
+                    AssetsAddressableConstants.MENU_IN_MAIN_LOCATION_SCREEN);
 
             MenuInMainLocationScreen = _container.InstantiatePrefab(menuInMainLocationScreenPrefab);
 
@@ -134,7 +138,7 @@ namespace Infrastructure.Factory.UIFactory
         public async Task<GameObject> CreateSkillsBookScreen()
         {
             var skillsBookScreenPrefab =
-                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.SKILLS_BOOK_SCREEN);
+                await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressableConstants.SKILLS_BOOK_SCREEN);
 
             SkillsBookScreen = _container.InstantiatePrefab(skillsBookScreenPrefab);
 

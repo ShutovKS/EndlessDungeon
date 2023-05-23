@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region
+
+using System;
 using Data.Addressable;
 using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States.Intermediate;
 using Infrastructure.GlobalStateMachine.States.MainMenu;
 using Zenject;
+
+#endregion
 
 namespace Infrastructure.GlobalStateMachine.States
 {
@@ -15,8 +19,9 @@ namespace Infrastructure.GlobalStateMachine.States
 
         public void Initialize()
         {
-            Context.StateMachine.SwitchState<SceneLoadingState, (string sceneName, Type newStateType)>(
-                (AssetsAddressablesConstants.MAIN_MENU_SCENE_NAME, typeof(MainMenuSetUpState)));
+            Context.StateMachine.SwitchState<(string sceneName, Type newStateType)>(
+                typeof(SceneLoadingState),
+                (AssetsAddressableConstants.MAIN_MENU_SCENE_NAME, typeof(MainMenuSetUpState)));
         }
     }
 }

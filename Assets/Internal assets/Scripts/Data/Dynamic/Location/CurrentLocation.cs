@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region
+
+using System;
+
+#endregion
 
 namespace Data.Dynamic.Location
 {
@@ -9,7 +13,7 @@ namespace Data.Dynamic.Location
         {
             locationType = LocationType.Main;
         }
-        
+
         public LocationType locationType;
 
         public enum LocationType

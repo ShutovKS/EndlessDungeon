@@ -2,6 +2,5 @@
 {
     public interface ITile
     {
-        DungeonTilesType Type { get; set; }
     }
 }

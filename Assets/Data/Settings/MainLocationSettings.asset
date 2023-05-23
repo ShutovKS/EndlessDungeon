@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95b09753b1d3398408a36564c906b124, type: 3}
   m_Name: MainLocationSettings
   m_EditorClassIdentifier: 
-  playerSpawnPosition: {x: 0, y: 0, z: 0}
-  weaponSpawnPosition:
-  - {x: 8, y: 1, z: 0.75}
-  - {x: 8, y: 1, z: 0}
+  <PlayerSpawnPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  <WeaponSpawnPosition>k__BackingField:
   - {x: 8, y: 1, z: -0.75}
-  socketForWeaponSpawnPosition: {x: 0.325, y: 0.7, z: 0.075}
-  portalSpawnPosition: {x: 0, y: 1.5, z: 9}
-  skillsBookScreenPosition: {x: -7.868, y: 1.303, z: -7.932}
-  skillsBookScreenRotation: {x: 30, y: -135, z: 0}
+  - {x: 8, y: 1, z: 0}
+  - {x: 8, y: 1, z: 0.75}
+  <SocketForWeaponSpawnPosition>k__BackingField: {x: 0.325, y: -0.6, z: 0.075}
+  <TransitionToTheDungeonSpawnPosition>k__BackingField: {x: 0, y: 1.5, z: 9}
+  <SkillsBookScreenPosition>k__BackingField: {x: -7.868, y: 1.303, z: -7.932}
+  <SkillsBookScreenRotation>k__BackingField: {x: 30, y: -135, z: 0}

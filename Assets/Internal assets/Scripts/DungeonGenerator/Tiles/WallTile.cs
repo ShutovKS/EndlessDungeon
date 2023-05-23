@@ -1,11 +1,13 @@
-﻿using DungeonGenerator.Tiles.Interface;
+﻿#region
+
+using DungeonGenerator.Tiles.Interface;
+
+#endregion
 
 namespace DungeonGenerator.Tiles
 {
     public class WallTile : ITile
     {
-        public DungeonTilesType Type { get; set; } = DungeonTilesType.WALL;
-    
         public bool IsLight;
         public DirectionType LightDirectionType;
 
@@ -18,4 +20,3 @@ namespace DungeonGenerator.Tiles
         }
     }
 }
-

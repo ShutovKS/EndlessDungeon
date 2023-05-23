@@ -292,7 +292,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0412\u044B\u0439\u0442\u0438 \u0438\u0437 \u043F\u043E\u0434\u0437\u0435\u043C\u0435\u043B\u044C\u044F"
+  m_Text: Exit the dungeon
 --- !u!1 &7411722975123792757
 GameObject:
   m_ObjectHideFlags: 0

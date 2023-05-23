@@ -1,12 +1,11 @@
-﻿using UnityEngine;
-
-namespace Item
+﻿namespace Item
 {
     public interface IItemDamage
     {
-        bool IsDamage { get; set; }
-        float Damage { get; set; }
+        float Damage { get; }
+        bool IsDamage { get; }
 
+        void SetDamage(float value);
         void ItemIsDamage(bool value);
     }
 }

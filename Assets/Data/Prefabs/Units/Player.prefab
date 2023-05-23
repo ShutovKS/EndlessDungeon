@@ -1688,7 +1688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3839841b389e42079ee316cf49b983fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _triggerTransform: {fileID: 4727501319348209356}
+  triggerTransform: {fileID: 4727501319348209356}
 --- !u!1 &7021716789815793006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,6 +2631,48 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 8605441864125897717, guid: 65847589f926b734d9eaed6e25f0046b,
+        type: 3}
+      propertyPath: grabAction.m_Reference
+      value: 
+      objectReference: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 8605441864125897717, guid: 65847589f926b734d9eaed6e25f0046b,
+        type: 3}
+      propertyPath: grabAction.m_Action.m_Id
+      value: 273e394f-29d1-473e-a57e-6572f33607e2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605441864125897717, guid: 65847589f926b734d9eaed6e25f0046b,
+        type: 3}
+      propertyPath: grabAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605441864125897717, guid: 65847589f926b734d9eaed6e25f0046b,
+        type: 3}
+      propertyPath: activateAction.m_Reference
+      value: 
+      objectReference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 8605441864125897717, guid: 65847589f926b734d9eaed6e25f0046b,
+        type: 3}
+      propertyPath: grabAction.m_Action.m_Name
+      value: Grab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605441864125897717, guid: 65847589f926b734d9eaed6e25f0046b,
+        type: 3}
+      propertyPath: activateAction.m_Action.m_Id
+      value: a8e379eb-9170-4216-b186-7cac95df1798
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605441864125897717, guid: 65847589f926b734d9eaed6e25f0046b,
+        type: 3}
+      propertyPath: activateAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605441864125897717, guid: 65847589f926b734d9eaed6e25f0046b,
+        type: 3}
+      propertyPath: activateAction.m_Action.m_Name
+      value: Activate
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2715,6 +2757,48 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Right Hand Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 6692686522684814048, guid: 1fd3a7c43c8190f4d8c167ebde694364,
+        type: 3}
+      propertyPath: grabAction.m_Reference
+      value: 
+      objectReference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 6692686522684814048, guid: 1fd3a7c43c8190f4d8c167ebde694364,
+        type: 3}
+      propertyPath: grabAction.m_Action.m_Id
+      value: dc2546ae-7e9c-4d3f-91a4-2d54d3587bb0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6692686522684814048, guid: 1fd3a7c43c8190f4d8c167ebde694364,
+        type: 3}
+      propertyPath: grabAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6692686522684814048, guid: 1fd3a7c43c8190f4d8c167ebde694364,
+        type: 3}
+      propertyPath: activateAction.m_Reference
+      value: 
+      objectReference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 6692686522684814048, guid: 1fd3a7c43c8190f4d8c167ebde694364,
+        type: 3}
+      propertyPath: grabAction.m_Action.m_Name
+      value: Grab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6692686522684814048, guid: 1fd3a7c43c8190f4d8c167ebde694364,
+        type: 3}
+      propertyPath: activateAction.m_Action.m_Id
+      value: 1215391a-f4aa-4cf4-9f49-cf80992176b0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6692686522684814048, guid: 1fd3a7c43c8190f4d8c167ebde694364,
+        type: 3}
+      propertyPath: activateAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6692686522684814048, guid: 1fd3a7c43c8190f4d8c167ebde694364,
+        type: 3}
+      propertyPath: activateAction.m_Action.m_Name
+      value: Activate
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

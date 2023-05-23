@@ -1,60 +1,54 @@
-﻿using System.Collections.Generic;
-using Services.PersistentProgress;
+﻿#region
+
+using System.Collections.Generic;
+using Services.Watchers.PersistentProgressWatcher;
 using UnityEngine;
+
+#endregion
 
 namespace Services.Watchers.SaveLoadWatcher
 {
     public class SaveLoadInstancesWatcher : ISaveLoadInstancesWatcher
     {
-        public List<IProgressSavable> ProgressSavable { get; } = new();
-        public List<IProgressLoadable> ProgressLoadable { get; } = new();
+        public List<IProgressSavableWatcher> ProgressSavable { get; } = new List<IProgressSavableWatcher>();
+        public List<IProgressLoadableWatcher> ProgressLoadable { get; } = new List<IProgressLoadableWatcher>();
 
-        public void RegisterProgress(params GameObject[] instances)
+        public void RegisterProgressWatchers(params GameObject[] instances)
         {
             foreach (var instance in instances)
             {
-                foreach (var progressLoader in instance.GetComponentsInChildren<IProgressLoadable>())
+                foreach (var progressLoadable in instance.GetComponentsInChildren<IProgressLoadableWatcher>())
                 {
-                    Register(progressLoader);
+                    if (progressLoadable is IProgressSavableWatcher progressSavable)
+                    {
+                        ProgressSavable.Add(progressSavable);
+                    }
+
+                    ProgressLoadable.Add(progressLoadable);
                 }
             }
         }
 
-        public void DeleteProgress(params GameObject[] instances)
+        public void DeleteProgressWatchers(params GameObject[] instances)
         {
             foreach (var instance in instances)
             {
-                foreach (var progressLoader in instance.GetComponentsInChildren<IProgressLoadable>())
+                foreach (var progressLoadable in instance.GetComponentsInChildren<IProgressLoadableWatcher>())
                 {
-                    Deletion(progressLoader);
+                    if (progressLoadable is IProgressSavableWatcher progressSavable)
+                    {
+                        ProgressSavable.Remove(progressSavable);
+                    }
+
+                    ProgressLoadable.Remove(progressLoadable);
                 }
             }
         }
 
-        public void ClearProgress()
+        public void ClearProgressWatchers()
         {
             ProgressSavable.Clear();
             ProgressLoadable.Clear();
-        }
-
-        private void Register(IProgressLoadable progressLoadable)
-        {
-            if (progressLoadable is IProgressSavable progressSavable)
-            {
-                ProgressSavable.Add(progressSavable);
-            }
-
-            ProgressLoadable.Add(progressLoadable);
-        }
-
-        private void Deletion(IProgressLoadable progressLoadable)
-        {
-            if (progressLoadable is IProgressSavable progressSavable)
-            {
-                ProgressSavable.Remove(progressSavable);
-            }
-
-            ProgressLoadable.Remove(progressLoadable);
         }
     }
 }

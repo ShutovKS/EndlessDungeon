@@ -1,27 +1,14 @@
-﻿using UnityEngine;
+﻿#region
+
+using UnityEngine;
 using UnityEngine.AI;
+
+#endregion
 
 namespace Units.Enemy.State_Machines.State
 {
     public class MoveToPlayer : IState
     {
-        #region Variables
-
-        public float TimeStuck;
-
-        private readonly Animator _animator;
-        private readonly NavMeshAgent _navMeshAgent;
-        private readonly Transform _thisTransform;
-        private readonly Transform _playerTransform;
-        private readonly float _speedMove;
-        private readonly float _stoppingDistance;
-        private Vector3 _lastPosition = Vector3.zero;
-        private static readonly int WALK = Animator.StringToHash("Walk");
-
-        #endregion
-
-        #region Constructors
-
         public MoveToPlayer(Animator animator, NavMeshAgent navMeshAgent, Transform thisTransform,
             Transform playerTransform, float speedMove, float stoppingDistance)
         {
@@ -32,10 +19,16 @@ namespace Units.Enemy.State_Machines.State
             _speedMove = speedMove;
             _stoppingDistance = stoppingDistance;
         }
+        private readonly static int Walk = Animator.StringToHash("Walk");
 
-        #endregion
-
-        #region Methods
+        private readonly Animator _animator;
+        private readonly NavMeshAgent _navMeshAgent;
+        private readonly Transform _playerTransform;
+        private readonly float _speedMove;
+        private readonly float _stoppingDistance;
+        private readonly Transform _thisTransform;
+        private Vector3 _lastPosition = Vector3.zero;
+        public float TimeStuck;
 
         public void OnEnter()
         {
@@ -43,7 +36,7 @@ namespace Units.Enemy.State_Machines.State
             _navMeshAgent.speed = _speedMove;
             _navMeshAgent.stoppingDistance = _stoppingDistance;
 
-            _animator.SetBool(WALK, true);
+            _animator.SetBool(Walk, true);
         }
 
         public void Tick()
@@ -58,10 +51,7 @@ namespace Units.Enemy.State_Machines.State
         public void OnExit()
         {
             _navMeshAgent.enabled = false;
-
-            _animator.SetBool(WALK, false);
+            _animator.SetBool(Walk, false);
         }
-
-        #endregion
     }
 }

@@ -1,39 +1,27 @@
-﻿using System;
+﻿#region
+
 using UnityEngine;
+using UnityEngine.Events;
+
+#endregion
 
 namespace Units.Enemy.State_Machines.State
 {
     public class GetHit : IState
     {
-        #region Variables
-
-        public bool EndGetHit;
-
-        private readonly Animator _animator;
-        private readonly Enemy _enemy;
-        private readonly static int DAMAGE = Animator.StringToHash("GetHit");
-
-        private Action<string> _animationTriggerName;
-
-        #endregion
-
-        #region Constructors
-
-        public GetHit(Enemy enemy, Animator animator)
+        public GetHit(ref UnityAction<string> onAnimationTrigger, Animator animator)
         {
-            _enemy = enemy;
+            onAnimationTrigger += HandlerAnimationTrigger;
             _animator = animator;
         }
-
-        #endregion
-
-        #region Methods
+        private readonly static int Damage = Animator.StringToHash("GetHit");
+        private readonly Animator _animator;
+        public bool EndGetHit;
 
         public void OnEnter()
         {
             EndGetHit = false;
-            _animator.SetBool(DAMAGE, true);
-            _enemy.AnimationTriggerName = HandlerAnimationTrigger;
+            _animator.SetBool(Damage, true);
         }
 
         public void Tick()
@@ -42,23 +30,15 @@ namespace Units.Enemy.State_Machines.State
 
         public void OnExit()
         {
-            _animator.SetBool(DAMAGE, false);
-            _enemy.AnimationTriggerName -= HandlerAnimationTrigger;
+            _animator.SetBool(Damage, false);
         }
-
-        #endregion
-
-        #region Methods Other
 
         private void HandlerAnimationTrigger(string animationTriggerName)
         {
             if (animationTriggerName == "animationEnd")
             {
                 EndGetHit = true;
-                Debug.Log("animationEnd GetHit");
             }
         }
-
-        #endregion
     }
 }

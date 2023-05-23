@@ -103,6 +103,11 @@ PrefabInstance:
       propertyPath: weaponType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4863370588218899347, guid: b84d7ca3927758646a65731cc107aa76,
+        type: 3}
+      propertyPath: <WeaponType>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

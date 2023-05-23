@@ -1,18 +1,22 @@
-﻿using System;
+﻿#region
+
+using System;
 using Skill;
+
+#endregion
 
 namespace Data.Dynamic.Player
 {
     [Serializable]
     public class SkillEntry
     {
-        public SkillType Key;
-        public int Value;
-
         public SkillEntry(SkillType key, int value)
         {
-            Key = key;
-            Value = value;
+            this.key = key;
+            this.value = value;
         }
+
+        public SkillType key;
+        public int value;
     }
 }

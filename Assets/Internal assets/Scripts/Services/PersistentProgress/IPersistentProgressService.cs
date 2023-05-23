@@ -1,10 +1,14 @@
-﻿using Data.Dynamic;
+﻿#region
+
+using Data.Dynamic;
+
+#endregion
 
 namespace Services.PersistentProgress
 {
     public interface IPersistentProgressService
     {
-        public Progress Progress { get; }
-        public void SetProgress(Progress progress);
+        Progress Progress { get; }
+        void SetProgress(Progress progress);
     }
 }

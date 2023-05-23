@@ -1,38 +1,29 @@
-﻿using System;
-using Infrastructure.Factory.EnemyFactory;
+﻿#region
+
 using UnityEngine;
+using UnityEngine.Events;
+
+#endregion
 
 namespace Units.Enemy.State_Machines.State
 {
     public class Dead : IState
     {
-        #region Variables
-
-        private readonly Enemy _enemy;
-        private readonly Animator _animator;
-        private readonly IEnemyFactory _enemyFactory;
-        private readonly static int DEAD = Animator.StringToHash("Dead");
-
-        #endregion
-
-        #region Constructors
-
-        public Dead(Enemy enemy, Animator animator, IEnemyFactory enemyFactory)
+        public Dead(Enemy enemy, Animator animator, UnityAction<Enemy> onEnemyDead)
         {
             _enemy = enemy;
             _animator = animator;
-            _enemyFactory = enemyFactory;
+            _onEnemyDead = onEnemyDead;
         }
-
-        #endregion
-
-        #region Methods
+        private readonly static int Death = Animator.StringToHash("Dead");
+        private readonly Animator _animator;
+        private readonly Enemy _enemy;
+        private readonly UnityAction<Enemy> _onEnemyDead;
 
         public void OnEnter()
         {
-            _animator.SetBool(DEAD, true);
-            _enemyFactory.DeadEnemy(_enemy);
-            Debug.Log("Dead");
+            _animator.SetBool(Death, true);
+            _onEnemyDead?.Invoke(_enemy);
         }
 
         public void Tick()
@@ -42,11 +33,5 @@ namespace Units.Enemy.State_Machines.State
         public void OnExit()
         {
         }
-
-        #endregion
-
-        #region Methods Other
-
-        #endregion
     }
 }

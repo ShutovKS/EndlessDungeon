@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using Item.Weapon;
+
+#endregion
 
 namespace Data.Dynamic.Player
 {
@@ -10,7 +14,7 @@ namespace Data.Dynamic.Player
         {
             weaponType = WeaponType.Sword;
         }
-        
+
         public WeaponType weaponType;
     }
 }
