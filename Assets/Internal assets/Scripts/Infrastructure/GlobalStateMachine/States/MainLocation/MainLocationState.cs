@@ -63,12 +63,11 @@ namespace Infrastructure.GlobalStateMachine.States
         {
             _uiFactory.MenuInMainLocationScreen.GetComponent<MenuInMainLocationScreen>()
                 .SetUp(_saveLoadService.SaveProgress, ExitInMainMenu);
-            
+
             void ExitInMainMenu()
             {
-                Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                    AssetsAddressablesConstants.MAIN_MENU_SCENE_NAME,
-                    typeof(MainMenuSetUpState));
+                Context.StateMachine.SwitchState<SceneLoadingState, (string sceneName, Type newStateType)>(
+                    (AssetsAddressablesConstants.MAIN_MENU_SCENE_NAME, typeof(MainMenuSetUpState)));
             }
         }
     }

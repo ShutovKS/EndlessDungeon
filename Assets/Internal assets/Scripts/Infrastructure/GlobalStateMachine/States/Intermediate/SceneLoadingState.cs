@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 
 namespace Infrastructure.GlobalStateMachine.States.Intermediate
 {
-    public class SceneLoadingState : StateTwoParam<GameInstance, string, Type>
+    public class SceneLoadingState : StateWithParam<GameInstance, (string sceneName, Type newStateType)>
     {
         public SceneLoadingState(GameInstance context, IUIFactory uiFactory) : base(context)
         {
@@ -14,13 +14,13 @@ namespace Infrastructure.GlobalStateMachine.States.Intermediate
 
         private readonly IUIFactory _uiFactory;
 
-        public override async void Enter(string sceneName, Type newStateType)
+        public override async void Enter((string sceneName, Type newStateType) getValue)
         {
             await _uiFactory.CreateLoadingScreen();
 
-            await Addressables.LoadSceneAsync(sceneName).Task;
+            await Addressables.LoadSceneAsync(getValue.sceneName).Task;
 
-            Context.StateMachine.SwitchState(newStateType);
+            Context.StateMachine.SwitchState(getValue.newStateType);
         }
     }
 }

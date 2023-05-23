@@ -7,7 +7,7 @@ using Services.Watchers.SaveLoadWatcher;
 
 namespace Infrastructure.GlobalStateMachine.States.Intermediate
 {
-    public class ProgressLoadingState : StateOneParam<GameInstance, Type>
+    public class ProgressLoadingState : StateWithParam<GameInstance, Type>
     {
         public ProgressLoadingState(GameInstance context, ISaveLoadService saveLoadService,
             ISaveLoadInstancesWatcher saveLoadInstancesWatcher,

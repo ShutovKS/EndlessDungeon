@@ -29,7 +29,7 @@ using Random = UnityEngine.Random;
 
 namespace Infrastructure.GlobalStateMachine.States
 {
-    public class DungeonRoomSetUpState : StateOneParam<GameInstance, (ITile[,] dungeonMap, (int, int) playerPosition,
+    public class DungeonRoomSetUpState : StateWithParam<GameInstance, (ITile[,] dungeonMap, (int, int) playerPosition,
         List<(int, int)> enemiesPosition)>
     {
         public DungeonRoomSetUpState(GameInstance context, IAbstractFactory abstractFactory,
@@ -116,13 +116,13 @@ namespace Infrastructure.GlobalStateMachine.States
 
             _playerFactory.CreatePlayer(player, new Vector3(playerPosition.x, 0, playerPosition.y) * UNIT);
 
-            _playerFactory.PlayerInstance.AddComponent<Player>().SetUp(
-                () => Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                    AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
-                    typeof(MainLocationSetUpState)),
-                _playerStaticDefaultData);
+            _playerFactory.PlayerInstance.AddComponent<Player>().SetUp(MoveMainLocation, _playerStaticDefaultData);
 
             _saveLoadInstancesWatcher.RegisterProgress(_playerFactory.PlayerInstance);
+
+            void MoveMainLocation() =>
+                Context.StateMachine.SwitchState<SceneLoadingState, (string sceneName, Type newStateType)>(
+                    (AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME, typeof(MainLocationSetUpState)));
         }
 
         private async Task CreatePlayerAddons()

@@ -34,7 +34,7 @@ namespace Infrastructure.GlobalStateMachine
             StateMachine = new StateMachine<GameInstance>(
                 this,
                 new BootstrapState(this),
-                new LoadLateLocation(this, saveLoadService),
+                new LoadLastSavedLocation(this, saveLoadService),
                 new SceneLoadingState(this, uiFactory),
                 new RemoveProgressData(this, saveLoadService),
                 new ProgressLoadingState(this, saveLoadService, saveLoadInstancesWatcher, persistentProgressService),

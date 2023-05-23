@@ -2,15 +2,14 @@
 using Data.Addressable;
 using Data.Dynamic.Location;
 using Infrastructure.GlobalStateMachine.StateMachine;
-using Infrastructure.GlobalStateMachine.States.Intermediate;
 using Services.SaveLoad;
 using UnityEngine;
 
-namespace Infrastructure.GlobalStateMachine.States.MainMenu
+namespace Infrastructure.GlobalStateMachine.States.Intermediate
 {
-    public class LoadLateLocation : State<GameInstance>
+    public class LoadLastSavedLocation : State<GameInstance>
     {
-        public LoadLateLocation(GameInstance context, ISaveLoadService saveLoadService) : base(
+        public LoadLastSavedLocation(GameInstance context, ISaveLoadService saveLoadService) : base(
             context)
         {
             _saveLoadService = saveLoadService;
@@ -23,15 +22,13 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
             switch (_saveLoadService.LoadProgress().currentLocation.locationType)
             {
                 case CurrentLocation.LocationType.Main:
-                    Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                        AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME,
-                        typeof(MainLocationSetUpState));
+                    Context.StateMachine.SwitchState<SceneLoadingState, (string sceneName, Type newStateType)>(
+                        (AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME,typeof(MainLocationSetUpState)));
 
                     break;
                 case CurrentLocation.LocationType.DungeonRoom:
-                    Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                        AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
-                        typeof(DungeonRoomGenerationState));
+                    Context.StateMachine.SwitchState<SceneLoadingState, (string sceneName, Type newStateType)>(
+                        (AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,typeof(DungeonRoomGenerationState)));
 
                     break;
                 case CurrentLocation.LocationType.DungeonBoss:

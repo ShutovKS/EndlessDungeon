@@ -31,7 +31,7 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
         public override void Enter()
         {
             SettingMenu();
-            
+
             _uiFactory.DestroyLoadingScreen();
         }
 
@@ -48,7 +48,10 @@ namespace Infrastructure.GlobalStateMachine.States.MainMenu
                 mainMenuScreenComponent.SetUp(GoToNewGame, GoToLoadGame, _saveLoadService.IsInStockSave());
         }
 
-        private void GoToNewGame() => Context.StateMachine.SwitchState<RemoveProgressData>();
-        private void GoToLoadGame() => Context.StateMachine.SwitchState<LoadLateLocation>();
+        private void GoToNewGame() =>
+            Context.StateMachine.SwitchState<RemoveProgressData, (string sceneName, Type nextStateType)>(
+                (AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME, typeof(MainLocationSetUpState)));
+
+        private void GoToLoadGame() => Context.StateMachine.SwitchState<LoadLastSavedLocation>();
     }
 }

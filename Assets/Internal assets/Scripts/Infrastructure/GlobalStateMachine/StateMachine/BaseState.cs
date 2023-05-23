@@ -8,13 +8,7 @@
         {
             Context = context;
         }
-
-        public virtual void Tick()
-        {
-        }
-
-        public virtual void Exit()
-        {
-        }
+        public virtual void Tick() { }
+        public virtual void Exit() { }
     }
 }

@@ -68,16 +68,16 @@ namespace Units.Enemy.State_Machines.State
             switch (animationTriggerName)
             {
                 case "attackLeft":
-                    _enemyDamages[EnemyDamage.Side.Left].SwitchCollider(true);
+                    _enemyDamages[EnemyDamage.Side.Left].SetIsDamage(true);
                     break;
                 case "attackEndLeft":
-                    _enemyDamages[EnemyDamage.Side.Left].SwitchCollider(false);
+                    _enemyDamages[EnemyDamage.Side.Left].SetIsDamage(false);
                     break;
                 case "attackRight":
-                    _enemyDamages[EnemyDamage.Side.Right].SwitchCollider(true);
+                    _enemyDamages[EnemyDamage.Side.Right].SetIsDamage(true);
                     break;
                 case "attackEndRight":
-                    _enemyDamages[EnemyDamage.Side.Right].SwitchCollider(false);
+                    _enemyDamages[EnemyDamage.Side.Right].SetIsDamage(false);
                     break;
                 case "animationEnd":
                     EndAttack = true;

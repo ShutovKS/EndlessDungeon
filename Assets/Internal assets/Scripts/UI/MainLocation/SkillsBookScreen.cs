@@ -1,13 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Data.Dynamic.Player;
 using Data.Static;
 using Skill;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 namespace UI.MainLocation
 {
@@ -38,7 +33,6 @@ namespace UI.MainLocation
 
         private void UpdateUISkill(Dictionary<SkillType, int> levelDictionary, int amountMoney)
         {
-            Debug.Log("UpdateUISkill");
             foreach (var (skillType, skillScreen) in _skillScreenDictionary)
             {
                 var level = levelDictionary[skillType];
@@ -51,7 +45,6 @@ namespace UI.MainLocation
 
         private void SetUISkill(SkillType skillType)
         {
-            Debug.Log($"SetUISkill {skillType.ToString()}");
             _skillScreenDictionary[skillType].NameSkill.text = _skillStaticDataDictionary[skillType].NameSkill;
             _skillScreenDictionary[skillType].DescriptionSkill.text =
                 _skillStaticDataDictionary[skillType].DescriptionSkill;
@@ -59,9 +52,6 @@ namespace UI.MainLocation
             _skillScreenDictionary[skillType].TypeSkill.text = _skillStaticDataDictionary[skillType].TypeSkill;
             _skillScreenDictionary[skillType].PriceSkillButton.onClick
                 .AddListener(() => _skillsBook.TryIncreaseSkill(skillType));
-
-            _skillScreenDictionary[skillType].PriceSkillButton.onClick
-                .AddListener(() => Debug.Log($"Нажата кнопка {skillType.ToString()}"));
         }
     }
 }

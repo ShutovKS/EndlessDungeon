@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace Abstract
+namespace Portal
 {
     public class PortalTrigger : MonoBehaviour
     {

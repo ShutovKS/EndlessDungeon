@@ -15,9 +15,8 @@ namespace Infrastructure.GlobalStateMachine.States
 
         public void Initialize()
         {
-            Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                AssetsAddressablesConstants.MAIN_MENU_SCENE_NAME,
-                typeof(MainMenuSetUpState));
+            Context.StateMachine.SwitchState<SceneLoadingState, (string sceneName, Type newStateType)>(
+                (AssetsAddressablesConstants.MAIN_MENU_SCENE_NAME, typeof(MainMenuSetUpState)));
         }
     }
 }

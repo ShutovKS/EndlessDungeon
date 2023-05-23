@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Abstract;
 using Data.Addressable;
 using Data.Settings;
 using Data.Static;
@@ -11,6 +10,7 @@ using Infrastructure.GlobalStateMachine.StateMachine;
 using Infrastructure.GlobalStateMachine.States.Intermediate;
 using Item.Weapon;
 using Loot;
+using Portal;
 using Services.AssetsAddressableService;
 using Services.Watchers.SaveLoadWatcher;
 using Skill;
@@ -178,9 +178,8 @@ namespace Infrastructure.GlobalStateMachine.States
 
             void MoveToDungeonRoom()
             {
-                Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                    AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
-                    typeof(DungeonRoomGenerationState));
+                Context.StateMachine.SwitchState<SceneLoadingState, (string sceneName, Type newStateType)>(
+                    (AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME, typeof(DungeonRoomGenerationState)));
             }
         }
     }

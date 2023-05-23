@@ -69,9 +69,8 @@ namespace Infrastructure.GlobalStateMachine.States
                 _persistentProgressService.Progress.dungeonRoom.roomPassedCount++;
                 _saveLoadService.SaveProgress();
 
-                Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                    AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME,
-                    typeof(DungeonRoomGenerationState));
+                Context.StateMachine.SwitchState<SceneLoadingState, (string sceneName, Type newStateType)>(
+                    (AssetsAddressablesConstants.DUNGEON_ROOM_SCENE_NAME, typeof(DungeonRoomGenerationState)));
             }
         }
 
@@ -85,9 +84,8 @@ namespace Infrastructure.GlobalStateMachine.States
                 _persistentProgressService.Progress.dungeonRoom.roomPassedCount = 0;
                 _saveLoadService.SaveProgress();
 
-                Context.StateMachine.SwitchState<SceneLoadingState, string, Type>(
-                    AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME,
-                    typeof(MainLocationSetUpState));
+                Context.StateMachine.SwitchState<SceneLoadingState, (string sceneName, Type newStateType)>(
+                    (AssetsAddressablesConstants.MAIN_LOCATION_SCENE_NAME, typeof(MainLocationSetUpState)));
             }
         }
     }
