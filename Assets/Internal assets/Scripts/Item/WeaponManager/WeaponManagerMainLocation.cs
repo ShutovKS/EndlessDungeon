@@ -65,10 +65,8 @@ namespace Item.WeaponManager
 
             foreach (var (_, weaponTransform) in WeaponsTransform)
             {
-                if (weaponTransform == null) return;
-                weaponTransform.GetComponent<IItemDamage>().SetDamage(
-                    (DamageDefault + skills[SkillType.StrengthCount]) *
-                    (1 + skills[SkillType.StrengthPercent]));
+                if (weaponTransform != null && skills.TryGetValue(SkillType.StrengthCount, out var level)) 
+                    weaponTransform.GetComponent<IItemDamage>().SetDamage((DamageDefault + level) * (1 + level));
             }
 
             MoveWeaponInSocket(SelectedWeaponType);

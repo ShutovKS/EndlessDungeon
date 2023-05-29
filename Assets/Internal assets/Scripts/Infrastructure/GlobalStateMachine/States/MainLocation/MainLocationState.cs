@@ -13,6 +13,7 @@ using Services.PersistentProgress;
 using Services.SaveLoad;
 using Services.Watchers.SaveLoadWatcher;
 using UI.MainLocation;
+using UnityEngine;
 
 #endregion
 
@@ -70,6 +71,7 @@ namespace Infrastructure.GlobalStateMachine.States
             progress.currentLocation.locationType = CurrentLocation.LocationType.Main;
             _persistentProgressService.SetProgress(progress);
             _saveLoadService.SaveProgress();
+            Debug.Log(_persistentProgressService.Progress.currentLocation.locationType);
         }
 
         private void SettingMenu()

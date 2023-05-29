@@ -15,6 +15,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9011648103020875539, guid: 8d791e7885d8c11418ff9fcd9552c337,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011648103020875539, guid: 8d791e7885d8c11418ff9fcd9552c337,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011648103020875539, guid: 8d791e7885d8c11418ff9fcd9552c337,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011648103020875539, guid: 8d791e7885d8c11418ff9fcd9552c337,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -63,10 +78,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9011648103020875539, guid: 8d791e7885d8c11418ff9fcd9552c337,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9011648103021171507, guid: 8d791e7885d8c11418ff9fcd9552c337,
         type: 3}
       propertyPath: m_Name
-      value: BeholderPolyart
+      value: Beholder
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -188,7 +208,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <side>k__BackingField: 0
+  <Side>k__BackingField: 1
+  <Damage>k__BackingField: 0
+  <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209913999 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9011648103021171561, guid: 8d791e7885d8c11418ff9fcd9552c337,
@@ -228,7 +250,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <side>k__BackingField: 0
+  <Side>k__BackingField: 1
+  <Damage>k__BackingField: 0
+  <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209914003 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9011648103021171573, guid: 8d791e7885d8c11418ff9fcd9552c337,
@@ -268,7 +292,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <side>k__BackingField: 0
+  <Side>k__BackingField: 1
+  <Damage>k__BackingField: 0
+  <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209914023 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9011648103021171521, guid: 8d791e7885d8c11418ff9fcd9552c337,
@@ -308,7 +334,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <side>k__BackingField: 0
+  <Side>k__BackingField: 1
+  <Damage>k__BackingField: 0
+  <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209914025 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9011648103021171535, guid: 8d791e7885d8c11418ff9fcd9552c337,
@@ -348,7 +376,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <side>k__BackingField: 0
+  <Side>k__BackingField: 1
+  <Damage>k__BackingField: 0
+  <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209914045 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9011648103021171547, guid: 8d791e7885d8c11418ff9fcd9552c337,
@@ -388,7 +418,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <side>k__BackingField: 0
+  <Side>k__BackingField: 1
+  <Damage>k__BackingField: 0
+  <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209914065 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9011648103021171511, guid: 8d791e7885d8c11418ff9fcd9552c337,

@@ -22,6 +22,7 @@ namespace Units.Enemy.State_Machines.State
         {
             EndGetHit = false;
             _animator.SetBool(Damage, true);
+            Debug.Log("GetHit");
         }
 
         public void Tick()
@@ -35,7 +36,7 @@ namespace Units.Enemy.State_Machines.State
 
         private void HandlerAnimationTrigger(string animationTriggerName)
         {
-            if (animationTriggerName == "animationEnd")
+            if (animationTriggerName == "GetHitEnd")
             {
                 EndGetHit = true;
             }

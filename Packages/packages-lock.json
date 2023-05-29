@@ -142,7 +142,7 @@
       "source": "builtin",
       "dependencies": {
         "com.unity.mathematics": "1.2.1",
-        "com.unity.burst": "1.8.4",
+        "com.unity.burst": "1.8.2",
         "com.unity.render-pipelines.core": "14.0.7",
         "com.unity.shadergraph": "14.0.7"
       }
@@ -213,7 +213,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.core-utils": {
-      "version": "2.2.1",
+      "version": "2.2.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {

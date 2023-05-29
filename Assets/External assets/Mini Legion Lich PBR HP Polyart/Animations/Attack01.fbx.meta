@@ -200,7 +200,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
@@ -215,21 +215,21 @@ ModelImporter:
       events:
       - time: 0.3723404
         functionName: AnimationTrigger
-        data: attackLeft
+        data: IsAttackStart
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.7180851
         functionName: AnimationTrigger
-        data: attackEndLeft
+        data: IsAttackEnd
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9946808
+      - time: 1
         functionName: AnimationTrigger
-        data: animationEnd
+        data: AttackEnd
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0

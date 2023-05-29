@@ -235,17 +235,27 @@ namespace DungeonGenerator
 
                 if (isLightVisible) continue;
 
-                for (var i = y - 1; i <= y + 1; i++)
-                for (var j = x - 1; j <= x + 1; j++)
-                    if ((j != x || i != y) && tilesMap[i, j] is FloorTile)
-                    {
-                        if (i == y - 1) tile.LightDirectionType = WallTile.DirectionType.Up;
-                        else if (i == y + 1) tile.LightDirectionType = WallTile.DirectionType.Down;
-                        else if (j == x - 1) tile.LightDirectionType = WallTile.DirectionType.Left;
-                        else if (j == x + 1) tile.LightDirectionType = WallTile.DirectionType.Right;
-
-                        tile.IsLight = true;
-                    }
+                tile.IsLight = true;
+                if (tilesMap[y + 1, x] is FloorTile)
+                {
+                    tile.LightDirectionType = WallTile.DirectionType.Up;
+                }
+                else if (tilesMap[y - 1, x] is FloorTile)
+                {
+                    tile.LightDirectionType = WallTile.DirectionType.Down;
+                }
+                else if (tilesMap[y, x + 1] is FloorTile)
+                {
+                    tile.LightDirectionType = WallTile.DirectionType.Right;
+                }
+                else if (tilesMap[y, x - 1] is FloorTile)
+                {
+                    tile.LightDirectionType = WallTile.DirectionType.Left;
+                }
+                else
+                {
+                    tile.IsLight = false;
+                }
             }
         }
 

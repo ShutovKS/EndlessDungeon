@@ -87570,21 +87570,21 @@ AnimationClip:
   m_Events:
   - time: 0.9
     functionName: AnimationTrigger
-    data: attackLeft
+    data: IsAttackStart
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1
     functionName: AnimationTrigger
-    data: attackEndLeft
+    data: IsAttackEnd
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 2
     functionName: AnimationTrigger
-    data: animationEnd
+    data: AttackEnd
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

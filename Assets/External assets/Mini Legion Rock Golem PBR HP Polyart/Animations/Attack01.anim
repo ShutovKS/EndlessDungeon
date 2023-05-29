@@ -113850,21 +113850,21 @@ AnimationClip:
   m_Events:
   - time: 1.5
     functionName: AnimationTrigger
-    data: attackRight
+    data: IsAttackStart
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 2
     functionName: AnimationTrigger
-    data: attackEndRight
+    data: IsAttackEnd
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 2.6666667
     functionName: AnimationTrigger
-    data: animationEnd
+    data: AttackEnd
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

@@ -1,64 +1,170 @@
 fileFormatVersion: 2
 guid: 4b2ee3d51074f8e438978ba066b2e25d
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: Body
-    100004: ChestMesh
-    100006: EyeBallCTRL
-    100008: EyeCTRL
-    100010: FrontLeftLeg01
-    100012: FrontLeftLeg02
-    100014: FrontLeftLeg03
-    100016: FrontRightLeg01
-    100018: FrontRightLeg02
-    100020: FrontRightLeg03
-    100022: Head
-    100024: LockCTRL
-    100026: LowerEyelid
-    100028: LowerTeethCTRL
-    100030: RearLeftLeg01
-    100032: RearLeftLeg02
-    100034: RearLeftLeg03
-    100036: RearRightLeg01
-    100038: RearRightLeg02
-    100040: RearRightLeg03
-    100042: Root
-    100044: UppderEyeLid
-    100046: UpperTeethCTRL
-    400000: //RootNode
-    400002: Body
-    400004: ChestMesh
-    400006: EyeBallCTRL
-    400008: EyeCTRL
-    400010: FrontLeftLeg01
-    400012: FrontLeftLeg02
-    400014: FrontLeftLeg03
-    400016: FrontRightLeg01
-    400018: FrontRightLeg02
-    400020: FrontRightLeg03
-    400022: Head
-    400024: LockCTRL
-    400026: LowerEyelid
-    400028: LowerTeethCTRL
-    400030: RearLeftLeg01
-    400032: RearLeftLeg02
-    400034: RearLeftLeg03
-    400036: RearRightLeg01
-    400038: RearRightLeg02
-    400040: RearRightLeg03
-    400042: Root
-    400044: UppderEyeLid
-    400046: UpperTeethCTRL
-    2100000: lambert1
-    4300000: ChestMesh
-    7400000: Attack02
-    9500000: //RootNode
-    13700000: ChestMesh
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: Body
+  - first:
+      1: 100004
+    second: ChestMesh
+  - first:
+      1: 100006
+    second: EyeBallCTRL
+  - first:
+      1: 100008
+    second: EyeCTRL
+  - first:
+      1: 100010
+    second: FrontLeftLeg01
+  - first:
+      1: 100012
+    second: FrontLeftLeg02
+  - first:
+      1: 100014
+    second: FrontLeftLeg03
+  - first:
+      1: 100016
+    second: FrontRightLeg01
+  - first:
+      1: 100018
+    second: FrontRightLeg02
+  - first:
+      1: 100020
+    second: FrontRightLeg03
+  - first:
+      1: 100022
+    second: Head
+  - first:
+      1: 100024
+    second: LockCTRL
+  - first:
+      1: 100026
+    second: LowerEyelid
+  - first:
+      1: 100028
+    second: LowerTeethCTRL
+  - first:
+      1: 100030
+    second: RearLeftLeg01
+  - first:
+      1: 100032
+    second: RearLeftLeg02
+  - first:
+      1: 100034
+    second: RearLeftLeg03
+  - first:
+      1: 100036
+    second: RearRightLeg01
+  - first:
+      1: 100038
+    second: RearRightLeg02
+  - first:
+      1: 100040
+    second: RearRightLeg03
+  - first:
+      1: 100042
+    second: Root
+  - first:
+      1: 100044
+    second: UppderEyeLid
+  - first:
+      1: 100046
+    second: UpperTeethCTRL
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: Body
+  - first:
+      4: 400004
+    second: ChestMesh
+  - first:
+      4: 400006
+    second: EyeBallCTRL
+  - first:
+      4: 400008
+    second: EyeCTRL
+  - first:
+      4: 400010
+    second: FrontLeftLeg01
+  - first:
+      4: 400012
+    second: FrontLeftLeg02
+  - first:
+      4: 400014
+    second: FrontLeftLeg03
+  - first:
+      4: 400016
+    second: FrontRightLeg01
+  - first:
+      4: 400018
+    second: FrontRightLeg02
+  - first:
+      4: 400020
+    second: FrontRightLeg03
+  - first:
+      4: 400022
+    second: Head
+  - first:
+      4: 400024
+    second: LockCTRL
+  - first:
+      4: 400026
+    second: LowerEyelid
+  - first:
+      4: 400028
+    second: LowerTeethCTRL
+  - first:
+      4: 400030
+    second: RearLeftLeg01
+  - first:
+      4: 400032
+    second: RearLeftLeg02
+  - first:
+      4: 400034
+    second: RearLeftLeg03
+  - first:
+      4: 400036
+    second: RearRightLeg01
+  - first:
+      4: 400038
+    second: RearRightLeg02
+  - first:
+      4: 400040
+    second: RearRightLeg03
+  - first:
+      4: 400042
+    second: Root
+  - first:
+      4: 400044
+    second: UppderEyeLid
+  - first:
+      4: 400046
+    second: UpperTeethCTRL
+  - first:
+      21: 2100000
+    second: lambert1
+  - first:
+      43: 4300000
+    second: ChestMesh
+  - first:
+      74: 7400000
+    second: Attack02
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: ChestMesh
   externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -67,6 +173,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -87,6 +194,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Attack02
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
       lastFrame: 22
       wrapMode: 0
@@ -95,7 +203,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -107,7 +215,28 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.2815126
+        functionName: AnimationTrigger
+        data: AttackRight
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.49159664
+        functionName: AnimationTrigger
+        data: AttackRightEnd
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: AnimationTrigger
+        data: AttackEnd
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -119,25 +248,36 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -146,10 +286,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -159,13 +299,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

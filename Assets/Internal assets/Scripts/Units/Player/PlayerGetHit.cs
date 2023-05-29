@@ -14,8 +14,11 @@ namespace Units.Player
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent<EnemyDamage>(out var enemyDamage) && enemyDamage.IsDamage)
-                _onGetHit?.Invoke(enemyDamage.Damage);
+            if (!other.TryGetComponent<EnemyDamage>(out var enemyDamage) || !enemyDamage.IsDamage)
+                return;
+            
+            Debug.Log("GetHit Player");
+            _onGetHit?.Invoke(enemyDamage.Damage);
         }
 
         public void SetUp(UnityAction<float> onGetHit)

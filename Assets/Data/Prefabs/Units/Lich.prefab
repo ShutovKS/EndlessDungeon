@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <side>k__BackingField: 0
+  <Side>k__BackingField: 0
 --- !u!1 &149149138840361970
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <side>k__BackingField: 0
+  <Side>k__BackingField: 0
 --- !u!1 &2978589965762286758
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <side>k__BackingField: 0
+  <Side>k__BackingField: 0
 --- !u!1001 &6302712889557488806
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228,17 +228,17 @@ PrefabInstance:
     - target: {fileID: 3478025250975259355, guid: cc2904f8420d54e45b80616562ff859c,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.75
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3478025250975259355, guid: cc2904f8420d54e45b80616562ff859c,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.3
+      value: 1.04
       objectReference: {fileID: 0}
     - target: {fileID: 3478025250975259355, guid: cc2904f8420d54e45b80616562ff859c,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.75
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3478025250975259355, guid: cc2904f8420d54e45b80616562ff859c,
         type: 3}
@@ -293,7 +293,7 @@ PrefabInstance:
     - target: {fileID: 3478025250975259355, guid: cc2904f8420d54e45b80616562ff859c,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

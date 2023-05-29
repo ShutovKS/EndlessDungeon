@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 #endregion
 
@@ -38,6 +39,8 @@ namespace Units.Enemy.State_Machines
             _currentTransitions ??= EmptyTransitions;
 
             _currentState.OnEnter();
+
+            Debug.Log(_currentState.GetType().Name);
         }
 
         public void AddTransition(IState to, IState from, Func<bool> predicate)

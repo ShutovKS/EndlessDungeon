@@ -105,7 +105,7 @@ namespace Infrastructure.GlobalStateMachine.States
                         if (tile.IsLight)
                         {
                             _abstractFactory.CreateInstance(wallAndLight, new Vector3(x, 0, y) * UNIT).transform
-                                .rotation = new Quaternion(0, 90 * (int)tile.LightDirectionType, 0, 0);
+                                .rotation = Quaternion.Euler(0, 90 * (int)tile.LightDirectionType, 0);
                         }
                         else
                         {
@@ -216,7 +216,7 @@ namespace Infrastructure.GlobalStateMachine.States
             foreach (var position in enemyPosition)
             {
                 var enemy = await _enemyFactory.CreateInstance(
-                    (EnemyType)Random.Range(0, 5),
+                    (EnemyType)Random.Range(0, 6),
                     new Vector3(position.x * UNIT, 2, position.y * UNIT));
 
                 enemy.transform.rotation = new Quaternion(0, Random.Range(-180f, 180f), 0, 0);

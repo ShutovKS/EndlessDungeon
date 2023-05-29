@@ -15,28 +15,16 @@ namespace Units.Enemy.State_Machines.State
         {
             onAnimationTrigger += HandlerAnimationTrigger;
             _animator = animator;
-
-            var dictionary = new Dictionary<Side, List<EnemyDamage>>();
-            foreach (var damage in enemyDamages)
-            {
-                if (dictionary.TryGetValue(damage.Side, out var damages))
-                {
-                    damages.Add(damage);
-                }
-                else
-                {
-                    dictionary.Add(damage.Side, new List<EnemyDamage>());
-                    dictionary[damage.Side].Add(damage);
-                }
-            }
-
-            _enemyDamages = dictionary;
+            _enemyDamages = enemyDamages
+                .Select(enemyDamage => enemyDamage.GetComponent<EnemyDamage>())
+                .ToList();
         }
+
         private readonly static int Attack1 = Animator.StringToHash("Attack1");
 
         private readonly Animator _animator;
 
-        private readonly Dictionary<Side, List<EnemyDamage>> _enemyDamages;
+        private readonly List<EnemyDamage> _enemyDamages;
 
         public bool EndAttack;
 
@@ -53,38 +41,25 @@ namespace Units.Enemy.State_Machines.State
         public void OnExit()
         {
             _animator.SetBool(Attack1, false);
+            foreach (var enemyDamage in _enemyDamages)
+                enemyDamage.SetIsDamage(false);
         }
 
         private void HandlerAnimationTrigger(string animationTriggerName)
         {
-            List<EnemyDamage> enemyDamages;
             switch (animationTriggerName)
             {
-                case "attackLeft":
-                    if (_enemyDamages.TryGetValue(Side.Left, out enemyDamages))
-                        foreach (var enemyDamage in enemyDamages)
-                            enemyDamage.SetIsDamage(true);
+                case "IsAttackStart":
+                    foreach (var enemyDamage in _enemyDamages)
+                        enemyDamage.SetIsDamage(true);
 
                     break;
-                case "attackEndLeft":
-                    if (_enemyDamages.TryGetValue(Side.Left, out enemyDamages))
-                        foreach (var enemyDamage in enemyDamages)
-                            enemyDamage.SetIsDamage(false);
+                case "IsAttackEnd":
+                    foreach (var enemyDamage in _enemyDamages)
+                        enemyDamage.SetIsDamage(false);
 
                     break;
-                case "attackRight":
-                    if (_enemyDamages.TryGetValue(Side.Right, out enemyDamages))
-                        foreach (var enemyDamage in enemyDamages)
-                            enemyDamage.SetIsDamage(true);
-
-                    break;
-                case "attackEndRight":
-                    if (_enemyDamages.TryGetValue(Side.Right, out enemyDamages))
-                        foreach (var enemyDamage in enemyDamages)
-                            enemyDamage.SetIsDamage(false);
-
-                    break;
-                case "animationEnd":
+                case "AttackEnd":
                     EndAttack = true;
                     break;
             }

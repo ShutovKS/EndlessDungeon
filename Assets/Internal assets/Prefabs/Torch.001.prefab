@@ -106,12 +106,12 @@ PrefabInstance:
     - target: {fileID: 6065908312485665119, guid: 8fcb9d2d43929c04f8c70c38581418d4,
         type: 3}
       propertyPath: m_Range
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6065908312485665119, guid: 8fcb9d2d43929c04f8c70c38581418d4,
         type: 3}
       propertyPath: m_Intensity
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6065908312485665119, guid: 8fcb9d2d43929c04f8c70c38581418d4,
         type: 3}

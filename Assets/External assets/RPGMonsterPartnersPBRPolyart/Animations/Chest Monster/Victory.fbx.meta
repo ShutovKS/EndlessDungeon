@@ -1,64 +1,170 @@
 fileFormatVersion: 2
 guid: c6750798be33fcf438da3acc2aada547
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: Body
-    100002: ChestMesh
-    100004: EyeBallCTRL
-    100006: EyeCTRL
-    100008: FrontLeftLeg01
-    100010: FrontLeftLeg02
-    100012: FrontLeftLeg03
-    100014: FrontRightLeg01
-    100016: FrontRightLeg02
-    100018: FrontRightLeg03
-    100020: Head
-    100022: LockCTRL
-    100024: LowerEyelid
-    100026: LowerTeethCTRL
-    100028: RearLeftLeg01
-    100030: RearLeftLeg02
-    100032: RearLeftLeg03
-    100034: RearRightLeg01
-    100036: RearRightLeg02
-    100038: RearRightLeg03
-    100040: Root
-    100042: UppderEyeLid
-    100044: UpperTeethCTRL
-    100046: //RootNode
-    400000: Body
-    400002: ChestMesh
-    400004: EyeBallCTRL
-    400006: EyeCTRL
-    400008: FrontLeftLeg01
-    400010: FrontLeftLeg02
-    400012: FrontLeftLeg03
-    400014: FrontRightLeg01
-    400016: FrontRightLeg02
-    400018: FrontRightLeg03
-    400020: Head
-    400022: LockCTRL
-    400024: LowerEyelid
-    400026: LowerTeethCTRL
-    400028: RearLeftLeg01
-    400030: RearLeftLeg02
-    400032: RearLeftLeg03
-    400034: RearRightLeg01
-    400036: RearRightLeg02
-    400038: RearRightLeg03
-    400040: Root
-    400042: UppderEyeLid
-    400044: UpperTeethCTRL
-    400046: //RootNode
-    2100000: lambert1
-    4300000: ChestMesh
-    7400000: Victory
-    9500000: //RootNode
-    13700000: ChestMesh
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Body
+  - first:
+      1: 100002
+    second: ChestMesh
+  - first:
+      1: 100004
+    second: EyeBallCTRL
+  - first:
+      1: 100006
+    second: EyeCTRL
+  - first:
+      1: 100008
+    second: FrontLeftLeg01
+  - first:
+      1: 100010
+    second: FrontLeftLeg02
+  - first:
+      1: 100012
+    second: FrontLeftLeg03
+  - first:
+      1: 100014
+    second: FrontRightLeg01
+  - first:
+      1: 100016
+    second: FrontRightLeg02
+  - first:
+      1: 100018
+    second: FrontRightLeg03
+  - first:
+      1: 100020
+    second: Head
+  - first:
+      1: 100022
+    second: LockCTRL
+  - first:
+      1: 100024
+    second: LowerEyelid
+  - first:
+      1: 100026
+    second: LowerTeethCTRL
+  - first:
+      1: 100028
+    second: RearLeftLeg01
+  - first:
+      1: 100030
+    second: RearLeftLeg02
+  - first:
+      1: 100032
+    second: RearLeftLeg03
+  - first:
+      1: 100034
+    second: RearRightLeg01
+  - first:
+      1: 100036
+    second: RearRightLeg02
+  - first:
+      1: 100038
+    second: RearRightLeg03
+  - first:
+      1: 100040
+    second: Root
+  - first:
+      1: 100042
+    second: UppderEyeLid
+  - first:
+      1: 100044
+    second: UpperTeethCTRL
+  - first:
+      1: 100046
+    second: //RootNode
+  - first:
+      4: 400000
+    second: Body
+  - first:
+      4: 400002
+    second: ChestMesh
+  - first:
+      4: 400004
+    second: EyeBallCTRL
+  - first:
+      4: 400006
+    second: EyeCTRL
+  - first:
+      4: 400008
+    second: FrontLeftLeg01
+  - first:
+      4: 400010
+    second: FrontLeftLeg02
+  - first:
+      4: 400012
+    second: FrontLeftLeg03
+  - first:
+      4: 400014
+    second: FrontRightLeg01
+  - first:
+      4: 400016
+    second: FrontRightLeg02
+  - first:
+      4: 400018
+    second: FrontRightLeg03
+  - first:
+      4: 400020
+    second: Head
+  - first:
+      4: 400022
+    second: LockCTRL
+  - first:
+      4: 400024
+    second: LowerEyelid
+  - first:
+      4: 400026
+    second: LowerTeethCTRL
+  - first:
+      4: 400028
+    second: RearLeftLeg01
+  - first:
+      4: 400030
+    second: RearLeftLeg02
+  - first:
+      4: 400032
+    second: RearLeftLeg03
+  - first:
+      4: 400034
+    second: RearRightLeg01
+  - first:
+      4: 400036
+    second: RearRightLeg02
+  - first:
+      4: 400038
+    second: RearRightLeg03
+  - first:
+      4: 400040
+    second: Root
+  - first:
+      4: 400042
+    second: UppderEyeLid
+  - first:
+      4: 400044
+    second: UpperTeethCTRL
+  - first:
+      4: 400046
+    second: //RootNode
+  - first:
+      21: 2100000
+    second: lambert1
+  - first:
+      43: 4300000
+    second: ChestMesh
+  - first:
+      74: 7400000
+    second: Victory
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: ChestMesh
   externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -67,6 +173,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -87,6 +194,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Victory
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
       lastFrame: 30
       wrapMode: 0
@@ -95,7 +203,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -119,25 +227,36 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -146,10 +265,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -159,13 +278,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

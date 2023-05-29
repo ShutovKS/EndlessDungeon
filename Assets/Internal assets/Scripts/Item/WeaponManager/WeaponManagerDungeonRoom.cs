@@ -54,12 +54,10 @@ namespace Item.WeaponManager
 
             foreach (var (weaponType, weaponTransform) in WeaponsTransform)
             {
-                if (weaponTransform == null) return;
                 if (weaponType == SelectedWeaponType)
                 {
-                    weaponTransform.GetComponent<IItemDamage>().SetDamage(
-                        (DamageDefault + skills[SkillType.StrengthCount]) *
-                        (1 + skills[SkillType.StrengthPercent]));
+                    if (weaponTransform != null && skills.TryGetValue(SkillType.StrengthCount, out var level))
+                        weaponTransform.GetComponent<IItemDamage>().SetDamage((DamageDefault + level) * (1 + level));
                 }
                 else
                 {

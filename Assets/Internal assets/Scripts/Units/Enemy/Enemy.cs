@@ -13,10 +13,10 @@ namespace Units.Enemy
 {
     public class Enemy : MonoBehaviour
     {
-        private float _healthPoints;
-        private StateMachine _stateMachine;
-        private UnityAction<string> _onAnimationTriggerName;
-        [NonSerialized] public bool PlayerInRange;
+        [SerializeField] private float _healthPoints;
+        [SerializeField] private StateMachine _stateMachine;
+        [SerializeField] private UnityAction<string> _onAnimationTriggerName;
+        [SerializeField] public bool PlayerInRange;
 
         private void Update()
         {
@@ -29,6 +29,7 @@ namespace Units.Enemy
         {
             _healthPoints = healthPoints;
             var healthPointsLateUpdate = _healthPoints;
+
             var thisTransform = transform;
 
             var animator = TryGetComponent<Animator>(out var animatorComponent)
@@ -45,9 +46,14 @@ namespace Units.Enemy
                 enemyDamage.Damage = damage;
             }
 
-            foreach (var enemyOnTriggerEnter in GetComponents<EnemyGetHit>())
+            foreach (var enemyGetHit in GetComponentsInChildren<EnemyGetHit>())
             {
-                enemyOnTriggerEnter.RegisterOnGetHitWatcher(getHitDamage => _healthPoints -= getHitDamage);
+                enemyGetHit.RegisterOnGetHitWatcher(
+                    getHitDamage =>
+                    {
+                        _healthPoints -= getHitDamage;
+                        Debug.Log($"{_healthPoints}/{healthPointsLateUpdate}");
+                    });
             }
 
             _stateMachine = new StateMachine();
@@ -140,12 +146,14 @@ namespace Units.Enemy
 
             Func<bool> PlayerInReachOfAttack()
             {
-                return () => Vector3.Distance(thisTransform.position, playerTransform.position) <= effectiveDistance * 0.9;
+                return () =>
+                    Vector3.Distance(thisTransform.position, playerTransform.position) <= effectiveDistance * 0.9;
             }
 
             Func<bool> PlayerNonInReachOfAttack()
             {
-                return () => Vector3.Distance(thisTransform.position, playerTransform.position) > effectiveDistance * 1.1;
+                return () =>
+                    Vector3.Distance(thisTransform.position, playerTransform.position) > effectiveDistance * 1.1;
             }
 
             Func<bool> HasTargetForPatrol()
@@ -162,7 +170,7 @@ namespace Units.Enemy
             {
                 return () =>
                 {
-                    if (Math.Abs(_healthPoints - healthPointsLateUpdate) < 0 || _healthPoints <= 0)
+                    if (_healthPoints == healthPointsLateUpdate || _healthPoints <= 0)
                         return false;
 
                     healthPointsLateUpdate = _healthPoints;

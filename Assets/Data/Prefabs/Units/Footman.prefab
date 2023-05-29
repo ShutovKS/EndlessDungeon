@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <side>k__BackingField: 0
+  <Side>k__BackingField: 0
 --- !u!136 &7021750055459452676
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -87,15 +87,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 928723033, guid: 44e54165d41e34c41ba73a629630ce03, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.85
+      value: 0.69545454
       objectReference: {fileID: 0}
     - target: {fileID: 928723033, guid: 44e54165d41e34c41ba73a629630ce03, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.1
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 928723033, guid: 44e54165d41e34c41ba73a629630ce03, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.85
+      value: 0.69545454
       objectReference: {fileID: 0}
     - target: {fileID: 928723033, guid: 44e54165d41e34c41ba73a629630ce03, type: 3}
       propertyPath: m_LocalPosition.x
@@ -136,6 +136,10 @@ PrefabInstance:
     - target: {fileID: 928723033, guid: 44e54165d41e34c41ba73a629630ce03, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 928723033, guid: 44e54165d41e34c41ba73a629630ce03, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

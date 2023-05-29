@@ -8,9 +8,8 @@ namespace Units.Enemy
 {
     public class EnemyDamage : MonoBehaviour
     {
-        [field: SerializeField] public Side Side { get; private set; }
-        public float Damage { get; set; }
-        public bool IsDamage { get; private set; }
+        [field: SerializeField] public float Damage { get; set; }
+        [field: SerializeField] public bool IsDamage { get; private set; }
 
         public void SetIsDamage(bool value)
         {

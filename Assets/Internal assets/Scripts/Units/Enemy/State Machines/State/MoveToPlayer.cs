@@ -32,6 +32,7 @@ namespace Units.Enemy.State_Machines.State
 
         public void OnEnter()
         {
+            TimeStuck = 0;
             _navMeshAgent.enabled = true;
             _navMeshAgent.speed = _speedMove;
             _navMeshAgent.stoppingDistance = _stoppingDistance;

@@ -18,8 +18,8 @@ namespace Item.Weapon
             }
         }
 
-        public float Damage { get; private set; }
-        public bool IsDamage { get; private set; }
+        [field: SerializeField] public float Damage { get; private set; }
+        [field: SerializeField] public bool IsDamage { get; private set; }
 
         public void SetDamage(float value)
         {

@@ -1,112 +1,314 @@
 fileFormatVersion: 2
 guid: f963cdf359d14ab45bc2d03df00ac2f3
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: BeholderMesh
-    100002: Body
-    100004: BottomBodyCTRL
-    100006: EyeBallCTRL
-    100008: EyeCTRL
-    100010: //RootNode
-    100012: LeftBodyCTRL
-    100014: LowerEyelidCTRL
-    100016: Process01
-    100018: Process02
-    100020: Process03
-    100022: Process04
-    100024: Process05
-    100026: RearBodyCTRL
-    100028: RightBodyCTRL
-    100030: Root
-    100032: TentacleA01
-    100034: TentacleA02
-    100036: TentacleA03
-    100038: TentacleA04
-    100040: TentacleA05
-    100042: TentacleB01
-    100044: TentacleB02
-    100046: TentacleB03
-    100048: TentacleB04
-    100050: TentacleB05
-    100052: TentacleC01
-    100054: TentacleC02
-    100056: TentacleC03
-    100058: TentacleC04
-    100060: TentacleC05
-    100062: TentacleD01
-    100064: TentacleD02
-    100066: TentacleD03
-    100068: TentacleD04
-    100070: TentacleD05
-    100072: TentacleE01
-    100074: TentacleE02
-    100076: TentacleE03
-    100078: TentacleE04
-    100080: TentacleE05
-    100082: TentacleF01
-    100084: TentacleF02
-    100086: TentacleF03
-    100088: TentacleF04
-    100090: TentacleF05
-    100092: TopBodyCTRL
-    100094: UpperEyelidCTRL
-    400000: BeholderMesh
-    400002: Body
-    400004: BottomBodyCTRL
-    400006: EyeBallCTRL
-    400008: EyeCTRL
-    400010: //RootNode
-    400012: LeftBodyCTRL
-    400014: LowerEyelidCTRL
-    400016: Process01
-    400018: Process02
-    400020: Process03
-    400022: Process04
-    400024: Process05
-    400026: RearBodyCTRL
-    400028: RightBodyCTRL
-    400030: Root
-    400032: TentacleA01
-    400034: TentacleA02
-    400036: TentacleA03
-    400038: TentacleA04
-    400040: TentacleA05
-    400042: TentacleB01
-    400044: TentacleB02
-    400046: TentacleB03
-    400048: TentacleB04
-    400050: TentacleB05
-    400052: TentacleC01
-    400054: TentacleC02
-    400056: TentacleC03
-    400058: TentacleC04
-    400060: TentacleC05
-    400062: TentacleD01
-    400064: TentacleD02
-    400066: TentacleD03
-    400068: TentacleD04
-    400070: TentacleD05
-    400072: TentacleE01
-    400074: TentacleE02
-    400076: TentacleE03
-    400078: TentacleE04
-    400080: TentacleE05
-    400082: TentacleF01
-    400084: TentacleF02
-    400086: TentacleF03
-    400088: TentacleF04
-    400090: TentacleF05
-    400092: TopBodyCTRL
-    400094: UpperEyelidCTRL
-    2100000: lambert1
-    4300000: BeholderMesh
-    7400000: GetHit
-    9500000: //RootNode
-    13700000: BeholderMesh
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: BeholderMesh
+  - first:
+      1: 100002
+    second: Body
+  - first:
+      1: 100004
+    second: BottomBodyCTRL
+  - first:
+      1: 100006
+    second: EyeBallCTRL
+  - first:
+      1: 100008
+    second: EyeCTRL
+  - first:
+      1: 100010
+    second: //RootNode
+  - first:
+      1: 100012
+    second: LeftBodyCTRL
+  - first:
+      1: 100014
+    second: LowerEyelidCTRL
+  - first:
+      1: 100016
+    second: Process01
+  - first:
+      1: 100018
+    second: Process02
+  - first:
+      1: 100020
+    second: Process03
+  - first:
+      1: 100022
+    second: Process04
+  - first:
+      1: 100024
+    second: Process05
+  - first:
+      1: 100026
+    second: RearBodyCTRL
+  - first:
+      1: 100028
+    second: RightBodyCTRL
+  - first:
+      1: 100030
+    second: Root
+  - first:
+      1: 100032
+    second: TentacleA01
+  - first:
+      1: 100034
+    second: TentacleA02
+  - first:
+      1: 100036
+    second: TentacleA03
+  - first:
+      1: 100038
+    second: TentacleA04
+  - first:
+      1: 100040
+    second: TentacleA05
+  - first:
+      1: 100042
+    second: TentacleB01
+  - first:
+      1: 100044
+    second: TentacleB02
+  - first:
+      1: 100046
+    second: TentacleB03
+  - first:
+      1: 100048
+    second: TentacleB04
+  - first:
+      1: 100050
+    second: TentacleB05
+  - first:
+      1: 100052
+    second: TentacleC01
+  - first:
+      1: 100054
+    second: TentacleC02
+  - first:
+      1: 100056
+    second: TentacleC03
+  - first:
+      1: 100058
+    second: TentacleC04
+  - first:
+      1: 100060
+    second: TentacleC05
+  - first:
+      1: 100062
+    second: TentacleD01
+  - first:
+      1: 100064
+    second: TentacleD02
+  - first:
+      1: 100066
+    second: TentacleD03
+  - first:
+      1: 100068
+    second: TentacleD04
+  - first:
+      1: 100070
+    second: TentacleD05
+  - first:
+      1: 100072
+    second: TentacleE01
+  - first:
+      1: 100074
+    second: TentacleE02
+  - first:
+      1: 100076
+    second: TentacleE03
+  - first:
+      1: 100078
+    second: TentacleE04
+  - first:
+      1: 100080
+    second: TentacleE05
+  - first:
+      1: 100082
+    second: TentacleF01
+  - first:
+      1: 100084
+    second: TentacleF02
+  - first:
+      1: 100086
+    second: TentacleF03
+  - first:
+      1: 100088
+    second: TentacleF04
+  - first:
+      1: 100090
+    second: TentacleF05
+  - first:
+      1: 100092
+    second: TopBodyCTRL
+  - first:
+      1: 100094
+    second: UpperEyelidCTRL
+  - first:
+      4: 400000
+    second: BeholderMesh
+  - first:
+      4: 400002
+    second: Body
+  - first:
+      4: 400004
+    second: BottomBodyCTRL
+  - first:
+      4: 400006
+    second: EyeBallCTRL
+  - first:
+      4: 400008
+    second: EyeCTRL
+  - first:
+      4: 400010
+    second: //RootNode
+  - first:
+      4: 400012
+    second: LeftBodyCTRL
+  - first:
+      4: 400014
+    second: LowerEyelidCTRL
+  - first:
+      4: 400016
+    second: Process01
+  - first:
+      4: 400018
+    second: Process02
+  - first:
+      4: 400020
+    second: Process03
+  - first:
+      4: 400022
+    second: Process04
+  - first:
+      4: 400024
+    second: Process05
+  - first:
+      4: 400026
+    second: RearBodyCTRL
+  - first:
+      4: 400028
+    second: RightBodyCTRL
+  - first:
+      4: 400030
+    second: Root
+  - first:
+      4: 400032
+    second: TentacleA01
+  - first:
+      4: 400034
+    second: TentacleA02
+  - first:
+      4: 400036
+    second: TentacleA03
+  - first:
+      4: 400038
+    second: TentacleA04
+  - first:
+      4: 400040
+    second: TentacleA05
+  - first:
+      4: 400042
+    second: TentacleB01
+  - first:
+      4: 400044
+    second: TentacleB02
+  - first:
+      4: 400046
+    second: TentacleB03
+  - first:
+      4: 400048
+    second: TentacleB04
+  - first:
+      4: 400050
+    second: TentacleB05
+  - first:
+      4: 400052
+    second: TentacleC01
+  - first:
+      4: 400054
+    second: TentacleC02
+  - first:
+      4: 400056
+    second: TentacleC03
+  - first:
+      4: 400058
+    second: TentacleC04
+  - first:
+      4: 400060
+    second: TentacleC05
+  - first:
+      4: 400062
+    second: TentacleD01
+  - first:
+      4: 400064
+    second: TentacleD02
+  - first:
+      4: 400066
+    second: TentacleD03
+  - first:
+      4: 400068
+    second: TentacleD04
+  - first:
+      4: 400070
+    second: TentacleD05
+  - first:
+      4: 400072
+    second: TentacleE01
+  - first:
+      4: 400074
+    second: TentacleE02
+  - first:
+      4: 400076
+    second: TentacleE03
+  - first:
+      4: 400078
+    second: TentacleE04
+  - first:
+      4: 400080
+    second: TentacleE05
+  - first:
+      4: 400082
+    second: TentacleF01
+  - first:
+      4: 400084
+    second: TentacleF02
+  - first:
+      4: 400086
+    second: TentacleF03
+  - first:
+      4: 400088
+    second: TentacleF04
+  - first:
+      4: 400090
+    second: TentacleF05
+  - first:
+      4: 400092
+    second: TopBodyCTRL
+  - first:
+      4: 400094
+    second: UpperEyelidCTRL
+  - first:
+      21: 2100000
+    second: lambert1
+  - first:
+      43: 4300000
+    second: BeholderMesh
+  - first:
+      74: 7400000
+    second: GetHit
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: BeholderMesh
   externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -115,6 +317,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -135,6 +338,7 @@ ModelImporter:
     - serializedVersion: 16
       name: GetHit
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
       lastFrame: 22
       wrapMode: 0
@@ -143,7 +347,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -155,7 +359,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 1
+        functionName: AnimationTrigger
+        data: GetHitEnd
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -167,25 +378,36 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -194,10 +416,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -207,13 +429,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
