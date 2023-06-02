@@ -17,9 +17,8 @@ MonoBehaviour:
   <MaxHealthPoints>k__BackingField: 21.2
   <Damage>k__BackingField: 13.8
   <EffectiveDistance>k__BackingField: 2
-  <Cleavage>k__BackingField: 0.76
   <AttackCooldown>k__BackingField: 3.49
-  <MovementSpeed>k__BackingField: 4.46
+  <MovementSpeed>k__BackingField: 2.89
   <RotationSpeed>k__BackingField: 39.6
   <PrefabReference>k__BackingField:
     m_AssetGUID: f38f6e712b8b0d2408efd126885e3161

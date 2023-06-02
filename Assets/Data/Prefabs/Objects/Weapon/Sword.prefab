@@ -70,33 +70,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2703728173257172115, guid: b84d7ca3927758646a65731cc107aa76,
         type: 3}
-      propertyPath: m_TightenPosition
-      value: 0.149
-      objectReference: {fileID: 0}
-    - target: {fileID: 2703728173257172115, guid: b84d7ca3927758646a65731cc107aa76,
-        type: 3}
-      propertyPath: m_TightenRotation
-      value: 0.116
-      objectReference: {fileID: 0}
-    - target: {fileID: 2703728173257172115, guid: b84d7ca3927758646a65731cc107aa76,
-        type: 3}
-      propertyPath: m_SmoothPositionAmount
-      value: 2.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2703728173257172115, guid: b84d7ca3927758646a65731cc107aa76,
-        type: 3}
-      propertyPath: m_SmoothRotationAmount
-      value: 2.23
-      objectReference: {fileID: 0}
-    - target: {fileID: 2703728173257172115, guid: b84d7ca3927758646a65731cc107aa76,
-        type: 3}
-      propertyPath: m_DistanceCalculationMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2703728173257172115, guid: b84d7ca3927758646a65731cc107aa76,
-        type: 3}
-      propertyPath: m_ThrowAngularVelocityScale
-      value: 0.25
+      propertyPath: m_VelocityDamping
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4863370588218899347, guid: b84d7ca3927758646a65731cc107aa76,
         type: 3}

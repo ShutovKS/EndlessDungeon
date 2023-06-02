@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <side>k__BackingField: 1
+  <Damage>k__BackingField: 0
+  <IsDamage>k__BackingField: 0
 --- !u!65 &756739127825471538
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -405,6 +406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78e1b59f3244a6890ed0809dbf4a510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthPoints: 0
+  PlayerInRange: 0
 --- !u!195 &3686146961853324829
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -701,7 +704,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 41.502953
+  m_Radius: 42
   m_Height: 120.29235
   m_Direction: 0
   m_Center: {x: -9.759643, y: -19.29519, z: -1.1972286}

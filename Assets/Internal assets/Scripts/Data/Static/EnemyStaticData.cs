@@ -23,7 +23,7 @@ namespace Data.Static
         [field: SerializeField]
         public float Damage { get; private set; }
 
-        [field: Range(0.1f, 2)]
+        [field: Range(0.1f, 5f)]
         [field: SerializeField]
         public float EffectiveDistance { get; private set; }
 

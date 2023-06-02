@@ -239,7 +239,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Side>k__BackingField: 0
+  <Damage>k__BackingField: 0
+  <IsDamage>k__BackingField: 0
 --- !u!1 &3601755913180027561 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 763194841, guid: c6cfc32748fb5004aa11a1be074b5c58,
@@ -346,7 +347,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 120
+  m_Radius: 125
   m_Center: {x: -42.5, y: -32.7, z: 0}
 --- !u!114 &3484840723079688576
 MonoBehaviour:
@@ -540,6 +541,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78e1b59f3244a6890ed0809dbf4a510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthPoints: 0
+  PlayerInRange: 0
 --- !u!195 &2111636969440830723
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -678,7 +681,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Side>k__BackingField: 0
+  <Damage>k__BackingField: 0
+  <IsDamage>k__BackingField: 0
 --- !u!1 &3601755914957892876 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1459968636, guid: c6cfc32748fb5004aa11a1be074b5c58,

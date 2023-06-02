@@ -8,7 +8,7 @@ namespace BuildSetting
 {
     public class GameObjectDisable : MonoBehaviour
     {
-        private void Start()
+        private void Awake()
         {
 #if UNITY_EDITOR
 #else

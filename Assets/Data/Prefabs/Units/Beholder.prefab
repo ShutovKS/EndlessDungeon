@@ -208,7 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Side>k__BackingField: 1
   <Damage>k__BackingField: 0
   <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209913999 stripped
@@ -250,7 +249,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Side>k__BackingField: 1
   <Damage>k__BackingField: 0
   <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209914003 stripped
@@ -292,7 +290,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Side>k__BackingField: 1
   <Damage>k__BackingField: 0
   <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209914023 stripped
@@ -334,7 +331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Side>k__BackingField: 1
   <Damage>k__BackingField: 0
   <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209914025 stripped
@@ -376,7 +372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Side>k__BackingField: 1
   <Damage>k__BackingField: 0
   <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209914045 stripped
@@ -418,7 +413,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e33acd68864962b94422f4866c2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Side>k__BackingField: 1
   <Damage>k__BackingField: 0
   <IsDamage>k__BackingField: 0
 --- !u!1 &250204643209914065 stripped
@@ -446,7 +440,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.35
+  m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &2345335516569126515
 SphereCollider:
@@ -499,6 +493,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78e1b59f3244a6890ed0809dbf4a510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthPoints: 0
+  PlayerInRange: 0
 --- !u!195 &442846189469666255
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: weaponType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5040826889142831661, guid: 6cd1ac9652a50da4485a86492f47c63d,
+        type: 3}
+      propertyPath: m_VelocityDamping
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5897156887430344978, guid: 6cd1ac9652a50da4485a86492f47c63d,
         type: 3}
       propertyPath: m_LocalRotation.w

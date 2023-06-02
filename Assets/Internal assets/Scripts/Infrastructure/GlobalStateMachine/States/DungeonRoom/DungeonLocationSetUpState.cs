@@ -22,6 +22,7 @@ using Units.Enemy;
 using Units.Player;
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.Interaction.Toolkit;
 using XR;
 using Random = UnityEngine.Random;
@@ -71,12 +72,13 @@ namespace Infrastructure.GlobalStateMachine.States
                 dungeonArchitecture)
         {
             await CreateMap(dungeonArchitecture.dungeonMap);
+            await LightBake();
+            await BuildNavMeshForDungeon();
             await CreatePlayer(dungeonArchitecture.playerPosition);
             await CreatePlayerAddons();
             await CreateWeapon();
             await CreateMenu();
-            CreateLootManager();
-            BuildNavMeshForDungeon();
+            await CreateLootManager();
             await CreateEnemies(dungeonArchitecture.enemiesPosition);
 
             Context.StateMachine.SwitchState(typeof(ProgressLoadingState), typeof(DungeonLocationState));
@@ -117,6 +119,19 @@ namespace Infrastructure.GlobalStateMachine.States
             }
         }
 
+        private async Task LightBake()
+        {
+            // Lightmapping.BakeAsync(SceneManager.GetActiveScene());
+        }
+        
+        private async Task BuildNavMeshForDungeon()
+        {
+            var navMeshSurface = _abstractFactory.CreateInstance(new GameObject(), Vector3.zero)
+                .AddComponent<NavMeshSurface>();
+
+            navMeshSurface.BuildNavMesh();
+        }
+
         private async Task CreatePlayer((int x, int y) playerPosition)
         {
             var player = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressableConstants.PLAYER);
@@ -149,7 +164,7 @@ namespace Infrastructure.GlobalStateMachine.States
             enemyDetectorInstance.transform.parent = _playerFactory.PlayerInstance.transform;
             enemyDetectorInstance.transform.localPosition = Vector3.zero;
             enemyDetectorInstance.AddComponent<EnemyDetector>();
-            enemyDetectorInstance.AddComponent<SphereCollider>().radius = 7.5f;
+            enemyDetectorInstance.AddComponent<SphereCollider>().radius = 12.5f;
             enemyDetectorInstance.GetComponent<SphereCollider>().isTrigger = true;
         }
 
@@ -195,20 +210,12 @@ namespace Infrastructure.GlobalStateMachine.States
             menuInDungeonRoomScreenInstance.SetActive(false);
         }
 
-        private void CreateLootManager()
+        private async Task CreateLootManager()
         {
             var lootManagerInstance = _abstractFactory.CreateInstance(new GameObject("lootManager"), Vector3.zero);
             lootManagerInstance.AddComponent<LootManager>();
 
             _saveLoadInstancesWatcher.RegisterProgressWatchers(lootManagerInstance);
-        }
-
-        private void BuildNavMeshForDungeon()
-        {
-            var navMeshSurface = _abstractFactory.CreateInstance(new GameObject(), Vector3.zero)
-                .AddComponent<NavMeshSurface>();
-
-            navMeshSurface.BuildNavMesh();
         }
 
         private async Task CreateEnemies(List<(int x, int y)> enemyPosition)

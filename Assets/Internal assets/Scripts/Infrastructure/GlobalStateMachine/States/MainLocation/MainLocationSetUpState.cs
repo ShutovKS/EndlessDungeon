@@ -18,6 +18,8 @@ using Services.Watchers.SaveLoadWatcher;
 using Skill;
 using TransitionToTheDungeon;
 using UnityEngine;
+using UnityEditor.Experimental;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.Interaction.Toolkit;
 using XR;
 
@@ -62,6 +64,7 @@ namespace Infrastructure.GlobalStateMachine.States
         {
             CreateLootManager();
             await CreateMap();
+            await LightBake();
             await CreatePlayer();
             await CreatePlayerAddons();
             await CreateSkillsBookScreen();
@@ -78,6 +81,11 @@ namespace Infrastructure.GlobalStateMachine.States
                 await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressableConstants.MAIN_LOCATION_MAP);
 
             _abstractFactory.CreateInstance(mainLocationMap, Vector3.zero);
+        }
+
+        private async Task LightBake()
+        {
+            // Lightmapping.BakeAsync(SceneManager.GetActiveScene());
         }
 
         private async Task CreatePlayer()
@@ -181,7 +189,8 @@ namespace Infrastructure.GlobalStateMachine.States
             portalCollider.isTrigger = true;
 
             portalInstance.AddComponent<Rigidbody>().isKinematic = true;
-            portalInstance.AddComponent<TransitionToTheDungeonTrigger>().RegisterOnTransitionToTheDungeon(MoveToDungeonRoom);
+            portalInstance.AddComponent<TransitionToTheDungeonTrigger>()
+                .RegisterOnTransitionToTheDungeon(MoveToDungeonRoom);
 
             void MoveToDungeonRoom()
             {
